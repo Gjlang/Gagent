@@ -6,14 +6,21 @@
 /backend-laravel/vendor/
 /backend-laravel/node_modules/
 /backend-laravel/storage/logs/
-/backend-laravel/bootstrap/cache/
+/backend-laravel/bootstrap/cache/*.php
 
-# Python
+# Laravel local files
+/backend-laravel/.env
+/backend-laravel/.env.backup
+/backend-laravel/.phpunit.result.cache
+
+# Python / FastAPI
 /ai-service/venv/
 /ai-service/__pycache__/
 *.pyc
+*.pyo
+*.pyd
 
-# Data and reports
+# Data and generated outputs
 /datasets/*
 /reports/*
 /storage-local/*
@@ -27,6 +34,6 @@
 .vscode/
 .idea/
 
-# OS
+# OS files
 .DS_Store
 Thumbs.db
