@@ -1,0 +1,350 @@
+{
+  "run_id": "jobportal_search_bad_desktop_1778600542677_3ww3zr",
+  "summary": {
+    "site_style": "jobportal",
+    "viewport_type": "desktop",
+    "flow_type": "search",
+    "page_url": "http://localhost:3000/jobportal/search-bad",
+    "friction_scenario": "bad",
+    "friction_level": "High",
+    "selector_used": [
+      {
+        "label": "Filled search query",
+        "selector": "#keyword"
+      },
+      {
+        "label": "Filled location if present",
+        "selector": "#location"
+      },
+      {
+        "label": "Clicked search submit",
+        "selector": "#jobSearchBtn"
+      }
+    ],
+    "selector_attempts": [
+      {
+        "label": "Filled search query",
+        "selector": "#keyword"
+      },
+      {
+        "label": "Selected category if present",
+        "selector": "#category"
+      },
+      {
+        "label": "Selected category if present",
+        "selector": "select[name='category']"
+      },
+      {
+        "label": "Selected category if present",
+        "selector": "select"
+      },
+      {
+        "label": "Filled location if present",
+        "selector": "#location"
+      },
+      {
+        "label": "Clicked search submit",
+        "selector": "#jobSearchBtn"
+      }
+    ],
+    "popup_detected": false,
+    "popup_closed": false,
+    "captcha_detected": false,
+    "failure_reason": [
+      "element_not_found",
+      "selector_failed"
+    ],
+    "metrics": {
+      "click_count": 1,
+      "scroll_count": 1,
+      "keyboard_count": 2,
+      "retry_count": 2,
+      "error_count": 0,
+      "failed_clicks": 1,
+      "feedback_delay": 3947,
+      "task_completed": 1,
+      "screenshot_count": 2,
+      "error_message_clarity": 0
+    }
+  },
+  "steps": [
+    {
+      "run_id": "jobportal_search_bad_desktop_1778600542677_3ww3zr",
+      "step_number": 1,
+      "action_type": "navigate",
+      "target_element": "http://localhost:3000/jobportal/search-bad",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:42:22.686Z",
+      "message": "Opened http://localhost:3000/jobportal/search-bad",
+      "page_url": "http://localhost:3000/jobportal/search-bad",
+      "site_style": "jobportal",
+      "viewport_type": "desktop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "selector_failed"
+      ]
+    },
+    {
+      "run_id": "jobportal_search_bad_desktop_1778600542677_3ww3zr",
+      "step_number": 2,
+      "action_type": "screenshot",
+      "target_element": "page",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:42:22.825Z",
+      "message": "Captured 01_page_load_after_popup_handling",
+      "page_url": "http://localhost:3000/jobportal/search-bad",
+      "site_style": "jobportal",
+      "viewport_type": "desktop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "selector_failed"
+      ],
+      "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\jobportal_search_bad_desktop_1778600542677_3ww3zr\\01_page_load_after_popup_handling.png"
+    },
+    {
+      "run_id": "jobportal_search_bad_desktop_1778600542677_3ww3zr",
+      "step_number": 3,
+      "action_type": "selector",
+      "target_element": "#keyword",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:42:22.829Z",
+      "message": "Selector found for Filled search query",
+      "page_url": "http://localhost:3000/jobportal/search-bad",
+      "site_style": "jobportal",
+      "viewport_type": "desktop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "selector_failed"
+      ],
+      "selector_used": "#keyword"
+    },
+    {
+      "run_id": "jobportal_search_bad_desktop_1778600542677_3ww3zr",
+      "step_number": 4,
+      "action_type": "keyboard",
+      "target_element": "#keyword",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:42:22.835Z",
+      "message": "Filled search query",
+      "page_url": "http://localhost:3000/jobportal/search-bad",
+      "site_style": "jobportal",
+      "viewport_type": "desktop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "selector_failed"
+      ],
+      "selector_used": "#keyword"
+    },
+    {
+      "run_id": "jobportal_search_bad_desktop_1778600542677_3ww3zr",
+      "step_number": 5,
+      "action_type": "selector",
+      "target_element": "#category",
+      "action_status": "failed",
+      "timestamp": "2026-05-12T15:42:23.495Z",
+      "message": "Selector failed for Selected category if present",
+      "page_url": "http://localhost:3000/jobportal/search-bad",
+      "site_style": "jobportal",
+      "viewport_type": "desktop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "selector_failed"
+      ]
+    },
+    {
+      "run_id": "jobportal_search_bad_desktop_1778600542677_3ww3zr",
+      "step_number": 6,
+      "action_type": "selector",
+      "target_element": "select[name='category']",
+      "action_status": "failed",
+      "timestamp": "2026-05-12T15:42:24.152Z",
+      "message": "Selector failed for Selected category if present",
+      "page_url": "http://localhost:3000/jobportal/search-bad",
+      "site_style": "jobportal",
+      "viewport_type": "desktop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "selector_failed"
+      ]
+    },
+    {
+      "run_id": "jobportal_search_bad_desktop_1778600542677_3ww3zr",
+      "step_number": 7,
+      "action_type": "selector",
+      "target_element": "select",
+      "action_status": "failed",
+      "timestamp": "2026-05-12T15:42:24.804Z",
+      "message": "Selector failed for Selected category if present",
+      "page_url": "http://localhost:3000/jobportal/search-bad",
+      "site_style": "jobportal",
+      "viewport_type": "desktop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "selector_failed"
+      ]
+    },
+    {
+      "run_id": "jobportal_search_bad_desktop_1778600542677_3ww3zr",
+      "step_number": 8,
+      "action_type": "failure_reason",
+      "target_element": "element_not_found",
+      "action_status": "recorded",
+      "timestamp": "2026-05-12T15:42:24.804Z",
+      "message": "No selector found for Selected category if present",
+      "page_url": "http://localhost:3000/jobportal/search-bad",
+      "site_style": "jobportal",
+      "viewport_type": "desktop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "selector_failed"
+      ]
+    },
+    {
+      "run_id": "jobportal_search_bad_desktop_1778600542677_3ww3zr",
+      "step_number": 9,
+      "action_type": "failure_reason",
+      "target_element": "selector_failed",
+      "action_status": "recorded",
+      "timestamp": "2026-05-12T15:42:24.804Z",
+      "message": "Optional selector failed for Selected category if present",
+      "page_url": "http://localhost:3000/jobportal/search-bad",
+      "site_style": "jobportal",
+      "viewport_type": "desktop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "selector_failed"
+      ]
+    },
+    {
+      "run_id": "jobportal_search_bad_desktop_1778600542677_3ww3zr",
+      "step_number": 10,
+      "action_type": "selector",
+      "target_element": "#location",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:42:24.807Z",
+      "message": "Selector found for Filled location if present",
+      "page_url": "http://localhost:3000/jobportal/search-bad",
+      "site_style": "jobportal",
+      "viewport_type": "desktop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "selector_failed"
+      ],
+      "selector_used": "#location"
+    },
+    {
+      "run_id": "jobportal_search_bad_desktop_1778600542677_3ww3zr",
+      "step_number": 11,
+      "action_type": "keyboard",
+      "target_element": "#location",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:42:24.813Z",
+      "message": "Filled location if present",
+      "page_url": "http://localhost:3000/jobportal/search-bad",
+      "site_style": "jobportal",
+      "viewport_type": "desktop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "selector_failed"
+      ],
+      "selector_used": "#location"
+    },
+    {
+      "run_id": "jobportal_search_bad_desktop_1778600542677_3ww3zr",
+      "step_number": 12,
+      "action_type": "scroll",
+      "target_element": "page",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:42:24.830Z",
+      "message": "Scrolled to hidden search action",
+      "page_url": "http://localhost:3000/jobportal/search-bad",
+      "site_style": "jobportal",
+      "viewport_type": "desktop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "selector_failed"
+      ]
+    },
+    {
+      "run_id": "jobportal_search_bad_desktop_1778600542677_3ww3zr",
+      "step_number": 13,
+      "action_type": "selector",
+      "target_element": "#jobSearchBtn",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:42:24.833Z",
+      "message": "Selector found for Clicked search submit",
+      "page_url": "http://localhost:3000/jobportal/search-bad",
+      "site_style": "jobportal",
+      "viewport_type": "desktop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "selector_failed"
+      ],
+      "selector_used": "#jobSearchBtn"
+    },
+    {
+      "run_id": "jobportal_search_bad_desktop_1778600542677_3ww3zr",
+      "step_number": 14,
+      "action_type": "click",
+      "target_element": "#jobSearchBtn",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:42:24.869Z",
+      "message": "Clicked search submit",
+      "page_url": "http://localhost:3000/jobportal/search-bad",
+      "site_style": "jobportal",
+      "viewport_type": "desktop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "selector_failed"
+      ],
+      "selector_used": "#jobSearchBtn"
+    },
+    {
+      "run_id": "jobportal_search_bad_desktop_1778600542677_3ww3zr",
+      "step_number": 15,
+      "action_type": "screenshot",
+      "target_element": "page",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:42:28.871Z",
+      "message": "Captured 99_after_success",
+      "page_url": "http://localhost:3000/jobportal/search-bad",
+      "site_style": "jobportal",
+      "viewport_type": "desktop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "selector_failed"
+      ],
+      "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\jobportal_search_bad_desktop_1778600542677_3ww3zr\\99_after_success.png"
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "run_id": "dashboard_cta_good_laptop_1778598979301_u9ljat",
+  "summary": {
+    "site_style": "dashboard",
+    "viewport_type": "laptop",
+    "flow_type": "cta",
+    "page_url": "http://localhost:3000/dashboard/cta-good",
+    "friction_scenario": "good",
+    "friction_level": "Low",
+    "selector_used": [
+      {
+        "label": "Clicked CTA action",
+        "selector": "#dashboardCtaBtn"
+      }
+    ],
+    "selector_attempts": [
+      {
+        "label": "Clicked CTA action",
+        "selector": "#dashboardCtaBtn"
+      }
+    ],
+    "popup_detected": false,
+    "popup_closed": false,
+    "captcha_detected": false,
+    "failure_reason": [],
+    "metrics": {
+      "click_count": 1,
+      "scroll_count": 0,
+      "keyboard_count": 0,
+      "retry_count": 0,
+      "error_count": 0,
+      "failed_clicks": 0,
+      "feedback_delay": 916,
+      "task_completed": 1,
+      "screenshot_count": 2,
+      "error_message_clarity": -1
+    }
+  },
+  "steps": [
+    {
+      "run_id": "dashboard_cta_good_laptop_1778598979301_u9ljat",
+      "step_number": 1,
+      "action_type": "navigate",
+      "target_element": "http://localhost:3000/dashboard/cta-good",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:16:19.310Z",
+      "message": "Opened http://localhost:3000/dashboard/cta-good",
+      "page_url": "http://localhost:3000/dashboard/cta-good",
+      "site_style": "dashboard",
+      "viewport_type": "laptop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": []
+    },
+    {
+      "run_id": "dashboard_cta_good_laptop_1778598979301_u9ljat",
+      "step_number": 2,
+      "action_type": "screenshot",
+      "target_element": "page",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:16:19.389Z",
+      "message": "Captured 01_page_load_after_popup_handling",
+      "page_url": "http://localhost:3000/dashboard/cta-good",
+      "site_style": "dashboard",
+      "viewport_type": "laptop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\dashboard_cta_good_laptop_1778598979301_u9ljat\\01_page_load_after_popup_handling.png"
+    },
+    {
+      "run_id": "dashboard_cta_good_laptop_1778598979301_u9ljat",
+      "step_number": 3,
+      "action_type": "selector",
+      "target_element": "#dashboardCtaBtn",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:16:19.392Z",
+      "message": "Selector found for Clicked CTA action",
+      "page_url": "http://localhost:3000/dashboard/cta-good",
+      "site_style": "dashboard",
+      "viewport_type": "laptop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#dashboardCtaBtn"
+    },
+    {
+      "run_id": "dashboard_cta_good_laptop_1778598979301_u9ljat",
+      "step_number": 4,
+      "action_type": "click",
+      "target_element": "#dashboardCtaBtn",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:16:19.423Z",
+      "message": "Clicked CTA action",
+      "page_url": "http://localhost:3000/dashboard/cta-good",
+      "site_style": "dashboard",
+      "viewport_type": "laptop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#dashboardCtaBtn"
+    },
+    {
+      "run_id": "dashboard_cta_good_laptop_1778598979301_u9ljat",
+      "step_number": 5,
+      "action_type": "screenshot",
+      "target_element": "page",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:16:20.333Z",
+      "message": "Captured 99_after_success",
+      "page_url": "http://localhost:3000/dashboard/cta-good",
+      "site_style": "dashboard",
+      "viewport_type": "laptop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\dashboard_cta_good_laptop_1778598979301_u9ljat\\99_after_success.png"
+    }
+  ]
+}

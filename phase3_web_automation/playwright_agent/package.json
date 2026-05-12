@@ -1,0 +1,30 @@
+{
+  "name": "playwright_agent",
+  "version": "1.0.0",
+  "description": "GAgent Phase 3 Playwright metric collector",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:repeat": "playwright test --repeat-each=20",
+    "install:browsers": "playwright install",
+    "export": "node scripts/export-final-dataset.js",
+    "verify": "npm run verify:metrics && npm run verify:rows && npm run verify:delay && npm run verify:logs && npm run verify:screenshots",
+    "verify:metrics": "node scripts/verify-metrics.js",
+    "verify:rows": "node scripts/verify-dataset-rows.js",
+    "verify:delay": "node scripts/verify-feedback-delay.js",
+    "verify:logs": "node scripts/verify-logs.js",
+    "verify:screenshots": "node scripts/verify-screenshots.js",
+    "combine": "node scripts/combine-phase2-phase3.js",
+    "test:phase35": "playwright test tests/phase35-robustness.spec.js",
+    "test:phase35:repeat": "playwright test tests/phase35-robustness.spec.js --repeat-each=5",
+    "version:datasets": "node scripts/copy-dataset-version.js v2"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^25.6.2"
+  }
+}

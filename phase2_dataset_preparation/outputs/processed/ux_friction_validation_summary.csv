@@ -1,0 +1,8 @@
+check,result,details
+Required columns,Pass,All required columns exist
+Row count,Pass,Total rows: 28238
+Friction labels,Pass,"Labels found: {'High', 'Medium', 'Low'}"
+Missing values,Pass,Total missing values: 0
+Numeric columns,Pass,All numeric columns valid
+Class distribution,Review,"{'Low': 21941, 'Medium': 3413, 'High': 2884}"
+Source dataset distribution,Review,"{'e-shop clothing 2008.csv': 24026, 'interaction_telemetry_large.csv': 2885, 'interactions.csv': 1326, 'unknown': 1}"

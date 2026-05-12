@@ -1,0 +1,132 @@
+[
+  {
+    "run_id": "search_bad_1778588759886_xtng84",
+    "step_number": 1,
+    "action_type": "navigate",
+    "target_element": "http://localhost:3000/search-bad",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:25:59.908Z",
+    "message": "Opened http://localhost:3000/search-bad",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "search_bad_1778588759886_xtng84",
+    "step_number": 2,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:26:00.001Z",
+    "message": "Captured 01_page_load",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\search_bad_1778588759886_xtng84\\01_page_load.png"
+  },
+  {
+    "run_id": "search_bad_1778588759886_xtng84",
+    "step_number": 3,
+    "action_type": "click",
+    "target_element": "#fakeSearchBtn",
+    "action_status": "failed",
+    "timestamp": "2026-05-12T12:26:00.030Z",
+    "message": "Fake search button did not start search",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "search_bad_1778588759886_xtng84",
+    "step_number": 4,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:26:00.099Z",
+    "message": "Captured 02_fake_search_button",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\search_bad_1778588759886_xtng84\\02_fake_search_button.png"
+  },
+  {
+    "run_id": "search_bad_1778588759886_xtng84",
+    "step_number": 5,
+    "action_type": "scroll",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:26:00.109Z",
+    "message": "Scrolled to hidden vague search button",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "search_bad_1778588759886_xtng84",
+    "step_number": 6,
+    "action_type": "click",
+    "target_element": "#searchBtn",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:26:00.149Z",
+    "message": "Clicked hidden search button with empty query",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "search_bad_1778588759886_xtng84",
+    "step_number": 7,
+    "action_type": "validation",
+    "target_element": "#message",
+    "action_status": "failed",
+    "timestamp": "2026-05-12T12:26:00.155Z",
+    "message": "Validation appeared: Missing.",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "search_bad_1778588759886_xtng84",
+    "step_number": 8,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:26:00.234Z",
+    "message": "Captured 03_vague_search_error",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\search_bad_1778588759886_xtng84\\03_vague_search_error.png"
+  },
+  {
+    "run_id": "search_bad_1778588759886_xtng84",
+    "step_number": 9,
+    "action_type": "keyboard",
+    "target_element": "#searchInput",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:26:00.240Z",
+    "message": "Typed query after vague validation",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "search_bad_1778588759886_xtng84",
+    "step_number": 10,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:26:00.318Z",
+    "message": "Captured 04_before_final_search",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\search_bad_1778588759886_xtng84\\04_before_final_search.png"
+  },
+  {
+    "run_id": "search_bad_1778588759886_xtng84",
+    "step_number": 11,
+    "action_type": "click",
+    "target_element": "#searchBtn",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:26:00.346Z",
+    "message": "Retried hidden search successfully",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "search_bad_1778588759886_xtng84",
+    "step_number": 12,
+    "action_type": "assert",
+    "target_element": "#message",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:26:03.245Z",
+    "message": "Success message appeared: Search completed",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "search_bad_1778588759886_xtng84",
+    "step_number": 13,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:26:03.315Z",
+    "message": "Captured 99_after_success",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\search_bad_1778588759886_xtng84\\99_after_success.png"
+  }
+]

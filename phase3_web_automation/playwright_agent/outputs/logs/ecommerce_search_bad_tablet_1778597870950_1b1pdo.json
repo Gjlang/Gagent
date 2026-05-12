@@ -1,0 +1,341 @@
+{
+  "run_id": "ecommerce_search_bad_tablet_1778597870950_1b1pdo",
+  "summary": {
+    "site_style": "ecommerce",
+    "viewport_type": "tablet",
+    "flow_type": "search",
+    "page_url": "http://localhost:3000/ecommerce/search-bad",
+    "friction_scenario": "bad",
+    "friction_level": "High",
+    "selector_used": [
+      {
+        "label": "Filled search query",
+        "selector": "#productQuery"
+      },
+      {
+        "label": "Selected category if present",
+        "selector": "#category"
+      }
+    ],
+    "selector_attempts": [
+      {
+        "label": "Filled search query",
+        "selector": "#productQuery"
+      },
+      {
+        "label": "Selected category if present",
+        "selector": "#category"
+      },
+      {
+        "label": "Filled location if present",
+        "selector": "#location"
+      },
+      {
+        "label": "Filled location if present",
+        "selector": "input[placeholder*='location' i]"
+      },
+      {
+        "label": "Filled location if present",
+        "selector": "input[aria-label*='location' i]"
+      }
+    ],
+    "popup_detected": true,
+    "popup_closed": true,
+    "captcha_detected": false,
+    "failure_reason": [
+      "element_not_found",
+      "timeout"
+    ],
+    "metrics": {
+      "click_count": 2,
+      "scroll_count": 0,
+      "keyboard_count": 1,
+      "retry_count": 1,
+      "error_count": 1,
+      "failed_clicks": 1,
+      "feedback_delay": 0,
+      "task_completed": 0,
+      "screenshot_count": 2,
+      "error_message_clarity": 0
+    }
+  },
+  "steps": [
+    {
+      "run_id": "ecommerce_search_bad_tablet_1778597870950_1b1pdo",
+      "step_number": 1,
+      "action_type": "navigate",
+      "target_element": "http://localhost:3000/ecommerce/search-bad",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:57:50.959Z",
+      "message": "Opened http://localhost:3000/ecommerce/search-bad",
+      "page_url": "http://localhost:3000/ecommerce/search-bad",
+      "site_style": "ecommerce",
+      "viewport_type": "tablet",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "timeout"
+      ]
+    },
+    {
+      "run_id": "ecommerce_search_bad_tablet_1778597870950_1b1pdo",
+      "step_number": 2,
+      "action_type": "popup",
+      "target_element": "#loadingOverlay",
+      "action_status": "detected",
+      "timestamp": "2026-05-12T14:57:50.991Z",
+      "message": "Popup detected: #loadingOverlay",
+      "page_url": "http://localhost:3000/ecommerce/search-bad",
+      "site_style": "ecommerce",
+      "viewport_type": "tablet",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "timeout"
+      ]
+    },
+    {
+      "run_id": "ecommerce_search_bad_tablet_1778597870950_1b1pdo",
+      "step_number": 3,
+      "action_type": "popup",
+      "target_element": "#closeOverlay",
+      "action_status": "closed",
+      "timestamp": "2026-05-12T14:57:51.033Z",
+      "message": "Popup closed using #closeOverlay",
+      "page_url": "http://localhost:3000/ecommerce/search-bad",
+      "site_style": "ecommerce",
+      "viewport_type": "tablet",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "timeout"
+      ],
+      "selector_used": "#closeOverlay"
+    },
+    {
+      "run_id": "ecommerce_search_bad_tablet_1778597870950_1b1pdo",
+      "step_number": 4,
+      "action_type": "screenshot",
+      "target_element": "page",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:57:51.357Z",
+      "message": "Captured 01_page_load_after_popup_handling",
+      "page_url": "http://localhost:3000/ecommerce/search-bad",
+      "site_style": "ecommerce",
+      "viewport_type": "tablet",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "timeout"
+      ],
+      "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\ecommerce_search_bad_tablet_1778597870950_1b1pdo\\01_page_load_after_popup_handling.png"
+    },
+    {
+      "run_id": "ecommerce_search_bad_tablet_1778597870950_1b1pdo",
+      "step_number": 5,
+      "action_type": "selector",
+      "target_element": "#productQuery",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:57:51.360Z",
+      "message": "Selector found for Filled search query",
+      "page_url": "http://localhost:3000/ecommerce/search-bad",
+      "site_style": "ecommerce",
+      "viewport_type": "tablet",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "timeout"
+      ],
+      "selector_used": "#productQuery"
+    },
+    {
+      "run_id": "ecommerce_search_bad_tablet_1778597870950_1b1pdo",
+      "step_number": 6,
+      "action_type": "keyboard",
+      "target_element": "#productQuery",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:57:51.366Z",
+      "message": "Filled search query",
+      "page_url": "http://localhost:3000/ecommerce/search-bad",
+      "site_style": "ecommerce",
+      "viewport_type": "tablet",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "timeout"
+      ],
+      "selector_used": "#productQuery"
+    },
+    {
+      "run_id": "ecommerce_search_bad_tablet_1778597870950_1b1pdo",
+      "step_number": 7,
+      "action_type": "selector",
+      "target_element": "#category",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:57:51.368Z",
+      "message": "Selector found for Selected category if present",
+      "page_url": "http://localhost:3000/ecommerce/search-bad",
+      "site_style": "ecommerce",
+      "viewport_type": "tablet",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "timeout"
+      ],
+      "selector_used": "#category"
+    },
+    {
+      "run_id": "ecommerce_search_bad_tablet_1778597870950_1b1pdo",
+      "step_number": 8,
+      "action_type": "select",
+      "target_element": "#category",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:57:51.372Z",
+      "message": "Selected category if present",
+      "page_url": "http://localhost:3000/ecommerce/search-bad",
+      "site_style": "ecommerce",
+      "viewport_type": "tablet",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "timeout"
+      ],
+      "selector_used": "#category"
+    },
+    {
+      "run_id": "ecommerce_search_bad_tablet_1778597870950_1b1pdo",
+      "step_number": 9,
+      "action_type": "selector",
+      "target_element": "#location",
+      "action_status": "failed",
+      "timestamp": "2026-05-12T14:57:52.037Z",
+      "message": "Selector failed for Filled location if present",
+      "page_url": "http://localhost:3000/ecommerce/search-bad",
+      "site_style": "ecommerce",
+      "viewport_type": "tablet",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "timeout"
+      ]
+    },
+    {
+      "run_id": "ecommerce_search_bad_tablet_1778597870950_1b1pdo",
+      "step_number": 10,
+      "action_type": "selector",
+      "target_element": "input[placeholder*='location' i]",
+      "action_status": "failed",
+      "timestamp": "2026-05-12T14:57:52.700Z",
+      "message": "Selector failed for Filled location if present",
+      "page_url": "http://localhost:3000/ecommerce/search-bad",
+      "site_style": "ecommerce",
+      "viewport_type": "tablet",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "timeout"
+      ]
+    },
+    {
+      "run_id": "ecommerce_search_bad_tablet_1778597870950_1b1pdo",
+      "step_number": 11,
+      "action_type": "selector",
+      "target_element": "input[aria-label*='location' i]",
+      "action_status": "failed",
+      "timestamp": "2026-05-12T14:57:53.360Z",
+      "message": "Selector failed for Filled location if present",
+      "page_url": "http://localhost:3000/ecommerce/search-bad",
+      "site_style": "ecommerce",
+      "viewport_type": "tablet",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "timeout"
+      ]
+    },
+    {
+      "run_id": "ecommerce_search_bad_tablet_1778597870950_1b1pdo",
+      "step_number": 12,
+      "action_type": "failure_reason",
+      "target_element": "element_not_found",
+      "action_status": "recorded",
+      "timestamp": "2026-05-12T14:57:53.360Z",
+      "message": "No selector found for Filled location if present",
+      "page_url": "http://localhost:3000/ecommerce/search-bad",
+      "site_style": "ecommerce",
+      "viewport_type": "tablet",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "timeout"
+      ]
+    },
+    {
+      "run_id": "ecommerce_search_bad_tablet_1778597870950_1b1pdo",
+      "step_number": 13,
+      "action_type": "failure_reason",
+      "target_element": "timeout",
+      "action_status": "recorded",
+      "timestamp": "2026-05-12T14:57:53.360Z",
+      "message": "No visible selector found for Filled location if present",
+      "page_url": "http://localhost:3000/ecommerce/search-bad",
+      "site_style": "ecommerce",
+      "viewport_type": "tablet",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "timeout"
+      ]
+    },
+    {
+      "run_id": "ecommerce_search_bad_tablet_1778597870950_1b1pdo",
+      "step_number": 14,
+      "action_type": "screenshot",
+      "target_element": "page",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:57:53.423Z",
+      "message": "Captured error_state",
+      "page_url": "http://localhost:3000/ecommerce/search-bad",
+      "site_style": "ecommerce",
+      "viewport_type": "tablet",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "timeout"
+      ],
+      "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\ecommerce_search_bad_tablet_1778597870950_1b1pdo\\error_state.png"
+    },
+    {
+      "run_id": "ecommerce_search_bad_tablet_1778597870950_1b1pdo",
+      "step_number": 15,
+      "action_type": "error",
+      "target_element": "test",
+      "action_status": "failed",
+      "timestamp": "2026-05-12T14:57:53.423Z",
+      "message": "No visible selector found for Filled location if present",
+      "page_url": "http://localhost:3000/ecommerce/search-bad",
+      "site_style": "ecommerce",
+      "viewport_type": "tablet",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [
+        "element_not_found",
+        "timeout"
+      ]
+    }
+  ]
+}

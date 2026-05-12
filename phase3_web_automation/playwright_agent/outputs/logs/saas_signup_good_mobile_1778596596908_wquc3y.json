@@ -1,0 +1,200 @@
+{
+  "run_id": "saas_signup_good_mobile_1778596596908_wquc3y",
+  "summary": {
+    "site_style": "saas",
+    "viewport_type": "mobile",
+    "flow_type": "signup",
+    "page_url": "http://localhost:3000/saas/signup-good",
+    "friction_scenario": "good",
+    "friction_level": "Low",
+    "selector_used": [
+      {
+        "label": "Filled signup email",
+        "selector": "#email"
+      },
+      {
+        "label": "Filled signup password",
+        "selector": "#password"
+      },
+      {
+        "label": "Clicked signup submit",
+        "selector": "#saasSubmit"
+      }
+    ],
+    "selector_attempts": [
+      {
+        "label": "Filled signup email",
+        "selector": "#email"
+      },
+      {
+        "label": "Filled signup password",
+        "selector": "#password"
+      },
+      {
+        "label": "Clicked signup submit",
+        "selector": "#saasSubmit"
+      }
+    ],
+    "popup_detected": false,
+    "popup_closed": false,
+    "captcha_detected": false,
+    "failure_reason": [],
+    "metrics": {
+      "click_count": 1,
+      "scroll_count": 0,
+      "keyboard_count": 2,
+      "retry_count": 0,
+      "error_count": 0,
+      "failed_clicks": 0,
+      "feedback_delay": 929,
+      "task_completed": 1,
+      "screenshot_count": 2,
+      "error_message_clarity": 2
+    }
+  },
+  "steps": [
+    {
+      "run_id": "saas_signup_good_mobile_1778596596908_wquc3y",
+      "step_number": 1,
+      "action_type": "navigate",
+      "target_element": "http://localhost:3000/saas/signup-good",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:36:36.918Z",
+      "message": "Opened http://localhost:3000/saas/signup-good",
+      "page_url": "http://localhost:3000/saas/signup-good",
+      "site_style": "saas",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": []
+    },
+    {
+      "run_id": "saas_signup_good_mobile_1778596596908_wquc3y",
+      "step_number": 2,
+      "action_type": "screenshot",
+      "target_element": "page",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:36:36.990Z",
+      "message": "Captured 01_page_load_after_popup_handling",
+      "page_url": "http://localhost:3000/saas/signup-good",
+      "site_style": "saas",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\saas_signup_good_mobile_1778596596908_wquc3y\\01_page_load_after_popup_handling.png"
+    },
+    {
+      "run_id": "saas_signup_good_mobile_1778596596908_wquc3y",
+      "step_number": 3,
+      "action_type": "selector",
+      "target_element": "#email",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:36:36.995Z",
+      "message": "Selector found for Filled signup email",
+      "page_url": "http://localhost:3000/saas/signup-good",
+      "site_style": "saas",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#email"
+    },
+    {
+      "run_id": "saas_signup_good_mobile_1778596596908_wquc3y",
+      "step_number": 4,
+      "action_type": "keyboard",
+      "target_element": "#email",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:36:37.001Z",
+      "message": "Filled signup email",
+      "page_url": "http://localhost:3000/saas/signup-good",
+      "site_style": "saas",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#email"
+    },
+    {
+      "run_id": "saas_signup_good_mobile_1778596596908_wquc3y",
+      "step_number": 5,
+      "action_type": "selector",
+      "target_element": "#password",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:36:37.005Z",
+      "message": "Selector found for Filled signup password",
+      "page_url": "http://localhost:3000/saas/signup-good",
+      "site_style": "saas",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#password"
+    },
+    {
+      "run_id": "saas_signup_good_mobile_1778596596908_wquc3y",
+      "step_number": 6,
+      "action_type": "keyboard",
+      "target_element": "#password",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:36:37.009Z",
+      "message": "Filled signup password",
+      "page_url": "http://localhost:3000/saas/signup-good",
+      "site_style": "saas",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#password"
+    },
+    {
+      "run_id": "saas_signup_good_mobile_1778596596908_wquc3y",
+      "step_number": 7,
+      "action_type": "selector",
+      "target_element": "#saasSubmit",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:36:37.012Z",
+      "message": "Selector found for Clicked signup submit",
+      "page_url": "http://localhost:3000/saas/signup-good",
+      "site_style": "saas",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#saasSubmit"
+    },
+    {
+      "run_id": "saas_signup_good_mobile_1778596596908_wquc3y",
+      "step_number": 8,
+      "action_type": "click",
+      "target_element": "#saasSubmit",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:36:37.051Z",
+      "message": "Clicked signup submit",
+      "page_url": "http://localhost:3000/saas/signup-good",
+      "site_style": "saas",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#saasSubmit"
+    },
+    {
+      "run_id": "saas_signup_good_mobile_1778596596908_wquc3y",
+      "step_number": 9,
+      "action_type": "screenshot",
+      "target_element": "page",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:36:37.959Z",
+      "message": "Captured 99_after_success",
+      "page_url": "http://localhost:3000/saas/signup-good",
+      "site_style": "saas",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\saas_signup_good_mobile_1778596596908_wquc3y\\99_after_success.png"
+    }
+  ]
+}

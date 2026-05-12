@@ -1,0 +1,92 @@
+[
+  {
+    "run_id": "landing_bad_1778588781671_8dspry",
+    "step_number": 1,
+    "action_type": "navigate",
+    "target_element": "http://localhost:3000/landing-bad",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:26:21.682Z",
+    "message": "Opened http://localhost:3000/landing-bad",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "landing_bad_1778588781671_8dspry",
+    "step_number": 2,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:26:21.762Z",
+    "message": "Captured 01_page_load",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\landing_bad_1778588781671_8dspry\\01_page_load.png"
+  },
+  {
+    "run_id": "landing_bad_1778588781671_8dspry",
+    "step_number": 3,
+    "action_type": "click",
+    "target_element": "#fakeLandingCta",
+    "action_status": "failed",
+    "timestamp": "2026-05-12T12:26:21.780Z",
+    "message": "Fake top landing CTA did not complete the task",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "landing_bad_1778588781671_8dspry",
+    "step_number": 4,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:26:21.847Z",
+    "message": "Captured 02_fake_landing_cta",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\landing_bad_1778588781671_8dspry\\02_fake_landing_cta.png"
+  },
+  {
+    "run_id": "landing_bad_1778588781671_8dspry",
+    "step_number": 5,
+    "action_type": "scroll",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:26:21.849Z",
+    "message": "Scrolled to hidden real landing CTA",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "landing_bad_1778588781671_8dspry",
+    "step_number": 6,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:26:21.913Z",
+    "message": "Captured 03_after_scroll_to_real_cta",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\landing_bad_1778588781671_8dspry\\03_after_scroll_to_real_cta.png"
+  },
+  {
+    "run_id": "landing_bad_1778588781671_8dspry",
+    "step_number": 7,
+    "action_type": "click",
+    "target_element": "#mainCta",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:26:21.928Z",
+    "message": "Clicked hidden real landing CTA",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "landing_bad_1778588781671_8dspry",
+    "step_number": 8,
+    "action_type": "assert",
+    "target_element": "#message",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:26:25.811Z",
+    "message": "Success message appeared: Landing task completed",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "landing_bad_1778588781671_8dspry",
+    "step_number": 9,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:26:25.879Z",
+    "message": "Captured 99_after_success",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\landing_bad_1778588781671_8dspry\\99_after_success.png"
+  }
+]

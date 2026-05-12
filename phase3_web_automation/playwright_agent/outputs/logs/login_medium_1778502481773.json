@@ -1,0 +1,62 @@
+[
+  {
+    "run_id": "login_medium_1778502481773",
+    "step_number": 1,
+    "action_type": "navigate",
+    "target_element": "http://localhost:3000/login-medium",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:28:01.887Z",
+    "message": "Opened http://localhost:3000/login-medium",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\login_medium_1778502481773\\01_page_load.png"
+  },
+  {
+    "run_id": "login_medium_1778502481773",
+    "step_number": 2,
+    "action_type": "fill",
+    "target_element": "#email",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:28:01.900Z",
+    "message": "Filled email field",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_medium_1778502481773",
+    "step_number": 3,
+    "action_type": "fill",
+    "target_element": "#password",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:28:01.913Z",
+    "message": "Filled password field",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_medium_1778502481773",
+    "step_number": 4,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:28:01.973Z",
+    "message": "Captured before login click",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\login_medium_1778502481773\\02_before_login_click.png"
+  },
+  {
+    "run_id": "login_medium_1778502481773",
+    "step_number": 5,
+    "action_type": "click",
+    "target_element": "#loginBtn",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:28:02.010Z",
+    "message": "Clicked login button",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_medium_1778502481773",
+    "step_number": 8,
+    "action_type": "assert",
+    "target_element": "#message",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:28:03.970Z",
+    "message": "Login success message appeared",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\login_medium_1778502481773\\04_after_success.png"
+  }
+]

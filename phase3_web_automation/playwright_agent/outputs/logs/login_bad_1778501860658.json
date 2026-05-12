@@ -1,0 +1,82 @@
+[
+  {
+    "run_id": "login_bad_1778501860658",
+    "step_number": 1,
+    "action_type": "navigate",
+    "target_element": "http://localhost:3000/login-bad",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:17:40.741Z",
+    "message": "Opened http://localhost:3000/login-bad",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\login_bad_1778501860658\\01_page_load.png"
+  },
+  {
+    "run_id": "login_bad_1778501860658",
+    "step_number": 2,
+    "action_type": "fill",
+    "target_element": "#email",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:17:40.750Z",
+    "message": "Filled email field",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_bad_1778501860658",
+    "step_number": 3,
+    "action_type": "fill",
+    "target_element": "#password",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:17:40.759Z",
+    "message": "Filled password field",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_bad_1778501860658",
+    "step_number": 4,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:17:40.801Z",
+    "message": "Captured before login click",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\login_bad_1778501860658\\02_before_login_click.png"
+  },
+  {
+    "run_id": "login_bad_1778501860658",
+    "step_number": 5,
+    "action_type": "click",
+    "target_element": "button[name='Login']",
+    "action_status": "failed",
+    "timestamp": "2026-05-11T12:17:41.819Z",
+    "message": "Could not find clear Login button text. Retrying with fallback selector.",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_bad_1778501860658",
+    "step_number": 6,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:17:41.863Z",
+    "message": "Captured failed attempt caused by unclear button text",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\login_bad_1778501860658\\03_failed_clear_login_button.png"
+  },
+  {
+    "run_id": "login_bad_1778501860658",
+    "step_number": 7,
+    "action_type": "click",
+    "target_element": "#loginBtn",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:17:41.890Z",
+    "message": "Clicked fallback login button with unclear text",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_bad_1778501860658",
+    "step_number": 8,
+    "action_type": "assert",
+    "target_element": "#message",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:17:44.837Z",
+    "message": "Login success message appeared",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\login_bad_1778501860658\\04_after_success.png"
+  }
+]

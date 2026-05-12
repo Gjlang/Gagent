@@ -1,0 +1,160 @@
+{
+  "run_id": "jobportal_search_good_mobile_1778599421465_0bbkyr",
+  "summary": {
+    "site_style": "jobportal",
+    "viewport_type": "mobile",
+    "flow_type": "search",
+    "page_url": "http://localhost:3000/jobportal/search-good",
+    "friction_scenario": "good",
+    "friction_level": "Low",
+    "selector_used": [
+      {
+        "label": "Filled search query",
+        "selector": "#keyword"
+      },
+      {
+        "label": "Clicked search submit",
+        "selector": "#jobSearchBtn"
+      }
+    ],
+    "selector_attempts": [
+      {
+        "label": "Filled search query",
+        "selector": "#keyword"
+      },
+      {
+        "label": "Clicked search submit",
+        "selector": "#jobSearchBtn"
+      }
+    ],
+    "popup_detected": false,
+    "popup_closed": false,
+    "captcha_detected": false,
+    "failure_reason": [],
+    "metrics": {
+      "click_count": 1,
+      "scroll_count": 0,
+      "keyboard_count": 1,
+      "retry_count": 0,
+      "error_count": 0,
+      "failed_clicks": 0,
+      "feedback_delay": 419,
+      "task_completed": 1,
+      "screenshot_count": 2,
+      "error_message_clarity": 2
+    }
+  },
+  "steps": [
+    {
+      "run_id": "jobportal_search_good_mobile_1778599421465_0bbkyr",
+      "step_number": 1,
+      "action_type": "navigate",
+      "target_element": "http://localhost:3000/jobportal/search-good",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:23:41.474Z",
+      "message": "Opened http://localhost:3000/jobportal/search-good",
+      "page_url": "http://localhost:3000/jobportal/search-good",
+      "site_style": "jobportal",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": []
+    },
+    {
+      "run_id": "jobportal_search_good_mobile_1778599421465_0bbkyr",
+      "step_number": 2,
+      "action_type": "screenshot",
+      "target_element": "page",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:23:41.549Z",
+      "message": "Captured 01_page_load_after_popup_handling",
+      "page_url": "http://localhost:3000/jobportal/search-good",
+      "site_style": "jobportal",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\jobportal_search_good_mobile_1778599421465_0bbkyr\\01_page_load_after_popup_handling.png"
+    },
+    {
+      "run_id": "jobportal_search_good_mobile_1778599421465_0bbkyr",
+      "step_number": 3,
+      "action_type": "selector",
+      "target_element": "#keyword",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:23:41.552Z",
+      "message": "Selector found for Filled search query",
+      "page_url": "http://localhost:3000/jobportal/search-good",
+      "site_style": "jobportal",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#keyword"
+    },
+    {
+      "run_id": "jobportal_search_good_mobile_1778599421465_0bbkyr",
+      "step_number": 4,
+      "action_type": "keyboard",
+      "target_element": "#keyword",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:23:41.557Z",
+      "message": "Filled search query",
+      "page_url": "http://localhost:3000/jobportal/search-good",
+      "site_style": "jobportal",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#keyword"
+    },
+    {
+      "run_id": "jobportal_search_good_mobile_1778599421465_0bbkyr",
+      "step_number": 5,
+      "action_type": "selector",
+      "target_element": "#jobSearchBtn",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:23:41.560Z",
+      "message": "Selector found for Clicked search submit",
+      "page_url": "http://localhost:3000/jobportal/search-good",
+      "site_style": "jobportal",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#jobSearchBtn"
+    },
+    {
+      "run_id": "jobportal_search_good_mobile_1778599421465_0bbkyr",
+      "step_number": 6,
+      "action_type": "click",
+      "target_element": "#jobSearchBtn",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:23:41.591Z",
+      "message": "Clicked search submit",
+      "page_url": "http://localhost:3000/jobportal/search-good",
+      "site_style": "jobportal",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#jobSearchBtn"
+    },
+    {
+      "run_id": "jobportal_search_good_mobile_1778599421465_0bbkyr",
+      "step_number": 7,
+      "action_type": "screenshot",
+      "target_element": "page",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:23:41.997Z",
+      "message": "Captured 99_after_success",
+      "page_url": "http://localhost:3000/jobportal/search-good",
+      "site_style": "jobportal",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\jobportal_search_good_mobile_1778599421465_0bbkyr\\99_after_success.png"
+    }
+  ]
+}

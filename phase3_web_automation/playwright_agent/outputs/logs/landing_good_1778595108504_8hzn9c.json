@@ -1,0 +1,62 @@
+[
+  {
+    "run_id": "landing_good_1778595108504_8hzn9c",
+    "step_number": 1,
+    "action_type": "navigate",
+    "target_element": "http://localhost:3000/landing-good",
+    "action_status": "success",
+    "timestamp": "2026-05-12T14:11:48.515Z",
+    "message": "Opened http://localhost:3000/landing-good",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "landing_good_1778595108504_8hzn9c",
+    "step_number": 2,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T14:11:48.575Z",
+    "message": "Captured 01_page_load",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\landing_good_1778595108504_8hzn9c\\01_page_load.png"
+  },
+  {
+    "run_id": "landing_good_1778595108504_8hzn9c",
+    "step_number": 3,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T14:11:48.608Z",
+    "message": "Captured 02_before_cta",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\landing_good_1778595108504_8hzn9c\\02_before_cta.png"
+  },
+  {
+    "run_id": "landing_good_1778595108504_8hzn9c",
+    "step_number": 4,
+    "action_type": "click",
+    "target_element": "#mainCta",
+    "action_status": "success",
+    "timestamp": "2026-05-12T14:11:48.646Z",
+    "message": "Clicked visible landing CTA",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "landing_good_1778595108504_8hzn9c",
+    "step_number": 5,
+    "action_type": "assert",
+    "target_element": "#message",
+    "action_status": "success",
+    "timestamp": "2026-05-12T14:11:49.526Z",
+    "message": "Success message appeared: Landing task completed",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "landing_good_1778595108504_8hzn9c",
+    "step_number": 6,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T14:11:49.550Z",
+    "message": "Captured 99_after_success",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\landing_good_1778595108504_8hzn9c\\99_after_success.png"
+  }
+]

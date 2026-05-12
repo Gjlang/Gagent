@@ -1,0 +1,326 @@
+{
+  "run_id": "saas_signup_bad_laptop_1778599785505_j98k5x",
+  "summary": {
+    "site_style": "saas",
+    "viewport_type": "laptop",
+    "flow_type": "signup",
+    "page_url": "http://localhost:3000/saas/signup-bad",
+    "friction_scenario": "bad",
+    "friction_level": "High",
+    "selector_used": [
+      {
+        "label": "Filled signup email",
+        "selector": "#email"
+      },
+      {
+        "label": "Filled signup password",
+        "selector": "#password"
+      },
+      {
+        "label": "Filled company field",
+        "selector": "#company"
+      },
+      {
+        "label": "Accepted terms if present",
+        "selector": "#terms"
+      },
+      {
+        "label": "Clicked signup submit",
+        "selector": "#saasSubmit"
+      }
+    ],
+    "selector_attempts": [
+      {
+        "label": "Filled signup email",
+        "selector": "#email"
+      },
+      {
+        "label": "Filled signup password",
+        "selector": "#password"
+      },
+      {
+        "label": "Filled company field",
+        "selector": "#company"
+      },
+      {
+        "label": "Accepted terms if present",
+        "selector": "#terms"
+      },
+      {
+        "label": "Clicked signup submit",
+        "selector": "#saasSubmit"
+      }
+    ],
+    "popup_detected": true,
+    "popup_closed": true,
+    "captcha_detected": false,
+    "failure_reason": [],
+    "metrics": {
+      "click_count": 3,
+      "scroll_count": 1,
+      "keyboard_count": 3,
+      "retry_count": 0,
+      "error_count": 0,
+      "failed_clicks": 0,
+      "feedback_delay": 3922,
+      "task_completed": 1,
+      "screenshot_count": 2,
+      "error_message_clarity": 0
+    }
+  },
+  "steps": [
+    {
+      "run_id": "saas_signup_bad_laptop_1778599785505_j98k5x",
+      "step_number": 1,
+      "action_type": "navigate",
+      "target_element": "http://localhost:3000/saas/signup-bad",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:29:45.514Z",
+      "message": "Opened http://localhost:3000/saas/signup-bad",
+      "page_url": "http://localhost:3000/saas/signup-bad",
+      "site_style": "saas",
+      "viewport_type": "laptop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": []
+    },
+    {
+      "run_id": "saas_signup_bad_laptop_1778599785505_j98k5x",
+      "step_number": 2,
+      "action_type": "popup",
+      "target_element": "#newsletterModal",
+      "action_status": "detected",
+      "timestamp": "2026-05-12T15:29:45.546Z",
+      "message": "Popup detected: #newsletterModal",
+      "page_url": "http://localhost:3000/saas/signup-bad",
+      "site_style": "saas",
+      "viewport_type": "laptop",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": []
+    },
+    {
+      "run_id": "saas_signup_bad_laptop_1778599785505_j98k5x",
+      "step_number": 3,
+      "action_type": "popup",
+      "target_element": "#closeNewsletter",
+      "action_status": "closed",
+      "timestamp": "2026-05-12T15:29:45.589Z",
+      "message": "Popup closed using #closeNewsletter",
+      "page_url": "http://localhost:3000/saas/signup-bad",
+      "site_style": "saas",
+      "viewport_type": "laptop",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#closeNewsletter"
+    },
+    {
+      "run_id": "saas_signup_bad_laptop_1778599785505_j98k5x",
+      "step_number": 4,
+      "action_type": "screenshot",
+      "target_element": "page",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:29:45.929Z",
+      "message": "Captured 01_page_load_after_popup_handling",
+      "page_url": "http://localhost:3000/saas/signup-bad",
+      "site_style": "saas",
+      "viewport_type": "laptop",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\saas_signup_bad_laptop_1778599785505_j98k5x\\01_page_load_after_popup_handling.png"
+    },
+    {
+      "run_id": "saas_signup_bad_laptop_1778599785505_j98k5x",
+      "step_number": 5,
+      "action_type": "selector",
+      "target_element": "#email",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:29:45.932Z",
+      "message": "Selector found for Filled signup email",
+      "page_url": "http://localhost:3000/saas/signup-bad",
+      "site_style": "saas",
+      "viewport_type": "laptop",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#email"
+    },
+    {
+      "run_id": "saas_signup_bad_laptop_1778599785505_j98k5x",
+      "step_number": 6,
+      "action_type": "keyboard",
+      "target_element": "#email",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:29:45.938Z",
+      "message": "Filled signup email",
+      "page_url": "http://localhost:3000/saas/signup-bad",
+      "site_style": "saas",
+      "viewport_type": "laptop",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#email"
+    },
+    {
+      "run_id": "saas_signup_bad_laptop_1778599785505_j98k5x",
+      "step_number": 7,
+      "action_type": "selector",
+      "target_element": "#password",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:29:45.940Z",
+      "message": "Selector found for Filled signup password",
+      "page_url": "http://localhost:3000/saas/signup-bad",
+      "site_style": "saas",
+      "viewport_type": "laptop",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#password"
+    },
+    {
+      "run_id": "saas_signup_bad_laptop_1778599785505_j98k5x",
+      "step_number": 8,
+      "action_type": "keyboard",
+      "target_element": "#password",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:29:45.944Z",
+      "message": "Filled signup password",
+      "page_url": "http://localhost:3000/saas/signup-bad",
+      "site_style": "saas",
+      "viewport_type": "laptop",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#password"
+    },
+    {
+      "run_id": "saas_signup_bad_laptop_1778599785505_j98k5x",
+      "step_number": 9,
+      "action_type": "selector",
+      "target_element": "#company",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:29:45.947Z",
+      "message": "Selector found for Filled company field",
+      "page_url": "http://localhost:3000/saas/signup-bad",
+      "site_style": "saas",
+      "viewport_type": "laptop",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#company"
+    },
+    {
+      "run_id": "saas_signup_bad_laptop_1778599785505_j98k5x",
+      "step_number": 10,
+      "action_type": "keyboard",
+      "target_element": "#company",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:29:45.951Z",
+      "message": "Filled company field",
+      "page_url": "http://localhost:3000/saas/signup-bad",
+      "site_style": "saas",
+      "viewport_type": "laptop",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#company"
+    },
+    {
+      "run_id": "saas_signup_bad_laptop_1778599785505_j98k5x",
+      "step_number": 11,
+      "action_type": "selector",
+      "target_element": "#terms",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:29:45.954Z",
+      "message": "Selector found for Accepted terms if present",
+      "page_url": "http://localhost:3000/saas/signup-bad",
+      "site_style": "saas",
+      "viewport_type": "laptop",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#terms"
+    },
+    {
+      "run_id": "saas_signup_bad_laptop_1778599785505_j98k5x",
+      "step_number": 12,
+      "action_type": "click",
+      "target_element": "#terms",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:29:45.988Z",
+      "message": "Accepted terms if present",
+      "page_url": "http://localhost:3000/saas/signup-bad",
+      "site_style": "saas",
+      "viewport_type": "laptop",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#terms"
+    },
+    {
+      "run_id": "saas_signup_bad_laptop_1778599785505_j98k5x",
+      "step_number": 13,
+      "action_type": "scroll",
+      "target_element": "page",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:29:46.002Z",
+      "message": "Scrolled to locate hidden signup action",
+      "page_url": "http://localhost:3000/saas/signup-bad",
+      "site_style": "saas",
+      "viewport_type": "laptop",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": []
+    },
+    {
+      "run_id": "saas_signup_bad_laptop_1778599785505_j98k5x",
+      "step_number": 14,
+      "action_type": "selector",
+      "target_element": "#saasSubmit",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:29:46.005Z",
+      "message": "Selector found for Clicked signup submit",
+      "page_url": "http://localhost:3000/saas/signup-bad",
+      "site_style": "saas",
+      "viewport_type": "laptop",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#saasSubmit"
+    },
+    {
+      "run_id": "saas_signup_bad_laptop_1778599785505_j98k5x",
+      "step_number": 15,
+      "action_type": "click",
+      "target_element": "#saasSubmit",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:29:46.041Z",
+      "message": "Clicked signup submit",
+      "page_url": "http://localhost:3000/saas/signup-bad",
+      "site_style": "saas",
+      "viewport_type": "laptop",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#saasSubmit"
+    },
+    {
+      "run_id": "saas_signup_bad_laptop_1778599785505_j98k5x",
+      "step_number": 16,
+      "action_type": "screenshot",
+      "target_element": "page",
+      "action_status": "success",
+      "timestamp": "2026-05-12T15:29:49.993Z",
+      "message": "Captured 99_after_success",
+      "page_url": "http://localhost:3000/saas/signup-bad",
+      "site_style": "saas",
+      "viewport_type": "laptop",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\saas_signup_bad_laptop_1778599785505_j98k5x\\99_after_success.png"
+    }
+  ]
+}

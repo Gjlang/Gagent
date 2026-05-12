@@ -1,0 +1,152 @@
+[
+  {
+    "run_id": "login_bad_1778598065779_khdjw0",
+    "step_number": 1,
+    "action_type": "navigate",
+    "target_element": "http://localhost:3000/login-bad",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:01:05.803Z",
+    "message": "Opened http://localhost:3000/login-bad",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_bad_1778598065779_khdjw0",
+    "step_number": 2,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:01:05.884Z",
+    "message": "Captured 01_page_load",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\login_bad_1778598065779_khdjw0\\01_page_load.png"
+  },
+  {
+    "run_id": "login_bad_1778598065779_khdjw0",
+    "step_number": 3,
+    "action_type": "click",
+    "target_element": "#fakeLoginBtn",
+    "action_status": "failed",
+    "timestamp": "2026-05-12T15:01:05.926Z",
+    "message": "Fake login button did not submit credentials",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_bad_1778598065779_khdjw0",
+    "step_number": 4,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:01:05.982Z",
+    "message": "Captured 02_fake_login_button",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\login_bad_1778598065779_khdjw0\\02_fake_login_button.png"
+  },
+  {
+    "run_id": "login_bad_1778598065779_khdjw0",
+    "step_number": 5,
+    "action_type": "keyboard",
+    "target_element": "#email",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:01:05.988Z",
+    "message": "Filled vague user identifier",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_bad_1778598065779_khdjw0",
+    "step_number": 6,
+    "action_type": "keyboard",
+    "target_element": "#password",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:01:05.992Z",
+    "message": "Filled wrong access key",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_bad_1778598065779_khdjw0",
+    "step_number": 7,
+    "action_type": "scroll",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:01:06.005Z",
+    "message": "Scrolled to hidden vague login button",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_bad_1778598065779_khdjw0",
+    "step_number": 8,
+    "action_type": "click",
+    "target_element": "#loginBtn",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:01:06.041Z",
+    "message": "Submitted vague wrong login details",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_bad_1778598065779_khdjw0",
+    "step_number": 9,
+    "action_type": "validation",
+    "target_element": "#message",
+    "action_status": "failed",
+    "timestamp": "2026-05-12T15:01:06.046Z",
+    "message": "Validation appeared: No. Try again.",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_bad_1778598065779_khdjw0",
+    "step_number": 10,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:01:06.100Z",
+    "message": "Captured 03_vague_login_error",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\login_bad_1778598065779_khdjw0\\03_vague_login_error.png"
+  },
+  {
+    "run_id": "login_bad_1778598065779_khdjw0",
+    "step_number": 11,
+    "action_type": "keyboard",
+    "target_element": "#password",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:01:06.106Z",
+    "message": "Corrected access key after vague error",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_bad_1778598065779_khdjw0",
+    "step_number": 12,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:01:06.167Z",
+    "message": "Captured 04_before_final_login",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\login_bad_1778598065779_khdjw0\\04_before_final_login.png"
+  },
+  {
+    "run_id": "login_bad_1778598065779_khdjw0",
+    "step_number": 13,
+    "action_type": "click",
+    "target_element": "#loginBtn",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:01:06.207Z",
+    "message": "Submitted vague login form successfully",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_bad_1778598065779_khdjw0",
+    "step_number": 14,
+    "action_type": "assert",
+    "target_element": "#message",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:01:10.121Z",
+    "message": "Success message appeared: Login successful",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_bad_1778598065779_khdjw0",
+    "step_number": 15,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:01:10.183Z",
+    "message": "Captured 99_after_success",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\login_bad_1778598065779_khdjw0\\99_after_success.png"
+  }
+]

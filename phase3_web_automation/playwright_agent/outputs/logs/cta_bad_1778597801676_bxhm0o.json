@@ -1,0 +1,92 @@
+[
+  {
+    "run_id": "cta_bad_1778597801676_bxhm0o",
+    "step_number": 1,
+    "action_type": "navigate",
+    "target_element": "http://localhost:3000/cta-bad",
+    "action_status": "success",
+    "timestamp": "2026-05-12T14:56:41.687Z",
+    "message": "Opened http://localhost:3000/cta-bad",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "cta_bad_1778597801676_bxhm0o",
+    "step_number": 2,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T14:56:41.767Z",
+    "message": "Captured 01_page_load",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\cta_bad_1778597801676_bxhm0o\\01_page_load.png"
+  },
+  {
+    "run_id": "cta_bad_1778597801676_bxhm0o",
+    "step_number": 3,
+    "action_type": "click",
+    "target_element": "#fakeCtaBtn",
+    "action_status": "failed",
+    "timestamp": "2026-05-12T14:56:41.802Z",
+    "message": "Fake visible CTA did not complete the task",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "cta_bad_1778597801676_bxhm0o",
+    "step_number": 4,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T14:56:41.866Z",
+    "message": "Captured 02_fake_cta_clicked",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\cta_bad_1778597801676_bxhm0o\\02_fake_cta_clicked.png"
+  },
+  {
+    "run_id": "cta_bad_1778597801676_bxhm0o",
+    "step_number": 5,
+    "action_type": "scroll",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T14:56:41.881Z",
+    "message": "Scrolled to hidden real CTA",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "cta_bad_1778597801676_bxhm0o",
+    "step_number": 6,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T14:56:41.950Z",
+    "message": "Captured 03_after_scroll_to_cta",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\cta_bad_1778597801676_bxhm0o\\03_after_scroll_to_cta.png"
+  },
+  {
+    "run_id": "cta_bad_1778597801676_bxhm0o",
+    "step_number": 7,
+    "action_type": "click",
+    "target_element": "#ctaBtn",
+    "action_status": "success",
+    "timestamp": "2026-05-12T14:56:41.985Z",
+    "message": "Clicked hidden vague CTA",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "cta_bad_1778597801676_bxhm0o",
+    "step_number": 8,
+    "action_type": "assert",
+    "target_element": "#message",
+    "action_status": "success",
+    "timestamp": "2026-05-12T14:56:45.906Z",
+    "message": "Success message appeared: CTA task completed",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "cta_bad_1778597801676_bxhm0o",
+    "step_number": 9,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T14:56:45.965Z",
+    "message": "Captured 99_after_success",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\cta_bad_1778597801676_bxhm0o\\99_after_success.png"
+  }
+]

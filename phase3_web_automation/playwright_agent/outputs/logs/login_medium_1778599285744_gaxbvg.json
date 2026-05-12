@@ -1,0 +1,122 @@
+[
+  {
+    "run_id": "login_medium_1778599285744_gaxbvg",
+    "step_number": 1,
+    "action_type": "navigate",
+    "target_element": "http://localhost:3000/login-medium",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:21:25.769Z",
+    "message": "Opened http://localhost:3000/login-medium",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_medium_1778599285744_gaxbvg",
+    "step_number": 2,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:21:25.822Z",
+    "message": "Captured 01_page_load",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\login_medium_1778599285744_gaxbvg\\01_page_load.png"
+  },
+  {
+    "run_id": "login_medium_1778599285744_gaxbvg",
+    "step_number": 3,
+    "action_type": "keyboard",
+    "target_element": "#email",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:21:25.829Z",
+    "message": "Filled login email",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_medium_1778599285744_gaxbvg",
+    "step_number": 4,
+    "action_type": "keyboard",
+    "target_element": "#password",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:21:25.836Z",
+    "message": "Filled wrong password",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_medium_1778599285744_gaxbvg",
+    "step_number": 5,
+    "action_type": "click",
+    "target_element": "#loginBtn",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:21:25.873Z",
+    "message": "Submitted wrong login details",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_medium_1778599285744_gaxbvg",
+    "step_number": 6,
+    "action_type": "validation",
+    "target_element": "#message",
+    "action_status": "failed",
+    "timestamp": "2026-05-12T15:21:25.880Z",
+    "message": "Validation appeared: The login details do not match",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_medium_1778599285744_gaxbvg",
+    "step_number": 7,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:21:25.938Z",
+    "message": "Captured 02_partial_login_error",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\login_medium_1778599285744_gaxbvg\\02_partial_login_error.png"
+  },
+  {
+    "run_id": "login_medium_1778599285744_gaxbvg",
+    "step_number": 8,
+    "action_type": "keyboard",
+    "target_element": "#password",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:21:25.944Z",
+    "message": "Corrected password after retry",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_medium_1778599285744_gaxbvg",
+    "step_number": 9,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:21:26.005Z",
+    "message": "Captured 03_before_login_retry",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\login_medium_1778599285744_gaxbvg\\03_before_login_retry.png"
+  },
+  {
+    "run_id": "login_medium_1778599285744_gaxbvg",
+    "step_number": 10,
+    "action_type": "click",
+    "target_element": "#loginBtn",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:21:26.038Z",
+    "message": "Retried login successfully",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_medium_1778599285744_gaxbvg",
+    "step_number": 11,
+    "action_type": "assert",
+    "target_element": "#message",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:21:27.942Z",
+    "message": "Success message appeared: Login successful",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_medium_1778599285744_gaxbvg",
+    "step_number": 12,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:21:27.988Z",
+    "message": "Captured 99_after_success",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\login_medium_1778599285744_gaxbvg\\99_after_success.png"
+  }
+]

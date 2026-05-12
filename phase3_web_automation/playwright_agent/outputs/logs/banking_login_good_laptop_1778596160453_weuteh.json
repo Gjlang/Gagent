@@ -1,0 +1,200 @@
+{
+  "run_id": "banking_login_good_laptop_1778596160453_weuteh",
+  "summary": {
+    "site_style": "banking",
+    "viewport_type": "laptop",
+    "flow_type": "login",
+    "page_url": "http://localhost:3000/banking/login-good",
+    "friction_scenario": "good",
+    "friction_level": "Low",
+    "selector_used": [
+      {
+        "label": "Filled login user field",
+        "selector": "#userId"
+      },
+      {
+        "label": "Filled login password/PIN",
+        "selector": "#pin"
+      },
+      {
+        "label": "Clicked login submit",
+        "selector": "#bankLoginBtn"
+      }
+    ],
+    "selector_attempts": [
+      {
+        "label": "Filled login user field",
+        "selector": "#userId"
+      },
+      {
+        "label": "Filled login password/PIN",
+        "selector": "#pin"
+      },
+      {
+        "label": "Clicked login submit",
+        "selector": "#bankLoginBtn"
+      }
+    ],
+    "popup_detected": false,
+    "popup_closed": false,
+    "captcha_detected": false,
+    "failure_reason": [],
+    "metrics": {
+      "click_count": 1,
+      "scroll_count": 0,
+      "keyboard_count": 2,
+      "retry_count": 0,
+      "error_count": 0,
+      "failed_clicks": 0,
+      "feedback_delay": 912,
+      "task_completed": 1,
+      "screenshot_count": 2,
+      "error_message_clarity": 2
+    }
+  },
+  "steps": [
+    {
+      "run_id": "banking_login_good_laptop_1778596160453_weuteh",
+      "step_number": 1,
+      "action_type": "navigate",
+      "target_element": "http://localhost:3000/banking/login-good",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:29:20.462Z",
+      "message": "Opened http://localhost:3000/banking/login-good",
+      "page_url": "http://localhost:3000/banking/login-good",
+      "site_style": "banking",
+      "viewport_type": "laptop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": []
+    },
+    {
+      "run_id": "banking_login_good_laptop_1778596160453_weuteh",
+      "step_number": 2,
+      "action_type": "screenshot",
+      "target_element": "page",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:29:20.552Z",
+      "message": "Captured 01_page_load_after_popup_handling",
+      "page_url": "http://localhost:3000/banking/login-good",
+      "site_style": "banking",
+      "viewport_type": "laptop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\banking_login_good_laptop_1778596160453_weuteh\\01_page_load_after_popup_handling.png"
+    },
+    {
+      "run_id": "banking_login_good_laptop_1778596160453_weuteh",
+      "step_number": 3,
+      "action_type": "selector",
+      "target_element": "#userId",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:29:20.555Z",
+      "message": "Selector found for Filled login user field",
+      "page_url": "http://localhost:3000/banking/login-good",
+      "site_style": "banking",
+      "viewport_type": "laptop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#userId"
+    },
+    {
+      "run_id": "banking_login_good_laptop_1778596160453_weuteh",
+      "step_number": 4,
+      "action_type": "keyboard",
+      "target_element": "#userId",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:29:20.560Z",
+      "message": "Filled login user field",
+      "page_url": "http://localhost:3000/banking/login-good",
+      "site_style": "banking",
+      "viewport_type": "laptop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#userId"
+    },
+    {
+      "run_id": "banking_login_good_laptop_1778596160453_weuteh",
+      "step_number": 5,
+      "action_type": "selector",
+      "target_element": "#pin",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:29:20.562Z",
+      "message": "Selector found for Filled login password/PIN",
+      "page_url": "http://localhost:3000/banking/login-good",
+      "site_style": "banking",
+      "viewport_type": "laptop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#pin"
+    },
+    {
+      "run_id": "banking_login_good_laptop_1778596160453_weuteh",
+      "step_number": 6,
+      "action_type": "keyboard",
+      "target_element": "#pin",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:29:20.567Z",
+      "message": "Filled login password/PIN",
+      "page_url": "http://localhost:3000/banking/login-good",
+      "site_style": "banking",
+      "viewport_type": "laptop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#pin"
+    },
+    {
+      "run_id": "banking_login_good_laptop_1778596160453_weuteh",
+      "step_number": 7,
+      "action_type": "selector",
+      "target_element": "#bankLoginBtn",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:29:20.569Z",
+      "message": "Selector found for Clicked login submit",
+      "page_url": "http://localhost:3000/banking/login-good",
+      "site_style": "banking",
+      "viewport_type": "laptop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#bankLoginBtn"
+    },
+    {
+      "run_id": "banking_login_good_laptop_1778596160453_weuteh",
+      "step_number": 8,
+      "action_type": "click",
+      "target_element": "#bankLoginBtn",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:29:20.603Z",
+      "message": "Clicked login submit",
+      "page_url": "http://localhost:3000/banking/login-good",
+      "site_style": "banking",
+      "viewport_type": "laptop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#bankLoginBtn"
+    },
+    {
+      "run_id": "banking_login_good_laptop_1778596160453_weuteh",
+      "step_number": 9,
+      "action_type": "screenshot",
+      "target_element": "page",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:29:21.520Z",
+      "message": "Captured 99_after_success",
+      "page_url": "http://localhost:3000/banking/login-good",
+      "site_style": "banking",
+      "viewport_type": "laptop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\banking_login_good_laptop_1778596160453_weuteh\\99_after_success.png"
+    }
+  ]
+}

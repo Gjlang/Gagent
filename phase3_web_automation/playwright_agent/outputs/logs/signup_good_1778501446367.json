@@ -1,0 +1,72 @@
+[
+  {
+    "run_id": "signup_good_1778501446367",
+    "step_number": 1,
+    "action_type": "navigate",
+    "target_element": "/signup-good",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:10:46.765Z",
+    "message": "Opened signup good page",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\signup_good_1778501446367\\01_page_load.png"
+  },
+  {
+    "run_id": "signup_good_1778501446367",
+    "step_number": 2,
+    "action_type": "fill",
+    "target_element": "#name",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:10:46.782Z",
+    "message": "Filled name",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_good_1778501446367",
+    "step_number": 3,
+    "action_type": "fill",
+    "target_element": "#email",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:10:46.793Z",
+    "message": "Filled email",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_good_1778501446367",
+    "step_number": 4,
+    "action_type": "fill",
+    "target_element": "#password",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:10:46.805Z",
+    "message": "Filled password",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_good_1778501446367",
+    "step_number": 5,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:10:46.872Z",
+    "message": "Captured before submit screenshot",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\signup_good_1778501446367\\02_before_submit.png"
+  },
+  {
+    "run_id": "signup_good_1778501446367",
+    "step_number": 6,
+    "action_type": "click",
+    "target_element": "#submitBtn",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:10:46.919Z",
+    "message": "Clicked submit button",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_good_1778501446367",
+    "step_number": 7,
+    "action_type": "assert",
+    "target_element": "#message",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:10:47.355Z",
+    "message": "Signup success message appeared",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\signup_good_1778501446367\\03_after_success.png"
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "run_id": "landing_bad_1778502496300",
+    "step_number": 1,
+    "action_type": "navigate",
+    "target_element": "http://localhost:3000/landing-bad",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:28:16.461Z",
+    "message": "Opened http://localhost:3000/landing-bad",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\landing_bad_1778502496300\\01_page_load.png"
+  },
+  {
+    "run_id": "landing_bad_1778502496300",
+    "step_number": 2,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:28:16.539Z",
+    "message": "CTA is not immediately visible on bad landing page",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\landing_bad_1778502496300\\02_before_scroll.png"
+  },
+  {
+    "run_id": "landing_bad_1778502496300",
+    "step_number": 3,
+    "action_type": "scroll",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:28:16.551Z",
+    "message": "Scrolled down to find hidden landing CTA",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "landing_bad_1778502496300",
+    "step_number": 4,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:28:16.626Z",
+    "message": "Captured page after scrolling to CTA",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\landing_bad_1778502496300\\03_after_scroll.png"
+  },
+  {
+    "run_id": "landing_bad_1778502496300",
+    "step_number": 5,
+    "action_type": "click",
+    "target_element": "#mainCta",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:28:16.656Z",
+    "message": "Clicked landing page CTA button",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "landing_bad_1778502496300",
+    "step_number": 6,
+    "action_type": "assert",
+    "target_element": "#message",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:28:19.649Z",
+    "message": "Landing success message appeared",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\landing_bad_1778502496300\\04_after_success.png"
+  }
+]

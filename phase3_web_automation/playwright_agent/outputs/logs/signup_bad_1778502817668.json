@@ -1,0 +1,102 @@
+[
+  {
+    "run_id": "signup_bad_1778502817668",
+    "step_number": 1,
+    "action_type": "navigate",
+    "target_element": "/signup-bad",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:33:37.797Z",
+    "message": "Opened signup bad page",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\signup_bad_1778502817668\\01_page_load.png"
+  },
+  {
+    "run_id": "signup_bad_1778502817668",
+    "step_number": 2,
+    "action_type": "fill",
+    "target_element": "#name",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:33:37.806Z",
+    "message": "Filled name",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_bad_1778502817668",
+    "step_number": 3,
+    "action_type": "fill",
+    "target_element": "#email",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:33:37.813Z",
+    "message": "Filled email",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_bad_1778502817668",
+    "step_number": 4,
+    "action_type": "fill",
+    "target_element": "#password",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:33:37.819Z",
+    "message": "Filled password",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_bad_1778502817668",
+    "step_number": 5,
+    "action_type": "observe",
+    "target_element": "#referral",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:33:37.819Z",
+    "message": "Extra unclear referral field detected but skipped",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_bad_1778502817668",
+    "step_number": 6,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:33:37.876Z",
+    "message": "Captured page before finding submit button",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\signup_bad_1778502817668\\02_before_searching_button.png"
+  },
+  {
+    "run_id": "signup_bad_1778502817668",
+    "step_number": 7,
+    "action_type": "scroll",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:33:37.892Z",
+    "message": "Scrolled down to search for submit button",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_bad_1778502817668",
+    "step_number": 8,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:33:37.967Z",
+    "message": "Captured screenshot after scrolling",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\signup_bad_1778502817668\\03_after_scroll.png"
+  },
+  {
+    "run_id": "signup_bad_1778502817668",
+    "step_number": 9,
+    "action_type": "click",
+    "target_element": "#submitBtn",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:33:37.996Z",
+    "message": "Clicked hidden/low-visibility submit button",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_bad_1778502817668",
+    "step_number": 10,
+    "action_type": "assert",
+    "target_element": "#message",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:33:40.991Z",
+    "message": "Signup success message appeared after delay",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\signup_bad_1778502817668\\04_after_success.png"
+  }
+]

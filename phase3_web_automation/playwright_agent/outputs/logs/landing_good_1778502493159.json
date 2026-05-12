@@ -1,0 +1,32 @@
+[
+  {
+    "run_id": "landing_good_1778502493159",
+    "step_number": 1,
+    "action_type": "navigate",
+    "target_element": "http://localhost:3000/landing-good",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:28:13.418Z",
+    "message": "Opened http://localhost:3000/landing-good",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\landing_good_1778502493159\\01_page_load.png"
+  },
+  {
+    "run_id": "landing_good_1778502493159",
+    "step_number": 5,
+    "action_type": "click",
+    "target_element": "#mainCta",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:28:13.462Z",
+    "message": "Clicked landing page CTA button",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "landing_good_1778502493159",
+    "step_number": 6,
+    "action_type": "assert",
+    "target_element": "#message",
+    "action_status": "success",
+    "timestamp": "2026-05-11T12:28:13.880Z",
+    "message": "Landing success message appeared",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\landing_good_1778502493159\\04_after_success.png"
+  }
+]

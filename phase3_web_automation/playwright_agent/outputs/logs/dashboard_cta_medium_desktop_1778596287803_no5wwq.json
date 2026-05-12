@@ -1,0 +1,151 @@
+{
+  "run_id": "dashboard_cta_medium_desktop_1778596287803_no5wwq",
+  "summary": {
+    "site_style": "dashboard",
+    "viewport_type": "desktop",
+    "flow_type": "cta",
+    "page_url": "http://localhost:3000/dashboard/cta-medium",
+    "friction_scenario": "medium",
+    "friction_level": "Medium",
+    "selector_used": [
+      {
+        "label": "Clicked CTA action",
+        "selector": "#dashboardCtaBtn"
+      }
+    ],
+    "selector_attempts": [
+      {
+        "label": "Clicked CTA action",
+        "selector": "#dashboardCtaBtn"
+      }
+    ],
+    "popup_detected": true,
+    "popup_closed": true,
+    "captcha_detected": false,
+    "failure_reason": [],
+    "metrics": {
+      "click_count": 2,
+      "scroll_count": 0,
+      "keyboard_count": 0,
+      "retry_count": 0,
+      "error_count": 0,
+      "failed_clicks": 0,
+      "feedback_delay": 2930,
+      "task_completed": 1,
+      "screenshot_count": 2,
+      "error_message_clarity": 1
+    }
+  },
+  "steps": [
+    {
+      "run_id": "dashboard_cta_medium_desktop_1778596287803_no5wwq",
+      "step_number": 1,
+      "action_type": "navigate",
+      "target_element": "http://localhost:3000/dashboard/cta-medium",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:31:27.823Z",
+      "message": "Opened http://localhost:3000/dashboard/cta-medium",
+      "page_url": "http://localhost:3000/dashboard/cta-medium",
+      "site_style": "dashboard",
+      "viewport_type": "desktop",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": []
+    },
+    {
+      "run_id": "dashboard_cta_medium_desktop_1778596287803_no5wwq",
+      "step_number": 2,
+      "action_type": "popup",
+      "target_element": "#cookiePopup",
+      "action_status": "detected",
+      "timestamp": "2026-05-12T14:31:27.840Z",
+      "message": "Popup detected: #cookiePopup",
+      "page_url": "http://localhost:3000/dashboard/cta-medium",
+      "site_style": "dashboard",
+      "viewport_type": "desktop",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": []
+    },
+    {
+      "run_id": "dashboard_cta_medium_desktop_1778596287803_no5wwq",
+      "step_number": 3,
+      "action_type": "popup",
+      "target_element": "#acceptCookies",
+      "action_status": "closed",
+      "timestamp": "2026-05-12T14:31:27.880Z",
+      "message": "Popup closed using #acceptCookies",
+      "page_url": "http://localhost:3000/dashboard/cta-medium",
+      "site_style": "dashboard",
+      "viewport_type": "desktop",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#acceptCookies"
+    },
+    {
+      "run_id": "dashboard_cta_medium_desktop_1778596287803_no5wwq",
+      "step_number": 4,
+      "action_type": "screenshot",
+      "target_element": "page",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:31:28.196Z",
+      "message": "Captured 01_page_load_after_popup_handling",
+      "page_url": "http://localhost:3000/dashboard/cta-medium",
+      "site_style": "dashboard",
+      "viewport_type": "desktop",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\dashboard_cta_medium_desktop_1778596287803_no5wwq\\01_page_load_after_popup_handling.png"
+    },
+    {
+      "run_id": "dashboard_cta_medium_desktop_1778596287803_no5wwq",
+      "step_number": 5,
+      "action_type": "selector",
+      "target_element": "#dashboardCtaBtn",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:31:28.199Z",
+      "message": "Selector found for Clicked CTA action",
+      "page_url": "http://localhost:3000/dashboard/cta-medium",
+      "site_style": "dashboard",
+      "viewport_type": "desktop",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#dashboardCtaBtn"
+    },
+    {
+      "run_id": "dashboard_cta_medium_desktop_1778596287803_no5wwq",
+      "step_number": 6,
+      "action_type": "click",
+      "target_element": "#dashboardCtaBtn",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:31:28.231Z",
+      "message": "Clicked CTA action",
+      "page_url": "http://localhost:3000/dashboard/cta-medium",
+      "site_style": "dashboard",
+      "viewport_type": "desktop",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "selector_used": "#dashboardCtaBtn"
+    },
+    {
+      "run_id": "dashboard_cta_medium_desktop_1778596287803_no5wwq",
+      "step_number": 7,
+      "action_type": "screenshot",
+      "target_element": "page",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:31:31.168Z",
+      "message": "Captured 99_after_success",
+      "page_url": "http://localhost:3000/dashboard/cta-medium",
+      "site_style": "dashboard",
+      "viewport_type": "desktop",
+      "popup_detected": true,
+      "captcha_detected": false,
+      "failure_reason": [],
+      "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\dashboard_cta_medium_desktop_1778596287803_no5wwq\\99_after_success.png"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+[
+  {
+    "run_id": "signup_bad_1778588609326_i2cltx",
+    "step_number": 1,
+    "action_type": "navigate",
+    "target_element": "http://localhost:3000/signup-bad",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:23:29.340Z",
+    "message": "Opened http://localhost:3000/signup-bad",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_bad_1778588609326_i2cltx",
+    "step_number": 2,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:23:29.446Z",
+    "message": "Captured 01_page_load",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\signup_bad_1778588609326_i2cltx\\01_page_load.png"
+  },
+  {
+    "run_id": "signup_bad_1778588609326_i2cltx",
+    "step_number": 3,
+    "action_type": "click",
+    "target_element": "#fakeSignupBtn",
+    "action_status": "failed",
+    "timestamp": "2026-05-12T12:23:29.469Z",
+    "message": "Fake signup button did not submit the form",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_bad_1778588609326_i2cltx",
+    "step_number": 4,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:23:29.543Z",
+    "message": "Captured 02_fake_button_clicked",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\signup_bad_1778588609326_i2cltx\\02_fake_button_clicked.png"
+  },
+  {
+    "run_id": "signup_bad_1778588609326_i2cltx",
+    "step_number": 5,
+    "action_type": "click",
+    "target_element": "#submitBtn",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:23:29.570Z",
+    "message": "Submitted empty vague signup form",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_bad_1778588609326_i2cltx",
+    "step_number": 6,
+    "action_type": "validation",
+    "target_element": "#message",
+    "action_status": "failed",
+    "timestamp": "2026-05-12T12:23:29.576Z",
+    "message": "Validation appeared: Problem. Fix it.",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_bad_1778588609326_i2cltx",
+    "step_number": 7,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:23:29.644Z",
+    "message": "Captured 03_vague_validation_error",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\signup_bad_1778588609326_i2cltx\\03_vague_validation_error.png"
+  },
+  {
+    "run_id": "signup_bad_1778588609326_i2cltx",
+    "step_number": 8,
+    "action_type": "keyboard",
+    "target_element": "#name",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:23:29.650Z",
+    "message": "Filled vague name field",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_bad_1778588609326_i2cltx",
+    "step_number": 9,
+    "action_type": "keyboard",
+    "target_element": "#email",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:23:29.656Z",
+    "message": "Filled vague email field",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_bad_1778588609326_i2cltx",
+    "step_number": 10,
+    "action_type": "keyboard",
+    "target_element": "#password",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:23:29.661Z",
+    "message": "Filled vague password field",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_bad_1778588609326_i2cltx",
+    "step_number": 11,
+    "action_type": "keyboard",
+    "target_element": "#referral",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:23:29.671Z",
+    "message": "Filled vague referral field",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_bad_1778588609326_i2cltx",
+    "step_number": 12,
+    "action_type": "click",
+    "target_element": "#terms",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:23:29.704Z",
+    "message": "Checked unclear required option",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_bad_1778588609326_i2cltx",
+    "step_number": 13,
+    "action_type": "scroll",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:23:29.716Z",
+    "message": "Scrolled to hidden signup submit button",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_bad_1778588609326_i2cltx",
+    "step_number": 14,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:23:29.812Z",
+    "message": "Captured 04_after_scroll_to_submit",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\signup_bad_1778588609326_i2cltx\\04_after_scroll_to_submit.png"
+  },
+  {
+    "run_id": "signup_bad_1778588609326_i2cltx",
+    "step_number": 15,
+    "action_type": "click",
+    "target_element": "#submitBtn",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:23:29.836Z",
+    "message": "Submitted hidden vague signup form successfully",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_bad_1778588609326_i2cltx",
+    "step_number": 16,
+    "action_type": "assert",
+    "target_element": "#message",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:23:32.732Z",
+    "message": "Success message appeared: Signup completed successfully",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_bad_1778588609326_i2cltx",
+    "step_number": 17,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T12:23:32.811Z",
+    "message": "Captured 99_after_success",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\signup_bad_1778588609326_i2cltx\\99_after_success.png"
+  }
+]

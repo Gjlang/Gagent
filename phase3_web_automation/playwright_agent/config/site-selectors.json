@@ -1,0 +1,173 @@
+{
+  "default": {
+    "signup": {
+      "email": [
+        "#email",
+        "input[type='email']",
+        "input[name='email']",
+        "input[placeholder*='email' i]",
+        "input[aria-label*='email' i]"
+      ],
+      "password": [
+        "#password",
+        "input[type='password']",
+        "input[name='password']",
+        "input[placeholder*='password' i]",
+        "input[aria-label*='password' i]"
+      ],
+      "name": [
+        "#name",
+        "input[name='name']",
+        "input[placeholder*='name' i]",
+        "input[aria-label*='name' i]"
+      ],
+      "company": [
+        "#company",
+        "input[name='company']",
+        "input[placeholder*='company' i]"
+      ],
+      "terms": ["#terms", "input[type='checkbox']"],
+      "submit": [
+        "button:has-text('Create Account')",
+        "button:has-text('Sign Up')",
+        "button:has-text('Register')",
+        "button:has-text('Join Now')",
+        "button:has-text('Get Started')",
+        "button:has-text('Continue')",
+        "button[type='submit']"
+      ]
+    },
+    "login": {
+      "user": [
+        "#email",
+        "#userId",
+        "input[type='email']",
+        "input[name='email']",
+        "input[autocomplete='username']",
+        "input[placeholder*='user' i]",
+        "input[aria-label*='email' i]"
+      ],
+      "password": [
+        "#password",
+        "#pin",
+        "input[type='password']",
+        "input[name='password']",
+        "input[placeholder*='pin' i]"
+      ],
+      "securityAnswer": [
+        "#securityAnswer",
+        "input[placeholder*='security' i]",
+        "input[placeholder*='answer' i]"
+      ],
+      "submit": [
+        "button:has-text('Login')",
+        "button:has-text('Log In')",
+        "button:has-text('Sign In')",
+        "button:has-text('Continue')",
+        "button:has-text('Access Account')",
+        "button:has-text('Verify')",
+        "button[type='submit']"
+      ]
+    },
+    "search": {
+      "query": [
+        "#searchInput",
+        "#productQuery",
+        "#keyword",
+        "input[type='search']",
+        "input[role='searchbox']",
+        "input[name='q']",
+        "input[placeholder*='search' i]",
+        "input[placeholder*='keyword' i]"
+      ],
+      "category": ["#category", "select[name='category']", "select"],
+      "location": [
+        "#location",
+        "input[placeholder*='location' i]",
+        "input[aria-label*='location' i]"
+      ],
+      "submit": [
+        "button:has-text('Search')",
+        "button:has-text('Search Jobs')",
+        "button:has-text('Find')",
+        "button:has-text('Find Items')",
+        "button:has-text('Find Roles')",
+        "button:has-text('Go')",
+        "button:has-text('Continue')"
+      ]
+    },
+    "cta": {
+      "submit": [
+        "button:has-text('Buy Now')",
+        "button:has-text('Start Now')",
+        "button:has-text('Get Started')",
+        "button:has-text('Continue')",
+        "button:has-text('Proceed')",
+        "button:has-text('Learn More')",
+        "button:has-text('Next')"
+      ]
+    }
+  },
+  "saas_dummy": {
+    "matchUrlIncludes": "/saas/",
+    "signup": {
+      "email": ["#email"],
+      "password": ["#password"],
+      "company": ["#company"],
+      "terms": ["#terms"],
+      "submit": [
+        "#saasSubmit",
+        "button:has-text('Create Account')",
+        "button:has-text('Join Now')"
+      ]
+    }
+  },
+  "ecommerce_dummy": {
+    "matchUrlIncludes": "/ecommerce/",
+    "search": {
+      "query": ["#productQuery", "input[type='search']"],
+      "category": ["#category"],
+      "submit": [
+        "#productSearchBtn",
+        "button:has-text('Search')",
+        "button:has-text('Find Items')"
+      ]
+    }
+  },
+  "banking_dummy": {
+    "matchUrlIncludes": "/banking/",
+    "login": {
+      "user": ["#userId"],
+      "password": ["#pin"],
+      "securityAnswer": ["#securityAnswer"],
+      "submit": [
+        "#bankLoginBtn",
+        "button:has-text('Access Account')",
+        "button:has-text('Continue')"
+      ]
+    }
+  },
+  "jobportal_dummy": {
+    "matchUrlIncludes": "/jobportal/",
+    "search": {
+      "query": ["#keyword"],
+      "location": ["#location"],
+      "submit": [
+        "#jobSearchBtn",
+        "button:has-text('Search Jobs')",
+        "button:has-text('Find Roles')"
+      ]
+    }
+  },
+  "dashboard_dummy": {
+    "matchUrlIncludes": "/dashboard/",
+    "cta": {
+      "submit": [
+        "#dashboardCtaBtn",
+        "button:has-text('Continue')",
+        "button:has-text('Proceed')",
+        "button:has-text('Next')"
+      ]
+    }
+  }
+}

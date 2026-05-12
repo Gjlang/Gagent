@@ -1,0 +1,82 @@
+[
+  {
+    "run_id": "login_good_1778599039172_kafptw",
+    "step_number": 1,
+    "action_type": "navigate",
+    "target_element": "http://localhost:3000/login-good",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:17:19.196Z",
+    "message": "Opened http://localhost:3000/login-good",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_good_1778599039172_kafptw",
+    "step_number": 2,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:17:19.251Z",
+    "message": "Captured 01_page_load",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\login_good_1778599039172_kafptw\\01_page_load.png"
+  },
+  {
+    "run_id": "login_good_1778599039172_kafptw",
+    "step_number": 3,
+    "action_type": "keyboard",
+    "target_element": "#email",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:17:19.258Z",
+    "message": "Filled login email",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_good_1778599039172_kafptw",
+    "step_number": 4,
+    "action_type": "keyboard",
+    "target_element": "#password",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:17:19.262Z",
+    "message": "Filled login password",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_good_1778599039172_kafptw",
+    "step_number": 5,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:17:19.302Z",
+    "message": "Captured 02_before_login",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\login_good_1778599039172_kafptw\\02_before_login.png"
+  },
+  {
+    "run_id": "login_good_1778599039172_kafptw",
+    "step_number": 6,
+    "action_type": "click",
+    "target_element": "#loginBtn",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:17:19.337Z",
+    "message": "Submitted clear login form",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_good_1778599039172_kafptw",
+    "step_number": 7,
+    "action_type": "assert",
+    "target_element": "#message",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:17:20.217Z",
+    "message": "Success message appeared: Login successful",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "login_good_1778599039172_kafptw",
+    "step_number": 8,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T15:17:20.268Z",
+    "message": "Captured 99_after_success",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\login_good_1778599039172_kafptw\\99_after_success.png"
+  }
+]

@@ -1,0 +1,315 @@
+{
+  "run_id": "banking_login_bad_mobile_1778595967268_kcqm75",
+  "summary": {
+    "site_style": "banking",
+    "viewport_type": "mobile",
+    "flow_type": "login",
+    "page_url": "http://localhost:3000/banking/login-bad",
+    "friction_scenario": "bad",
+    "friction_level": "High",
+    "selector_used": [
+      {
+        "label": "Filled login user field",
+        "selector": "#userId"
+      },
+      {
+        "label": "Filled login password/PIN",
+        "selector": "#pin"
+      },
+      {
+        "label": "Filled security answer if present",
+        "selector": "#securityAnswer"
+      },
+      {
+        "label": "Clicked login submit",
+        "selector": "#bankLoginBtn"
+      }
+    ],
+    "selector_attempts": [
+      {
+        "label": "Filled login user field",
+        "selector": "#userId"
+      },
+      {
+        "label": "Filled login password/PIN",
+        "selector": "#pin"
+      },
+      {
+        "label": "Filled security answer if present",
+        "selector": "#securityAnswer"
+      },
+      {
+        "label": "Clicked login submit",
+        "selector": "#bankLoginBtn"
+      }
+    ],
+    "popup_detected": false,
+    "popup_closed": false,
+    "captcha_detected": true,
+    "failure_reason": [
+      "captcha_detected"
+    ],
+    "metrics": {
+      "click_count": 1,
+      "scroll_count": 1,
+      "keyboard_count": 3,
+      "retry_count": 0,
+      "error_count": 2,
+      "failed_clicks": 0,
+      "feedback_delay": 3950,
+      "task_completed": 0,
+      "screenshot_count": 2,
+      "error_message_clarity": 0
+    }
+  },
+  "steps": [
+    {
+      "run_id": "banking_login_bad_mobile_1778595967268_kcqm75",
+      "step_number": 1,
+      "action_type": "navigate",
+      "target_element": "http://localhost:3000/banking/login-bad",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:26:07.278Z",
+      "message": "Opened http://localhost:3000/banking/login-bad",
+      "page_url": "http://localhost:3000/banking/login-bad",
+      "site_style": "banking",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": false,
+      "failure_reason": [
+        "captcha_detected"
+      ]
+    },
+    {
+      "run_id": "banking_login_bad_mobile_1778595967268_kcqm75",
+      "step_number": 2,
+      "action_type": "failure_reason",
+      "target_element": "captcha_detected",
+      "action_status": "recorded",
+      "timestamp": "2026-05-12T14:26:07.327Z",
+      "message": "Security block detected by #captchaBox. CAPTCHA is not bypassed.",
+      "page_url": "http://localhost:3000/banking/login-bad",
+      "site_style": "banking",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": true,
+      "failure_reason": [
+        "captcha_detected"
+      ]
+    },
+    {
+      "run_id": "banking_login_bad_mobile_1778595967268_kcqm75",
+      "step_number": 3,
+      "action_type": "screenshot",
+      "target_element": "page",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:26:07.369Z",
+      "message": "Captured 01_page_load_after_popup_handling",
+      "page_url": "http://localhost:3000/banking/login-bad",
+      "site_style": "banking",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": true,
+      "failure_reason": [
+        "captcha_detected"
+      ],
+      "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\banking_login_bad_mobile_1778595967268_kcqm75\\01_page_load_after_popup_handling.png"
+    },
+    {
+      "run_id": "banking_login_bad_mobile_1778595967268_kcqm75",
+      "step_number": 4,
+      "action_type": "selector",
+      "target_element": "#userId",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:26:07.372Z",
+      "message": "Selector found for Filled login user field",
+      "page_url": "http://localhost:3000/banking/login-bad",
+      "site_style": "banking",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": true,
+      "failure_reason": [
+        "captcha_detected"
+      ],
+      "selector_used": "#userId"
+    },
+    {
+      "run_id": "banking_login_bad_mobile_1778595967268_kcqm75",
+      "step_number": 5,
+      "action_type": "keyboard",
+      "target_element": "#userId",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:26:07.378Z",
+      "message": "Filled login user field",
+      "page_url": "http://localhost:3000/banking/login-bad",
+      "site_style": "banking",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": true,
+      "failure_reason": [
+        "captcha_detected"
+      ],
+      "selector_used": "#userId"
+    },
+    {
+      "run_id": "banking_login_bad_mobile_1778595967268_kcqm75",
+      "step_number": 6,
+      "action_type": "selector",
+      "target_element": "#pin",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:26:07.380Z",
+      "message": "Selector found for Filled login password/PIN",
+      "page_url": "http://localhost:3000/banking/login-bad",
+      "site_style": "banking",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": true,
+      "failure_reason": [
+        "captcha_detected"
+      ],
+      "selector_used": "#pin"
+    },
+    {
+      "run_id": "banking_login_bad_mobile_1778595967268_kcqm75",
+      "step_number": 7,
+      "action_type": "keyboard",
+      "target_element": "#pin",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:26:07.385Z",
+      "message": "Filled login password/PIN",
+      "page_url": "http://localhost:3000/banking/login-bad",
+      "site_style": "banking",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": true,
+      "failure_reason": [
+        "captcha_detected"
+      ],
+      "selector_used": "#pin"
+    },
+    {
+      "run_id": "banking_login_bad_mobile_1778595967268_kcqm75",
+      "step_number": 8,
+      "action_type": "selector",
+      "target_element": "#securityAnswer",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:26:07.387Z",
+      "message": "Selector found for Filled security answer if present",
+      "page_url": "http://localhost:3000/banking/login-bad",
+      "site_style": "banking",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": true,
+      "failure_reason": [
+        "captcha_detected"
+      ],
+      "selector_used": "#securityAnswer"
+    },
+    {
+      "run_id": "banking_login_bad_mobile_1778595967268_kcqm75",
+      "step_number": 9,
+      "action_type": "keyboard",
+      "target_element": "#securityAnswer",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:26:07.392Z",
+      "message": "Filled security answer if present",
+      "page_url": "http://localhost:3000/banking/login-bad",
+      "site_style": "banking",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": true,
+      "failure_reason": [
+        "captcha_detected"
+      ],
+      "selector_used": "#securityAnswer"
+    },
+    {
+      "run_id": "banking_login_bad_mobile_1778595967268_kcqm75",
+      "step_number": 10,
+      "action_type": "failure_reason",
+      "target_element": "captcha_detected",
+      "action_status": "recorded",
+      "timestamp": "2026-05-12T14:26:07.394Z",
+      "message": "Security block detected by #captchaBox. CAPTCHA is not bypassed.",
+      "page_url": "http://localhost:3000/banking/login-bad",
+      "site_style": "banking",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": true,
+      "failure_reason": [
+        "captcha_detected"
+      ]
+    },
+    {
+      "run_id": "banking_login_bad_mobile_1778595967268_kcqm75",
+      "step_number": 11,
+      "action_type": "scroll",
+      "target_element": "page",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:26:07.405Z",
+      "message": "Scrolled around security-blocked login layout",
+      "page_url": "http://localhost:3000/banking/login-bad",
+      "site_style": "banking",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": true,
+      "failure_reason": [
+        "captcha_detected"
+      ]
+    },
+    {
+      "run_id": "banking_login_bad_mobile_1778595967268_kcqm75",
+      "step_number": 12,
+      "action_type": "selector",
+      "target_element": "#bankLoginBtn",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:26:07.408Z",
+      "message": "Selector found for Clicked login submit",
+      "page_url": "http://localhost:3000/banking/login-bad",
+      "site_style": "banking",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": true,
+      "failure_reason": [
+        "captcha_detected"
+      ],
+      "selector_used": "#bankLoginBtn"
+    },
+    {
+      "run_id": "banking_login_bad_mobile_1778595967268_kcqm75",
+      "step_number": 13,
+      "action_type": "click",
+      "target_element": "#bankLoginBtn",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:26:07.443Z",
+      "message": "Clicked login submit",
+      "page_url": "http://localhost:3000/banking/login-bad",
+      "site_style": "banking",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": true,
+      "failure_reason": [
+        "captcha_detected"
+      ],
+      "selector_used": "#bankLoginBtn"
+    },
+    {
+      "run_id": "banking_login_bad_mobile_1778595967268_kcqm75",
+      "step_number": 14,
+      "action_type": "screenshot",
+      "target_element": "page",
+      "action_status": "success",
+      "timestamp": "2026-05-12T14:26:11.401Z",
+      "message": "Captured 99_after_incomplete",
+      "page_url": "http://localhost:3000/banking/login-bad",
+      "site_style": "banking",
+      "viewport_type": "mobile",
+      "popup_detected": false,
+      "captcha_detected": true,
+      "failure_reason": [
+        "captcha_detected"
+      ],
+      "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\banking_login_bad_mobile_1778595967268_kcqm75\\99_after_incomplete.png"
+    }
+  ]
+}

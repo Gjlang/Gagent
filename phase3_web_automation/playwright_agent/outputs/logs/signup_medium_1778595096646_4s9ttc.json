@@ -1,0 +1,142 @@
+[
+  {
+    "run_id": "signup_medium_1778595096646_4s9ttc",
+    "step_number": 1,
+    "action_type": "navigate",
+    "target_element": "http://localhost:3000/signup-medium",
+    "action_status": "success",
+    "timestamp": "2026-05-12T14:11:36.670Z",
+    "message": "Opened http://localhost:3000/signup-medium",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_medium_1778595096646_4s9ttc",
+    "step_number": 2,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T14:11:36.752Z",
+    "message": "Captured 01_page_load",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\signup_medium_1778595096646_4s9ttc\\01_page_load.png"
+  },
+  {
+    "run_id": "signup_medium_1778595096646_4s9ttc",
+    "step_number": 3,
+    "action_type": "keyboard",
+    "target_element": "#name",
+    "action_status": "success",
+    "timestamp": "2026-05-12T14:11:36.759Z",
+    "message": "Filled full name",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_medium_1778595096646_4s9ttc",
+    "step_number": 4,
+    "action_type": "keyboard",
+    "target_element": "#email",
+    "action_status": "success",
+    "timestamp": "2026-05-12T14:11:36.764Z",
+    "message": "Filled email",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_medium_1778595096646_4s9ttc",
+    "step_number": 5,
+    "action_type": "click",
+    "target_element": "#submitBtn",
+    "action_status": "success",
+    "timestamp": "2026-05-12T14:11:36.795Z",
+    "message": "Submitted incomplete signup form",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_medium_1778595096646_4s9ttc",
+    "step_number": 6,
+    "action_type": "validation",
+    "target_element": "#message",
+    "action_status": "failed",
+    "timestamp": "2026-05-12T14:11:36.800Z",
+    "message": "Validation appeared: Some registration details are incomplete",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_medium_1778595096646_4s9ttc",
+    "step_number": 7,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T14:11:36.850Z",
+    "message": "Captured 02_partial_validation_error",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\signup_medium_1778595096646_4s9ttc\\02_partial_validation_error.png"
+  },
+  {
+    "run_id": "signup_medium_1778595096646_4s9ttc",
+    "step_number": 8,
+    "action_type": "keyboard",
+    "target_element": "#password",
+    "action_status": "success",
+    "timestamp": "2026-05-12T14:11:36.855Z",
+    "message": "Filled password after validation",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_medium_1778595096646_4s9ttc",
+    "step_number": 9,
+    "action_type": "keyboard",
+    "target_element": "#referral",
+    "action_status": "success",
+    "timestamp": "2026-05-12T14:11:36.860Z",
+    "message": "Filled referral code",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_medium_1778595096646_4s9ttc",
+    "step_number": 10,
+    "action_type": "click",
+    "target_element": "#terms",
+    "action_status": "success",
+    "timestamp": "2026-05-12T14:11:36.894Z",
+    "message": "Accepted terms after retry",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_medium_1778595096646_4s9ttc",
+    "step_number": 11,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T14:11:36.948Z",
+    "message": "Captured 03_before_retry_submit",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\signup_medium_1778595096646_4s9ttc\\03_before_retry_submit.png"
+  },
+  {
+    "run_id": "signup_medium_1778595096646_4s9ttc",
+    "step_number": 12,
+    "action_type": "click",
+    "target_element": "#submitBtn",
+    "action_status": "success",
+    "timestamp": "2026-05-12T14:11:36.976Z",
+    "message": "Retried signup form successfully",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_medium_1778595096646_4s9ttc",
+    "step_number": 13,
+    "action_type": "assert",
+    "target_element": "#message",
+    "action_status": "success",
+    "timestamp": "2026-05-12T14:11:38.854Z",
+    "message": "Success message appeared: Signup completed successfully",
+    "screenshot_path": ""
+  },
+  {
+    "run_id": "signup_medium_1778595096646_4s9ttc",
+    "step_number": 14,
+    "action_type": "screenshot",
+    "target_element": "page",
+    "action_status": "success",
+    "timestamp": "2026-05-12T14:11:38.916Z",
+    "message": "Captured 99_after_success",
+    "screenshot_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\screenshots\\signup_medium_1778595096646_4s9ttc\\99_after_success.png"
+  }
+]
