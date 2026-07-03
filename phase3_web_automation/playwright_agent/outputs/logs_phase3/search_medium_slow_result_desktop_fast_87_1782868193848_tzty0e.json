@@ -1,0 +1,49 @@
+{
+  "scenario": {
+    "route": "/search-medium-slow-result",
+    "flow_type": "search",
+    "scenario_type": "slow_button_response",
+    "expected_friction_level": "Medium",
+    "ux_problem": "Search result feedback is delayed.",
+    "expected_attributes": [
+      "feedback_delay_ms",
+      "interaction_to_next_paint_ms"
+    ]
+  },
+  "auditRow": {
+    "flow_type": "search",
+    "scenario_type": "slow_button_response",
+    "viewport_type": "desktop",
+    "network_condition": "fast",
+    "task_completed": 1,
+    "task_failed": 0,
+    "completion_time": 6.813,
+    "click_count": 2,
+    "scroll_count": 0,
+    "keyboard_count": 0,
+    "retry_count": 0,
+    "error_count": 0,
+    "failed_clicks": 0,
+    "unnecessary_clicks": 0,
+    "path_deviation_score": 0,
+    "page_load_time_ms": 600,
+    "dom_content_loaded_ms": 596,
+    "time_to_first_byte_ms": 585,
+    "feedback_delay_ms": 74,
+    "interaction_to_next_paint_ms": 51,
+    "cumulative_layout_shift": 0,
+    "error_message_present": 0,
+    "error_message_clarity": 1,
+    "popup_detected": 0,
+    "cookie_banner_detected": 0,
+    "overlay_blocks_cta": 0,
+    "friction_score": 3,
+    "friction_level": "Low",
+    "expected_friction_level": "Medium",
+    "label_mismatch": 1,
+    "route": "/search-medium-slow-result",
+    "seed": "search_medium_slow_result_desktop_fast_87_1782868193848_tzty0e_87",
+    "run_id": "search_medium_slow_result_desktop_fast_87_1782868193848_tzty0e"
+  },
+  "lastError": ""
+}

@@ -1,0 +1,50 @@
+{
+  "scenario": {
+    "route": "/search-bad-no-result",
+    "flow_type": "search",
+    "scenario_type": "no_result_error",
+    "expected_friction_level": "High",
+    "ux_problem": "Search completes technically but returns no useful result.",
+    "expected_attributes": [
+      "task_failed",
+      "error_message_present",
+      "error_message_clarity"
+    ]
+  },
+  "auditRow": {
+    "flow_type": "search",
+    "scenario_type": "no_result_error",
+    "viewport_type": "mobile",
+    "network_condition": "slow",
+    "task_completed": 0,
+    "task_failed": 1,
+    "completion_time": 10.819,
+    "click_count": 2,
+    "scroll_count": 0,
+    "keyboard_count": 0,
+    "retry_count": 0,
+    "error_count": 1,
+    "failed_clicks": 0,
+    "unnecessary_clicks": 0,
+    "path_deviation_score": 3,
+    "page_load_time_ms": 2860,
+    "dom_content_loaded_ms": 2860,
+    "time_to_first_byte_ms": 2828,
+    "feedback_delay_ms": 70,
+    "interaction_to_next_paint_ms": 61,
+    "cumulative_layout_shift": 0,
+    "error_message_present": 1,
+    "error_message_clarity": 0,
+    "popup_detected": 0,
+    "cookie_banner_detected": 0,
+    "overlay_blocks_cta": 0,
+    "friction_score": 64,
+    "friction_level": "High",
+    "expected_friction_level": "High",
+    "label_mismatch": 0,
+    "route": "/search-bad-no-result",
+    "seed": "search_bad_no_result_mobile_slow_32_1782885895945_lp2yeu_32",
+    "run_id": "search_bad_no_result_mobile_slow_32_1782885895945_lp2yeu"
+  },
+  "lastError": ""
+}

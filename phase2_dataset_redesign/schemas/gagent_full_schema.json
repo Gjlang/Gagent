@@ -1,0 +1,287 @@
+{
+  "schema_name": "gagent_full_schema",
+  "dataset": "Dataset B: Main GAgent Dataset",
+  "version": "1.0",
+  "created_for": "GAgent Phase 2 Dataset Redesign",
+  "description": "Full controlled Playwright/Appium UX-friction schema for the main GAgent model.",
+  "target_label": "friction_level",
+  "columns": [
+    {
+      "name": "run_id",
+      "type": "string",
+      "role": "metadata",
+      "required": true,
+      "use_in_ml": false
+    },
+    {
+      "name": "source_dataset",
+      "type": "string",
+      "role": "metadata",
+      "required": true,
+      "use_in_ml": false
+    },
+    {
+      "name": "flow_type",
+      "type": "string",
+      "role": "context",
+      "required": true,
+      "use_in_ml": "optional",
+      "allowed_examples": [
+        "login",
+        "signup",
+        "search",
+        "checkout",
+        "cta"
+      ]
+    },
+    {
+      "name": "viewport_type",
+      "type": "string",
+      "role": "context",
+      "required": true,
+      "use_in_ml": "optional",
+      "allowed_values": [
+        "mobile",
+        "tablet",
+        "desktop"
+      ]
+    },
+    {
+      "name": "scenario_type",
+      "type": "string",
+      "role": "metadata",
+      "required": true,
+      "use_in_ml": false,
+      "allowed_examples": [
+        "normal",
+        "slow_load",
+        "slow_button_response",
+        "popup_blocking",
+        "cookie_banner_blocking",
+        "layout_shift",
+        "hidden_cta",
+        "vague_error_message",
+        "timeout",
+        "wrong_navigation_path",
+        "form_validation_error",
+        "overlay_blocking_cta"
+      ]
+    },
+    {
+      "name": "task_completed",
+      "type": "integer",
+      "role": "ml_input",
+      "required": true,
+      "allowed_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "task_failed",
+      "type": "integer",
+      "role": "diagnostic_or_ml_input",
+      "required": true,
+      "allowed_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "completion_time_ms",
+      "type": "number",
+      "role": "ml_input",
+      "required": true,
+      "minimum": 0
+    },
+    {
+      "name": "click_count",
+      "type": "integer",
+      "role": "ml_input",
+      "required": true,
+      "minimum": 0
+    },
+    {
+      "name": "scroll_count",
+      "type": "integer",
+      "role": "ml_input",
+      "required": true,
+      "minimum": 0
+    },
+    {
+      "name": "keyboard_count",
+      "type": "integer",
+      "role": "ml_input",
+      "required": true,
+      "minimum": 0
+    },
+    {
+      "name": "retry_count",
+      "type": "integer",
+      "role": "ml_input",
+      "required": true,
+      "minimum": 0
+    },
+    {
+      "name": "error_count",
+      "type": "integer",
+      "role": "ml_input",
+      "required": true,
+      "minimum": 0
+    },
+    {
+      "name": "failed_clicks",
+      "type": "integer",
+      "role": "ml_input",
+      "required": true,
+      "minimum": 0
+    },
+    {
+      "name": "unnecessary_clicks",
+      "type": "integer",
+      "role": "ml_input",
+      "required": true,
+      "minimum": 0
+    },
+    {
+      "name": "path_deviation_score",
+      "type": "number",
+      "role": "ml_input",
+      "required": true,
+      "minimum": 0,
+      "maximum": 1
+    },
+    {
+      "name": "page_load_time_ms",
+      "type": "number",
+      "role": "ml_input",
+      "required": true,
+      "minimum": 0
+    },
+    {
+      "name": "dom_content_loaded_ms",
+      "type": "number",
+      "role": "ml_input",
+      "required": true,
+      "minimum": 0
+    },
+    {
+      "name": "time_to_first_byte_ms",
+      "type": "number",
+      "role": "ml_input",
+      "required": true,
+      "minimum": 0
+    },
+    {
+      "name": "feedback_delay_ms",
+      "type": "number",
+      "role": "ml_input",
+      "required": true,
+      "minimum": 0
+    },
+    {
+      "name": "interaction_to_next_paint_ms",
+      "type": "number",
+      "role": "ml_input",
+      "required": true,
+      "minimum": 0
+    },
+    {
+      "name": "cumulative_layout_shift",
+      "type": "number",
+      "role": "ml_input",
+      "required": true,
+      "minimum": 0
+    },
+    {
+      "name": "error_message_present",
+      "type": "boolean",
+      "role": "ml_input",
+      "required": true
+    },
+    {
+      "name": "error_message_clarity",
+      "type": "integer",
+      "role": "ml_input",
+      "required": true,
+      "allowed_values": [
+        -1,
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "name": "popup_detected",
+      "type": "boolean",
+      "role": "ml_input",
+      "required": true
+    },
+    {
+      "name": "cookie_banner_detected",
+      "type": "boolean",
+      "role": "ml_input",
+      "required": true
+    },
+    {
+      "name": "overlay_blocks_cta",
+      "type": "boolean",
+      "role": "ml_input",
+      "required": true
+    },
+    {
+      "name": "friction_score",
+      "type": "number",
+      "role": "labeling_helper",
+      "required": true,
+      "use_in_ml": false,
+      "minimum": 0
+    },
+    {
+      "name": "friction_level",
+      "type": "string",
+      "role": "target_label",
+      "required": true,
+      "allowed_values": [
+        "Low",
+        "Medium",
+        "High"
+      ]
+    }
+  ],
+  "ml_features": [
+    "task_completed",
+    "completion_time_ms",
+    "click_count",
+    "scroll_count",
+    "keyboard_count",
+    "retry_count",
+    "error_count",
+    "failed_clicks",
+    "unnecessary_clicks",
+    "path_deviation_score",
+    "page_load_time_ms",
+    "dom_content_loaded_ms",
+    "time_to_first_byte_ms",
+    "feedback_delay_ms",
+    "interaction_to_next_paint_ms",
+    "cumulative_layout_shift",
+    "error_message_present",
+    "error_message_clarity",
+    "popup_detected",
+    "cookie_banner_detected",
+    "overlay_blocks_cta"
+  ],
+  "excluded_from_ml": [
+    "run_id",
+    "source_dataset",
+    "scenario_type",
+    "friction_score",
+    "friction_level"
+  ],
+  "labeling_thresholds": {
+    "Low": "0-10",
+    "Medium": "11-24",
+    "High": ">=25"
+  }
+}

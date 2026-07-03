@@ -1,0 +1,50 @@
+{
+  "scenario": {
+    "route": "/landing-medium",
+    "flow_type": "landing_navigation",
+    "scenario_type": "extra_content",
+    "expected_friction_level": "Medium",
+    "ux_problem": "Extra content and indirect CTA increase effort.",
+    "expected_attributes": [
+      "scroll_count",
+      "unnecessary_clicks",
+      "path_deviation_score"
+    ]
+  },
+  "auditRow": {
+    "flow_type": "landing_navigation",
+    "scenario_type": "extra_content",
+    "viewport_type": "desktop",
+    "network_condition": "slow",
+    "task_completed": 1,
+    "task_failed": 0,
+    "completion_time": 6.125,
+    "click_count": 1,
+    "scroll_count": 0,
+    "keyboard_count": 0,
+    "retry_count": 0,
+    "error_count": 0,
+    "failed_clicks": 0,
+    "unnecessary_clicks": 0,
+    "path_deviation_score": 0,
+    "page_load_time_ms": 832,
+    "dom_content_loaded_ms": 828,
+    "time_to_first_byte_ms": 817,
+    "feedback_delay_ms": 92,
+    "interaction_to_next_paint_ms": 69,
+    "cumulative_layout_shift": 0,
+    "error_message_present": 0,
+    "error_message_clarity": 1,
+    "popup_detected": 0,
+    "cookie_banner_detected": 0,
+    "overlay_blocks_cta": 0,
+    "friction_score": 3,
+    "friction_level": "Low",
+    "expected_friction_level": "Medium",
+    "label_mismatch": 1,
+    "route": "/landing-medium",
+    "seed": "landing_medium_desktop_slow_19_1782667288569_gixzb9_19",
+    "run_id": "landing_medium_desktop_slow_19_1782667288569_gixzb9"
+  },
+  "lastError": ""
+}

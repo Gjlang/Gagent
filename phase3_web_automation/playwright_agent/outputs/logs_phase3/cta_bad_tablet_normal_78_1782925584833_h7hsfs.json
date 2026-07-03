@@ -1,0 +1,50 @@
+{
+  "scenario": {
+    "route": "/cta-bad",
+    "flow_type": "cta_click",
+    "scenario_type": "hidden_cta",
+    "expected_friction_level": "High",
+    "ux_problem": "Fake CTA and hidden real CTA.",
+    "expected_attributes": [
+      "failed_clicks",
+      "scroll_count",
+      "retry_count"
+    ]
+  },
+  "auditRow": {
+    "flow_type": "cta_click",
+    "scenario_type": "hidden_cta",
+    "viewport_type": "tablet",
+    "network_condition": "normal",
+    "task_completed": 1,
+    "task_failed": 0,
+    "completion_time": 13.547,
+    "click_count": 4,
+    "scroll_count": 0,
+    "keyboard_count": 0,
+    "retry_count": 2,
+    "error_count": 0,
+    "failed_clicks": 2,
+    "unnecessary_clicks": 2,
+    "path_deviation_score": 10,
+    "page_load_time_ms": 1609,
+    "dom_content_loaded_ms": 1608,
+    "time_to_first_byte_ms": 1598,
+    "feedback_delay_ms": 68,
+    "interaction_to_next_paint_ms": 56,
+    "cumulative_layout_shift": 0,
+    "error_message_present": 0,
+    "error_message_clarity": 0,
+    "popup_detected": 0,
+    "cookie_banner_detected": 0,
+    "overlay_blocks_cta": 0,
+    "friction_score": 60,
+    "friction_level": "High",
+    "expected_friction_level": "High",
+    "label_mismatch": 0,
+    "route": "/cta-bad",
+    "seed": "cta_bad_tablet_normal_78_1782925584833_h7hsfs_78",
+    "run_id": "cta_bad_tablet_normal_78_1782925584833_h7hsfs"
+  },
+  "lastError": ""
+}

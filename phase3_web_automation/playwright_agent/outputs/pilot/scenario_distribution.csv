@@ -1,0 +1,6 @@
+scenario_type,row_count
+layout_shift,12
+popup_blocking,12
+disabled_button_blocked_submit,6
+cookie_banner_blocking,6
+overlay_blocks_cta,6

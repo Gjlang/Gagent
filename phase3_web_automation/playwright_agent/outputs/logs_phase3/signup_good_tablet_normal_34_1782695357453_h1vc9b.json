@@ -1,0 +1,50 @@
+{
+  "scenario": {
+    "route": "/signup-good",
+    "flow_type": "signup",
+    "scenario_type": "normal_signup",
+    "expected_friction_level": "Low",
+    "ux_problem": "Clear signup form with direct feedback.",
+    "expected_attributes": [
+      "task_completed",
+      "keyboard_count",
+      "low_error_count"
+    ]
+  },
+  "auditRow": {
+    "flow_type": "signup",
+    "scenario_type": "normal_signup",
+    "viewport_type": "tablet",
+    "network_condition": "normal",
+    "task_completed": 1,
+    "task_failed": 0,
+    "completion_time": 1.331,
+    "click_count": 0,
+    "scroll_count": 0,
+    "keyboard_count": 0,
+    "retry_count": 0,
+    "error_count": 2,
+    "failed_clicks": 2,
+    "unnecessary_clicks": 0,
+    "path_deviation_score": 4,
+    "page_load_time_ms": 89,
+    "dom_content_loaded_ms": 84,
+    "time_to_first_byte_ms": 73,
+    "feedback_delay_ms": 28,
+    "interaction_to_next_paint_ms": 24,
+    "cumulative_layout_shift": 0,
+    "error_message_present": 0,
+    "error_message_clarity": 2,
+    "popup_detected": 0,
+    "cookie_banner_detected": 0,
+    "overlay_blocks_cta": 0,
+    "friction_score": 34,
+    "friction_level": "Medium",
+    "expected_friction_level": "Low",
+    "label_mismatch": 1,
+    "route": "/signup-good",
+    "seed": "signup_good_tablet_normal_34_1782695357453_h1vc9b_34",
+    "run_id": "signup_good_tablet_normal_34_1782695357453_h1vc9b"
+  },
+  "lastError": ""
+}

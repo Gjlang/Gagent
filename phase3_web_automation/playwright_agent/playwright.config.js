@@ -1,26 +1,18 @@
-// @ts-check
-import { defineConfig, devices } from "@playwright/test";
+const { defineConfig } = require("@playwright/test");
 
-export default defineConfig({
+module.exports = defineConfig({
   testDir: "./tests",
-
   fullyParallel: false,
-
   retries: 0,
-
   workers: 1,
-
-  reporter: "html",
-
+  reporter: [["list"], ["html", { open: "never" }]],
+  timeout: 90000,
+  expect: { timeout: 8000 },
   use: {
-    baseURL: "http://localhost:3000",
-    trace: "on-first-retry",
+    baseURL: process.env.GAGENT_BASE_URL || "http://localhost:3000",
+    actionTimeout: 10000,
+    navigationTimeout: 20000,
+    trace: "retain-on-failure",
+    screenshot: "only-on-failure",
   },
-
-  projects: [
-    {
-      name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
-    },
-  ],
 });

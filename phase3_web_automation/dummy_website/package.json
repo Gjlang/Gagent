@@ -1,13 +1,11 @@
 {
-  "name": "dummy_website",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "gagent-phase3-dummy-website",
+  "version": "3.0.0",
+  "description": "Controlled dummy website for GAgent Phase 3 UX friction dataset generation",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
-  "keywords": [],
-  "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {

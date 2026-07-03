@@ -1,0 +1,51 @@
+{
+  "scenario": {
+    "route": "/landing-bad",
+    "flow_type": "landing_navigation",
+    "scenario_type": "hidden_cta",
+    "expected_friction_level": "High",
+    "ux_problem": "Fake top CTA and hidden real CTA create failed click and long path.",
+    "expected_attributes": [
+      "failed_clicks",
+      "scroll_count",
+      "retry_count",
+      "path_deviation_score"
+    ]
+  },
+  "auditRow": {
+    "flow_type": "landing_navigation",
+    "scenario_type": "hidden_cta",
+    "viewport_type": "tablet",
+    "network_condition": "fast",
+    "task_completed": 1,
+    "task_failed": 0,
+    "completion_time": 5.062,
+    "click_count": 2,
+    "scroll_count": 0,
+    "keyboard_count": 0,
+    "retry_count": 1,
+    "error_count": 0,
+    "failed_clicks": 1,
+    "unnecessary_clicks": 1,
+    "path_deviation_score": 6,
+    "page_load_time_ms": 618,
+    "dom_content_loaded_ms": 618,
+    "time_to_first_byte_ms": 603,
+    "feedback_delay_ms": 64,
+    "interaction_to_next_paint_ms": 54,
+    "cumulative_layout_shift": 0,
+    "error_message_present": 0,
+    "error_message_clarity": 0,
+    "popup_detected": 0,
+    "cookie_banner_detected": 0,
+    "overlay_blocks_cta": 0,
+    "friction_score": 30,
+    "friction_level": "Medium",
+    "expected_friction_level": "High",
+    "label_mismatch": 1,
+    "route": "/landing-bad",
+    "seed": "landing_bad_tablet_fast_43_1782672466069_bnjyug_43",
+    "run_id": "landing_bad_tablet_fast_43_1782672466069_bnjyug"
+  },
+  "lastError": ""
+}

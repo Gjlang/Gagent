@@ -1,0 +1,12 @@
+scenario_type,row_count
+layout_shift,1273
+normal_landing,945
+extra_content,945
+hidden_cta,945
+slow_page_load,945
+popup_blocking,945
+wrong_navigation_path,945
+normal_signup,945
+extra_form_fields,945
+hidden_submit_vague_error,945
+vague_error_message,945

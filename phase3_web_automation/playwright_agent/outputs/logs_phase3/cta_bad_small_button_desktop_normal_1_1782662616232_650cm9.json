@@ -1,0 +1,50 @@
+{
+  "scenario": {
+    "route": "/cta-bad-small-button",
+    "flow_type": "cta_click",
+    "scenario_type": "small_click_target",
+    "expected_friction_level": "High",
+    "ux_problem": "CTA target is very small and hard to click reliably.",
+    "expected_attributes": [
+      "failed_clicks",
+      "retry_count",
+      "interaction_to_next_paint_ms"
+    ]
+  },
+  "auditRow": {
+    "flow_type": "cta_click",
+    "scenario_type": "small_click_target",
+    "viewport_type": "desktop",
+    "network_condition": "normal",
+    "task_completed": 1,
+    "task_failed": 0,
+    "completion_time": 7.237,
+    "click_count": 1,
+    "scroll_count": 0,
+    "keyboard_count": 0,
+    "retry_count": 0,
+    "error_count": 0,
+    "failed_clicks": 0,
+    "unnecessary_clicks": 0,
+    "path_deviation_score": 0,
+    "page_load_time_ms": 1312,
+    "dom_content_loaded_ms": 1312,
+    "time_to_first_byte_ms": 1301,
+    "feedback_delay_ms": 73,
+    "interaction_to_next_paint_ms": 49,
+    "cumulative_layout_shift": 0,
+    "error_message_present": 0,
+    "error_message_clarity": 0,
+    "popup_detected": 0,
+    "cookie_banner_detected": 0,
+    "overlay_blocks_cta": 0,
+    "friction_score": 3,
+    "friction_level": "Low",
+    "expected_friction_level": "High",
+    "label_mismatch": 1,
+    "route": "/cta-bad-small-button",
+    "seed": "cta_bad_small_button_desktop_normal_1_1782662616232_650cm9_1",
+    "run_id": "cta_bad_small_button_desktop_normal_1_1782662616232_650cm9"
+  },
+  "lastError": ""
+}

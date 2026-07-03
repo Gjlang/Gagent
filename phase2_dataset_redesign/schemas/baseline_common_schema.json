@@ -1,0 +1,130 @@
+{
+  "schema_name": "baseline_common_schema",
+  "dataset": "Dataset A: Baseline/Common Dataset",
+  "version": "1.0",
+  "created_for": "GAgent Phase 2 Dataset Redesign",
+  "description": "Common schema for online/public baseline UX-friction datasets. Do not add fake full GAgent metrics to this schema.",
+  "target_label": "friction_level",
+  "columns": [
+    {
+      "name": "source_dataset",
+      "type": "string",
+      "role": "metadata",
+      "required": true,
+      "use_in_ml": false
+    },
+    {
+      "name": "flow_type",
+      "type": "string",
+      "role": "metadata_or_context",
+      "required": true,
+      "use_in_ml": false,
+      "allowed_examples": [
+        "web_interaction",
+        "ecommerce_browsing",
+        "form_interaction",
+        "search_interaction",
+        "unknown_flow"
+      ]
+    },
+    {
+      "name": "completion_time_ms",
+      "type": "number",
+      "role": "ml_input",
+      "required": true,
+      "minimum": 0
+    },
+    {
+      "name": "click_count",
+      "type": "integer",
+      "role": "ml_input",
+      "required": true,
+      "minimum": 0
+    },
+    {
+      "name": "scroll_count",
+      "type": "integer",
+      "role": "ml_input",
+      "required": true,
+      "minimum": 0
+    },
+    {
+      "name": "keyboard_count",
+      "type": "integer",
+      "role": "ml_input",
+      "required": true,
+      "minimum": 0
+    },
+    {
+      "name": "retry_count",
+      "type": "integer",
+      "role": "ml_input",
+      "required": true,
+      "minimum": 0
+    },
+    {
+      "name": "error_count",
+      "type": "integer",
+      "role": "ml_input",
+      "required": true,
+      "minimum": 0
+    },
+    {
+      "name": "failed_clicks",
+      "type": "integer",
+      "role": "ml_input",
+      "required": true,
+      "minimum": 0
+    },
+    {
+      "name": "task_completed",
+      "type": "integer",
+      "role": "ml_input",
+      "required": false,
+      "allowed_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "friction_score",
+      "type": "number",
+      "role": "labeling_helper",
+      "required": true,
+      "use_in_ml": false,
+      "minimum": 0
+    },
+    {
+      "name": "friction_level",
+      "type": "string",
+      "role": "target_label",
+      "required": true,
+      "allowed_values": [
+        "Low",
+        "Medium",
+        "High"
+      ]
+    }
+  ],
+  "ml_features": [
+    "completion_time_ms",
+    "click_count",
+    "scroll_count",
+    "keyboard_count",
+    "retry_count",
+    "error_count",
+    "failed_clicks",
+    "task_completed"
+  ],
+  "excluded_from_ml": [
+    "source_dataset",
+    "flow_type",
+    "friction_score",
+    "friction_level"
+  ],
+  "labeling_thresholds": {
+    "Low": "0-4",
+    "Medium": "5-10",
+    "High": ">=11"
+  }
+}

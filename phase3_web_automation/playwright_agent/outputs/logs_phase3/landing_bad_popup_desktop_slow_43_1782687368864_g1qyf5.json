@@ -1,0 +1,51 @@
+{
+  "scenario": {
+    "route": "/landing-bad-popup",
+    "flow_type": "landing_navigation",
+    "scenario_type": "popup_blocking",
+    "expected_friction_level": "High",
+    "ux_problem": "Newsletter popup blocks the main CTA.",
+    "expected_attributes": [
+      "popup_detected",
+      "overlay_blocks_cta",
+      "failed_clicks",
+      "retry_count"
+    ]
+  },
+  "auditRow": {
+    "flow_type": "landing_navigation",
+    "scenario_type": "popup_blocking",
+    "viewport_type": "desktop",
+    "network_condition": "slow",
+    "task_completed": 1,
+    "task_failed": 0,
+    "completion_time": 8.685,
+    "click_count": 2,
+    "scroll_count": 0,
+    "keyboard_count": 0,
+    "retry_count": 1,
+    "error_count": 0,
+    "failed_clicks": 0,
+    "unnecessary_clicks": 0,
+    "path_deviation_score": 2,
+    "page_load_time_ms": 1393,
+    "dom_content_loaded_ms": 1393,
+    "time_to_first_byte_ms": 1355,
+    "feedback_delay_ms": 80,
+    "interaction_to_next_paint_ms": 54,
+    "cumulative_layout_shift": 0,
+    "error_message_present": 0,
+    "error_message_clarity": 0,
+    "popup_detected": 1,
+    "cookie_banner_detected": 0,
+    "overlay_blocks_cta": 1,
+    "friction_score": 38,
+    "friction_level": "Medium",
+    "expected_friction_level": "High",
+    "label_mismatch": 1,
+    "route": "/landing-bad-popup",
+    "seed": "landing_bad_popup_desktop_slow_43_1782687368864_g1qyf5_43",
+    "run_id": "landing_bad_popup_desktop_slow_43_1782687368864_g1qyf5"
+  },
+  "lastError": ""
+}

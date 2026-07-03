@@ -2,33 +2,37 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 
+ROOT_DIR = Path(__file__).resolve().parents[1]
 
-BASE_DIR = Path(__file__).resolve().parents[1]
+FULL_DATASET_PATH = ROOT_DIR / "datasets" / "gagent_full_ux_friction_dataset.csv"
+COMMON_DATASET_PATH = ROOT_DIR / "datasets" / "gagent_common_features_export.csv"
 
-DATASET_PATH = BASE_DIR / "datasets" / "combined_ux_friction_dataset_v2_full_unique.csv"
+AUDIT_DIR = ROOT_DIR / "outputs" / "audit"
+AUDIT_DIR.mkdir(parents=True, exist_ok=True)
 
-REPORT_PATH = BASE_DIR / "outputs" / "reports" / "dataset_audit_summary.txt"
-CLASS_DISTRIBUTION_PATH = BASE_DIR / "outputs" / "evaluation" / "class_distribution.csv"
-SOURCE_DISTRIBUTION_PATH = BASE_DIR / "outputs" / "evaluation" / "source_distribution.csv"
+TARGET_COLUMN = "friction_level"
 
-REQUIRED_COLUMNS = [
-    "source_dataset",
-    "flow_type",
-    "completion_time",
-    "click_count",
-    "scroll_count",
-    "keyboard_count",
-    "retry_count",
-    "error_count",
-    "failed_clicks",
-    "feedback_delay",
-    "task_completed",
-    "screenshot_count",
-    "error_message_clarity",
+LEAKAGE_COLUMNS = [
     "friction_level",
+    "friction_score",
+    "expected_friction_level",
+    "scenario_type",
+    "run_id",
+    "source_dataset",
+    "screenshot_count",
+    "page_url",
+    "route",
+    "screenshot_path",
+    "log_path",
+    "seed",
+    "label_mismatch",
 ]
 
-NUMERIC_COLUMNS = [
+MAIN_SAFE_FEATURES = [
+    "flow_type",
+    "viewport_type",
+    "task_completed",
+    "task_failed",
     "completion_time",
     "click_count",
     "scroll_count",
@@ -36,224 +40,201 @@ NUMERIC_COLUMNS = [
     "retry_count",
     "error_count",
     "failed_clicks",
-    "feedback_delay",
-    "task_completed",
-    "screenshot_count",
+    "unnecessary_clicks",
+    "path_deviation_score",
+    "page_load_time_ms",
+    "dom_content_loaded_ms",
+    "time_to_first_byte_ms",
+    "feedback_delay_ms",
+    "interaction_to_next_paint_ms",
+    "cumulative_layout_shift",
+    "error_message_present",
     "error_message_clarity",
+    "popup_detected",
+    "cookie_banner_detected",
+    "overlay_blocks_cta",
 ]
 
-ALLOWED_LABELS = {"Low", "Medium", "High"}
-
-ALLOWED_TASK_COMPLETED_VALUES = {-1, 0, 1}
-ALLOWED_ERROR_MESSAGE_CLARITY_VALUES = {-1, 0, 1, 2}
-
-UNKNOWN_ALLOWED_COLUMNS = {
+BASELINE_SAFE_FEATURES = [
+    "completion_time",
+    "click_count",
     "scroll_count",
     "keyboard_count",
-    "feedback_delay",
+    "retry_count",
+    "error_count",
+    "failed_clicks",
     "task_completed",
-    "error_message_clarity",
-}
+]
 
 
-def build_distribution_table(df: pd.DataFrame, column_name: str) -> pd.DataFrame:
-    distribution = df[column_name].value_counts(dropna=False).reset_index()
-    distribution.columns = [column_name, "count"]
-    distribution["percentage"] = (distribution["count"] / len(df) * 100).round(2)
-    return distribution
+def audit_dataset(df: pd.DataFrame, name: str) -> list[str]:
+    lines = []
 
+    lines.append(f"# Dataset Audit: {name}")
+    lines.append("")
+    lines.append(f"Rows: {len(df):,}")
+    lines.append(f"Columns: {len(df.columns):,}")
+    lines.append(f"Duplicate rows: {df.duplicated().sum():,}")
+    lines.append(f"Total missing values: {df.isna().sum().sum():,}")
+    lines.append("")
 
-def section(title: str) -> str:
-    return f"\n{title}\n" + "-" * 80 + "\n"
+    lines.append("## Column Names")
+    lines.append("")
+    for col in df.columns:
+        lines.append(f"- {col}")
+    lines.append("")
 
+    lines.append("## Data Types")
+    lines.append("")
+    for col, dtype in df.dtypes.items():
+        lines.append(f"- {col}: {dtype}")
+    lines.append("")
 
-def main() -> None:
-    REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    CLASS_DISTRIBUTION_PATH.parent.mkdir(parents=True, exist_ok=True)
-    SOURCE_DISTRIBUTION_PATH.parent.mkdir(parents=True, exist_ok=True)
+    if TARGET_COLUMN in df.columns:
+        class_counts = df[TARGET_COLUMN].value_counts()
+        class_counts.to_csv(AUDIT_DIR / f"{name}_class_distribution.csv")
 
-    if not DATASET_PATH.exists():
-        raise FileNotFoundError(f"Dataset not found: {DATASET_PATH}")
-
-    df = pd.read_csv(DATASET_PATH)
-
-    row_count, column_count = df.shape
-
-    existing_columns = list(df.columns)
-    missing_required_columns = [col for col in REQUIRED_COLUMNS if col not in existing_columns]
-    extra_columns = [col for col in existing_columns if col not in REQUIRED_COLUMNS]
-    schema_order_correct = existing_columns == REQUIRED_COLUMNS
-
-    missing_values = df.isna().sum()
-    total_missing_values = int(missing_values.sum())
-
-    duplicate_rows = int(df.duplicated().sum())
-    duplicate_percentage = round((duplicate_rows / row_count) * 100, 2) if row_count else 0
-
-    data_types = df.dtypes.astype(str)
-
-    class_distribution = build_distribution_table(df, "friction_level")
-    source_distribution = build_distribution_table(df, "source_dataset")
-    flow_type_distribution = build_distribution_table(df, "flow_type")
-
-    class_distribution.to_csv(CLASS_DISTRIBUTION_PATH, index=False)
-    source_distribution.to_csv(SOURCE_DISTRIBUTION_PATH, index=False)
-
-    numeric_columns_available = [col for col in NUMERIC_COLUMNS if col in df.columns]
-
-    numeric_df = df[numeric_columns_available].copy()
-    for col in numeric_columns_available:
-        numeric_df[col] = pd.to_numeric(numeric_df[col], errors="coerce")
-
-    numeric_summary = numeric_df.describe().T.round(4)
-
-    invalid_numeric_values = {}
-    negative_value_check = {}
-
-    for col in numeric_columns_available:
-        converted = pd.to_numeric(df[col], errors="coerce")
-        invalid_count = int(converted.isna().sum())
-        invalid_numeric_values[col] = invalid_count
-
-        if col in UNKNOWN_ALLOWED_COLUMNS:
-            invalid_negative_count = int((converted < -1).sum())
-        else:
-            invalid_negative_count = int((converted < 0).sum())
-
-        negative_value_check[col] = invalid_negative_count
-
-    invalid_labels = sorted(set(df["friction_level"].dropna().unique()) - ALLOWED_LABELS)
-
-    task_completed_values = df["task_completed"].value_counts(dropna=False).sort_index()
-    error_message_clarity_values = df["error_message_clarity"].value_counts(dropna=False).sort_index()
-
-    invalid_task_completed = sorted(
-        set(pd.to_numeric(df["task_completed"], errors="coerce").dropna().astype(int).unique())
-        - ALLOWED_TASK_COMPLETED_VALUES
-    )
-
-    invalid_error_message_clarity = sorted(
-        set(pd.to_numeric(df["error_message_clarity"], errors="coerce").dropna().astype(int).unique())
-        - ALLOWED_ERROR_MESSAGE_CLARITY_VALUES
-    )
-
-    report_lines = []
-
-    report_lines.append("=" * 80)
-    report_lines.append("GAgent Phase 4 Dataset Audit Summary")
-    report_lines.append("=" * 80)
-    report_lines.append("")
-    report_lines.append(f"Dataset path: {DATASET_PATH}")
-    report_lines.append(f"Rows: {row_count}")
-    report_lines.append(f"Columns: {column_count}")
-
-    report_lines.append(section("Required Column Check"))
-    if not missing_required_columns and not extra_columns:
-        report_lines.append("Status: PASSED")
-        report_lines.append("All required 14 columns are present.")
+        lines.append("## Class Distribution")
+        lines.append("")
+        for label, count in class_counts.items():
+            percentage = count / len(df) * 100
+            lines.append(f"- {label}: {count:,} ({percentage:.2f}%)")
+        lines.append("")
     else:
-        report_lines.append("Status: FAILED")
-        report_lines.append(f"Missing required columns: {missing_required_columns}")
-        report_lines.append(f"Extra columns: {extra_columns}")
+        lines.append("## Class Distribution")
+        lines.append("")
+        lines.append("Target column not found.")
+        lines.append("")
 
-    report_lines.append(f"Schema order correct: {schema_order_correct}")
+    if "flow_type" in df.columns:
+        flow_counts = df["flow_type"].value_counts()
+        flow_counts.to_csv(AUDIT_DIR / f"{name}_flow_distribution.csv")
 
-    report_lines.append(section("Column List"))
-    report_lines.extend(existing_columns)
+        lines.append("## Flow Distribution")
+        lines.append("")
+        for label, count in flow_counts.items():
+            percentage = count / len(df) * 100
+            lines.append(f"- {label}: {count:,} ({percentage:.2f}%)")
+        lines.append("")
 
-    report_lines.append(section("Missing Value Check"))
-    report_lines.append(f"Total missing values: {total_missing_values}")
-    report_lines.append(missing_values.to_string())
+    if "viewport_type" in df.columns:
+        viewport_counts = df["viewport_type"].value_counts()
 
-    report_lines.append(section("Duplicate Row Check"))
-    report_lines.append(f"Duplicate rows: {duplicate_rows}")
-    report_lines.append(f"Duplicate percentage: {duplicate_percentage}%")
+        lines.append("## Viewport Distribution")
+        lines.append("")
+        for label, count in viewport_counts.items():
+            percentage = count / len(df) * 100
+            lines.append(f"- {label}: {count:,} ({percentage:.2f}%)")
+        lines.append("")
 
-    report_lines.append(section("Data Type Check"))
-    report_lines.append(data_types.to_string())
+    if "scenario_type" in df.columns:
+        scenario_counts = df["scenario_type"].value_counts()
 
-    report_lines.append(section("Invalid Numeric Value Check"))
-    for col, count in invalid_numeric_values.items():
-        report_lines.append(f"{col}: {count}")
+        lines.append("## Scenario Distribution")
+        lines.append("")
+        for label, count in scenario_counts.items():
+            percentage = count / len(df) * 100
+            lines.append(f"- {label}: {count:,} ({percentage:.2f}%)")
+        lines.append("")
 
-    report_lines.append(section("Invalid Negative Value Check"))
-    report_lines.append("Rule: -1 is allowed only for unknown/not applicable columns.")
-    for col, count in negative_value_check.items():
-        report_lines.append(f"{col}: {count}")
+    numeric_df = df.select_dtypes(include=[np.number])
+    if not numeric_df.empty:
+        numeric_summary = numeric_df.describe().T
+        numeric_summary["missing_values"] = numeric_df.isna().sum()
+        numeric_summary["unique_values"] = numeric_df.nunique()
+        numeric_summary.to_csv(AUDIT_DIR / f"{name}_numeric_summary.csv")
 
-    report_lines.append(section("Friction Level Distribution"))
-    report_lines.append(class_distribution.to_string(index=False))
+        lines.append("## Numeric Summary")
+        lines.append("")
+        lines.append(f"Numeric columns: {len(numeric_df.columns)}")
+        lines.append(f"Saved to: outputs/audit/{name}_numeric_summary.csv")
+        lines.append("")
 
-    report_lines.append(section("Invalid Friction Labels"))
-    if invalid_labels:
-        report_lines.append(f"Invalid labels found: {invalid_labels}")
+        lines.append("## Outlier Check")
+        lines.append("")
+        for col in numeric_df.columns:
+            q1 = numeric_df[col].quantile(0.25)
+            q3 = numeric_df[col].quantile(0.75)
+            iqr = q3 - q1
+            lower = q1 - 1.5 * iqr
+            upper = q3 + 1.5 * iqr
+            outliers = ((numeric_df[col] < lower) | (numeric_df[col] > upper)).sum()
+            lines.append(f"- {col}: {outliers:,} possible outliers")
+        lines.append("")
+
+    lines.append("## Leakage Check")
+    lines.append("")
+    found_leakage = [col for col in LEAKAGE_COLUMNS if col in df.columns]
+    if found_leakage:
+        for col in found_leakage:
+            lines.append(f"- Exclude `{col}` from ML features.")
     else:
-        report_lines.append("No invalid friction labels found.")
+        lines.append("No known leakage columns found.")
+    lines.append("")
 
-    report_lines.append(section("Source Dataset Distribution"))
-    report_lines.append(source_distribution.to_string(index=False))
+    lines.append("## Feature Reality Check")
+    lines.append("")
+    safe_features_found = [col for col in MAIN_SAFE_FEATURES if col in df.columns]
+    missing_safe_features = [col for col in MAIN_SAFE_FEATURES if col not in df.columns]
 
-    report_lines.append(section("Flow Type Distribution - Top 30"))
-    report_lines.append(flow_type_distribution.head(30).to_string(index=False))
+    lines.append(f"Safe main features found: {len(safe_features_found)}")
+    for col in safe_features_found:
+        lines.append(f"- {col}")
 
-    report_lines.append(section("Numeric Feature Summary"))
-    report_lines.append(numeric_summary.to_string())
+    if missing_safe_features:
+        lines.append("")
+        lines.append("Missing expected main features:")
+        for col in missing_safe_features:
+            lines.append(f"- {col}")
 
-    report_lines.append(section("Task Completed Value Check"))
-    report_lines.append(task_completed_values.to_string())
-    if invalid_task_completed:
-        report_lines.append(f"Invalid task_completed values: {invalid_task_completed}")
+    lines.append("")
+
+    critical_issues = []
+
+    if TARGET_COLUMN not in df.columns:
+        critical_issues.append("Target column friction_level is missing.")
+
+    if df.isna().sum().sum() > 0:
+        critical_issues.append("Dataset contains missing values.")
+
+    if "friction_score" in safe_features_found:
+        critical_issues.append("friction_score is wrongly included as safe feature.")
+
+    lines.append("## Critical Issues")
+    lines.append("")
+    if critical_issues:
+        for issue in critical_issues:
+            lines.append(f"- CRITICAL: {issue}")
     else:
-        report_lines.append("task_completed values are valid.")
+        lines.append("No critical issues found.")
+    lines.append("")
 
-    report_lines.append(section("Error Message Clarity Value Check"))
-    report_lines.append(error_message_clarity_values.to_string())
-    if invalid_error_message_clarity:
-        report_lines.append(f"Invalid error_message_clarity values: {invalid_error_message_clarity}")
+    return lines
+
+
+def main():
+    all_lines = []
+
+    if not FULL_DATASET_PATH.exists():
+        raise FileNotFoundError(f"Full dataset not found: {FULL_DATASET_PATH}")
+
+    full_df = pd.read_csv(FULL_DATASET_PATH)
+    all_lines.extend(audit_dataset(full_df, "gagent_full"))
+    all_lines.append("\n---\n")
+
+    if COMMON_DATASET_PATH.exists():
+        common_df = pd.read_csv(COMMON_DATASET_PATH)
+        all_lines.extend(audit_dataset(common_df, "gagent_common"))
     else:
-        report_lines.append("error_message_clarity values are valid.")
+        all_lines.append("# Common Dataset Audit")
+        all_lines.append("")
+        all_lines.append("Common feature export not found.")
 
-    report_lines.append(section("Audit Decision"))
-    audit_passed = (
-        not missing_required_columns
-        and not extra_columns
-        and schema_order_correct
-        and total_missing_values == 0
-        and duplicate_rows == 0
-        and not invalid_labels
-        and not invalid_task_completed
-        and not invalid_error_message_clarity
-        and sum(invalid_numeric_values.values()) == 0
-        and sum(negative_value_check.values()) == 0
-    )
+    output_path = AUDIT_DIR / "dataset_audit_summary.md"
+    output_path.write_text("\n".join(all_lines), encoding="utf-8")
 
-    if audit_passed:
-        report_lines.append("PASSED: Dataset is ready for Phase 4 EDA and model training.")
-    else:
-        report_lines.append("WARNING: Dataset needs review before model training.")
-        report_lines.append("Review missing columns, duplicates, invalid labels, or invalid numeric values.")
-
-    REPORT_PATH.write_text("\n".join(report_lines), encoding="utf-8")
-
-    print("=" * 80)
-    print("GAgent Phase 4 Dataset Audit Completed")
-    print("=" * 80)
-    print(f"Dataset path: {DATASET_PATH}")
-    print(f"Rows: {row_count}")
-    print(f"Columns: {column_count}")
-    print(f"Missing required columns: {missing_required_columns}")
-    print(f"Extra columns: {extra_columns}")
-    print(f"Schema order correct: {schema_order_correct}")
-    print(f"Total missing values: {total_missing_values}")
-    print(f"Duplicate rows: {duplicate_rows}")
-    print(f"Audit report saved to: {REPORT_PATH}")
-    print(f"Class distribution saved to: {CLASS_DISTRIBUTION_PATH}")
-    print(f"Source distribution saved to: {SOURCE_DISTRIBUTION_PATH}")
-
-    if audit_passed:
-        print("Audit status: PASSED")
-    else:
-        print("Audit status: REVIEW NEEDED")
+    print("Dataset audit completed.")
+    print(f"Saved audit summary to: {output_path}")
 
 
 if __name__ == "__main__":

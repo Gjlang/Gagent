@@ -1,0 +1,50 @@
+{
+  "scenario": {
+    "route": "/signup-bad-layout-shift",
+    "flow_type": "signup",
+    "scenario_type": "layout_shift",
+    "expected_friction_level": "High",
+    "ux_problem": "The submit area shifts after the form is loaded.",
+    "expected_attributes": [
+      "cumulative_layout_shift",
+      "failed_clicks",
+      "retry_count"
+    ]
+  },
+  "auditRow": {
+    "flow_type": "signup",
+    "scenario_type": "layout_shift",
+    "viewport_type": "desktop",
+    "network_condition": "slow",
+    "task_completed": 1,
+    "task_failed": 0,
+    "completion_time": 17.418,
+    "click_count": 2,
+    "scroll_count": 0,
+    "keyboard_count": 0,
+    "retry_count": 1,
+    "error_count": 1,
+    "failed_clicks": 0,
+    "unnecessary_clicks": 0,
+    "path_deviation_score": 2,
+    "page_load_time_ms": 2123,
+    "dom_content_loaded_ms": 2123,
+    "time_to_first_byte_ms": 2090,
+    "feedback_delay_ms": 28,
+    "interaction_to_next_paint_ms": 24,
+    "cumulative_layout_shift": 0,
+    "error_message_present": 0,
+    "error_message_clarity": 0,
+    "popup_detected": 0,
+    "cookie_banner_detected": 0,
+    "overlay_blocks_cta": 0,
+    "friction_score": 29,
+    "friction_level": "Medium",
+    "expected_friction_level": "High",
+    "label_mismatch": 1,
+    "route": "/signup-bad-layout-shift",
+    "seed": "signup_bad_layout_shift_desktop_slow_65_1782733753370_izre85_65",
+    "run_id": "signup_bad_layout_shift_desktop_slow_65_1782733753370_izre85"
+  },
+  "lastError": ""
+}

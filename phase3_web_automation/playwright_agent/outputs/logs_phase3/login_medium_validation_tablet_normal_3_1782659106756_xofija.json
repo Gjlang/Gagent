@@ -1,0 +1,50 @@
+{
+  "scenario": {
+    "route": "/login-medium-validation",
+    "flow_type": "login",
+    "scenario_type": "form_validation_error",
+    "expected_friction_level": "Medium",
+    "ux_problem": "Validation error appears before successful recovery.",
+    "expected_attributes": [
+      "error_count",
+      "error_message_present",
+      "retry_count"
+    ]
+  },
+  "auditRow": {
+    "flow_type": "login",
+    "scenario_type": "form_validation_error",
+    "viewport_type": "tablet",
+    "network_condition": "normal",
+    "task_completed": 1,
+    "task_failed": 0,
+    "completion_time": 12.775,
+    "click_count": 1,
+    "scroll_count": 0,
+    "keyboard_count": 0,
+    "retry_count": 1,
+    "error_count": 1,
+    "failed_clicks": 0,
+    "unnecessary_clicks": 0,
+    "path_deviation_score": 2,
+    "page_load_time_ms": 573,
+    "dom_content_loaded_ms": 572,
+    "time_to_first_byte_ms": 525,
+    "feedback_delay_ms": 55,
+    "interaction_to_next_paint_ms": 24,
+    "cumulative_layout_shift": 0,
+    "error_message_present": 0,
+    "error_message_clarity": 1,
+    "popup_detected": 0,
+    "cookie_banner_detected": 0,
+    "overlay_blocks_cta": 0,
+    "friction_score": 22,
+    "friction_level": "Medium",
+    "expected_friction_level": "Medium",
+    "label_mismatch": 0,
+    "route": "/login-medium-validation",
+    "seed": "login_medium_validation_tablet_normal_3_1782659106756_xofija_3",
+    "run_id": "login_medium_validation_tablet_normal_3_1782659106756_xofija"
+  },
+  "lastError": ""
+}
