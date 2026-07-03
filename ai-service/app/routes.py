@@ -1,11 +1,18 @@
 from fastapi import APIRouter, HTTPException
 
-from app.model_loader import get_model_info, load_model_artifacts
-from app.prediction_service import predict_batch, predict_single
+from app.model_loader import get_model_info, is_loaded, load_model_artifacts
+from app.prediction_service import (
+    batch_predict_baseline,
+    batch_predict_gagent,
+    predict_baseline,
+    predict_gagent,
+)
 from app.schemas import (
-    BatchPredictionInput,
+    BaselinePredictionInput,
+    BatchBaselinePredictionInput,
+    BatchGAgentPredictionInput,
     BatchPredictionResponse,
-    PredictionInput,
+    GAgentPredictionInput,
     PredictionResponse,
 )
 
@@ -26,7 +33,7 @@ def health_check() -> dict:
 
     return {
         "service": "gagent-ai-service",
-        "status": "healthy",
+        "status": "healthy" if model_loaded else "degraded",
         "model_loaded": model_loaded,
         "model_error": model_error,
     }
@@ -47,31 +54,67 @@ def model_info() -> dict:
         }
 
 
-@router.post("/predict", response_model=PredictionResponse)
-def predict(payload: PredictionInput) -> dict:
+@router.post("/predict-gagent", response_model=PredictionResponse)
+def predict_gagent_endpoint(payload: GAgentPredictionInput) -> dict:
     try:
-        return predict_single(payload)
+        return predict_gagent(payload.model_dump())
     except FileNotFoundError as error:
         raise HTTPException(status_code=503, detail=str(error)) from error
     except ValueError as error:
         raise HTTPException(status_code=422, detail=str(error)) from error
     except Exception as error:
-        raise HTTPException(status_code=500, detail=f"Prediction failed: {error}") from error
+        raise HTTPException(status_code=500, detail=f"GAgent prediction failed: {error}") from error
 
 
-@router.post("/batch-predict", response_model=BatchPredictionResponse)
-def batch_predict(payload: BatchPredictionInput) -> dict:
+@router.post("/predict-baseline", response_model=PredictionResponse)
+def predict_baseline_endpoint(payload: BaselinePredictionInput) -> dict:
     try:
-        predictions = predict_batch(payload.items)
+        return predict_baseline(payload.model_dump())
+    except FileNotFoundError as error:
+        raise HTTPException(status_code=503, detail=str(error)) from error
+    except ValueError as error:
+        raise HTTPException(status_code=422, detail=str(error)) from error
+    except Exception as error:
+        raise HTTPException(status_code=500, detail=f"Baseline prediction failed: {error}") from error
+
+
+@router.post("/batch-predict-gagent", response_model=BatchPredictionResponse)
+def batch_predict_gagent_endpoint(payload: BatchGAgentPredictionInput) -> dict:
+    try:
+        predictions = batch_predict_gagent(
+            [item.model_dump() for item in payload.items]
+        )
 
         return {
-            "predictions": predictions,
-            "total_predictions": len(predictions),
             "status": "success",
+            "model_name": "main_gagent_model",
+            "total_predictions": len(predictions),
+            "predictions": predictions,
         }
     except FileNotFoundError as error:
         raise HTTPException(status_code=503, detail=str(error)) from error
     except ValueError as error:
         raise HTTPException(status_code=422, detail=str(error)) from error
     except Exception as error:
-        raise HTTPException(status_code=500, detail=f"Batch prediction failed: {error}") from error
+        raise HTTPException(status_code=500, detail=f"GAgent batch prediction failed: {error}") from error
+
+
+@router.post("/batch-predict-baseline", response_model=BatchPredictionResponse)
+def batch_predict_baseline_endpoint(payload: BatchBaselinePredictionInput) -> dict:
+    try:
+        predictions = batch_predict_baseline(
+            [item.model_dump() for item in payload.items]
+        )
+
+        return {
+            "status": "success",
+            "model_name": "baseline_model",
+            "total_predictions": len(predictions),
+            "predictions": predictions,
+        }
+    except FileNotFoundError as error:
+        raise HTTPException(status_code=503, detail=str(error)) from error
+    except ValueError as error:
+        raise HTTPException(status_code=422, detail=str(error)) from error
+    except Exception as error:
+        raise HTTPException(status_code=500, detail=f"Baseline batch prediction failed: {error}") from error

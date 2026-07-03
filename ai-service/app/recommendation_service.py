@@ -1,47 +1,78 @@
 from typing import Any, Dict, List
 
 
-def generate_recommendations(features: Dict[str, Any]) -> List[str]:
+def _get_number(input_data: Dict[str, Any], key: str, default: float = 0.0) -> float:
+    value = input_data.get(key, default)
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def generate_recommendations(
+    input_data: Dict[str, Any],
+    predicted_friction_level: str,
+) -> List[str]:
     recommendations: List[str] = []
 
-    completion_time = float(features.get("completion_time", 0))
-    click_count = int(features.get("click_count", 0))
-    scroll_count = int(features.get("scroll_count", 0))
-    retry_count = int(features.get("retry_count", 0))
-    error_count = int(features.get("error_count", 0))
-    failed_clicks = int(features.get("failed_clicks", 0))
-    feedback_delay = float(features.get("feedback_delay", 0))
-    task_completed = int(features.get("task_completed", -1))
-    error_message_clarity = int(features.get("error_message_clarity", -1))
+    feedback_delay_ms = _get_number(input_data, "feedback_delay_ms")
+    page_load_time_ms = _get_number(input_data, "page_load_time_ms")
+    cumulative_layout_shift = _get_number(input_data, "cumulative_layout_shift")
+    failed_clicks = _get_number(input_data, "failed_clicks")
+    error_count = _get_number(input_data, "error_count")
+    retry_count = _get_number(input_data, "retry_count")
+    path_deviation_score = _get_number(input_data, "path_deviation_score")
 
-    if task_completed == 0:
-        recommendations.append("Task failure detected. Review the user flow.")
+    popup_detected = int(_get_number(input_data, "popup_detected"))
+    cookie_banner_detected = int(_get_number(input_data, "cookie_banner_detected"))
+    overlay_blocks_cta = int(_get_number(input_data, "overlay_blocks_cta"))
+    error_message_present = int(_get_number(input_data, "error_message_present"))
+    error_message_clarity = int(_get_number(input_data, "error_message_clarity", -1))
+    task_completed = int(_get_number(input_data, "task_completed", 1))
+
+    if page_load_time_ms >= 3000:
+        recommendations.append("Improve page loading performance.")
+
+    if feedback_delay_ms >= 1000:
+        recommendations.append("Reduce response delay after user actions.")
+
+    if cumulative_layout_shift >= 0.25:
+        recommendations.append("Reduce layout movement after page load.")
+
+    if failed_clicks >= 2:
+        recommendations.append("Review button visibility, clickability, and target size.")
+
+    if popup_detected == 1:
+        recommendations.append("Avoid interrupting the task with popup overlays.")
+
+    if cookie_banner_detected == 1:
+        recommendations.append("Ensure cookie banners do not block the main user journey.")
+
+    if overlay_blocks_cta == 1:
+        recommendations.append("Ensure overlays do not block the main CTA.")
+
+    if error_count >= 2:
+        recommendations.append("Review form validation, broken interactions, or task-blocking errors.")
 
     if retry_count >= 2:
-        recommendations.append("High retry count detected. Review button labels or form instructions.")
+        recommendations.append("Reduce the need for repeated user attempts.")
 
-    if feedback_delay >= 1000:
-        recommendations.append("High feedback delay detected. Improve response time or add a loading indicator.")
+    if path_deviation_score >= 0.5:
+        recommendations.append("Simplify the navigation path and reduce unnecessary detours.")
 
-    if failed_clicks >= 1:
-        recommendations.append("Failed clicks detected. Check whether buttons are visible, clickable, and correctly positioned.")
+    if error_message_present == 1 and error_message_clarity in {0, 1}:
+        recommendations.append("Improve error message clarity so users know how to recover.")
 
-    if error_count >= 1:
-        recommendations.append("Errors detected. Improve form validation and error handling.")
+    if task_completed == 0:
+        recommendations.append("Investigate why the task could not be completed.")
 
-    if error_message_clarity == 0:
-        recommendations.append("Low error message clarity detected. Improve error message wording and guidance.")
+    if predicted_friction_level == "High" and not recommendations:
+        recommendations.append("Review the full user journey because the model detected high UX friction.")
 
-    if scroll_count >= 5:
-        recommendations.append("High scroll count detected. Move important CTA or key information higher on the page.")
-
-    if completion_time >= 10000:
-        recommendations.append("Long completion time detected. Simplify the task flow and reduce unnecessary steps.")
-
-    if click_count >= 12:
-        recommendations.append("High click count detected. Reduce interaction steps and improve navigation clarity.")
+    if predicted_friction_level == "Medium" and not recommendations:
+        recommendations.append("Review moderate friction points in the journey before they become blockers.")
 
     if not recommendations:
-        recommendations.append("No major UX friction indicator detected from the submitted metrics.")
+        recommendations.append("No major UX issue detected from the submitted interaction metrics.")
 
     return recommendations

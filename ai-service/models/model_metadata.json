@@ -1,0 +1,20 @@
+{
+    "model_name": "main_gagent_model",
+    "model_type": "Decision Tree",
+    "training_dataset_path": "D:\\FYP\\GAgent\\GAgent\\phase4_ml_model\\datasets\\gagent_full_ux_friction_dataset.csv",
+    "row_count": 30240,
+    "feature_count": 24,
+    "target_label": "friction_level",
+    "class_labels": [
+        "High",
+        "Low",
+        "Medium"
+    ],
+    "accuracy": 1.0,
+    "macro_f1": 1.0,
+    "weighted_f1": 1.0,
+    "high_recall": 1.0,
+    "created_at": "2026-07-04T01:22:00",
+    "phase": "Phase 4 - ML Model Training",
+    "important_note": "High performance should be interpreted carefully because the dataset is controlled and rule-generated."
+}

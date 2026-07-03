@@ -1,0 +1,21 @@
+{
+    "baseline_features": [
+        "completion_time",
+        "click_count",
+        "scroll_count",
+        "keyboard_count",
+        "retry_count",
+        "error_count",
+        "failed_clicks",
+        "task_completed"
+    ],
+    "target_column": "friction_level",
+    "best_baseline_model": "Decision Tree",
+    "class_labels": [
+        "High",
+        "Low",
+        "Medium"
+    ],
+    "dataset_path": "D:\\FYP\\GAgent\\GAgent\\phase4_ml_model\\datasets\\gagent_common_features_export.csv",
+    "row_count": 30240
+}

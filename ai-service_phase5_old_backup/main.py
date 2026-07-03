@@ -3,11 +3,10 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.routes import router
 
-
 app = FastAPI(
     title="GAgent AI Service",
-    description="FastAPI model service for GAgent UX friction prediction",
-    version="5.0.0",
+    description="AI service for UX friction prediction",
+    version="1.0.0",
 )
 
 app.add_middleware(
@@ -22,16 +21,11 @@ app.include_router(router)
 
 
 @app.get("/")
-def root() -> dict:
+def root():
     return {
         "service": "GAgent AI Service",
         "status": "running",
-        "phase": "Phase 5 - FastAPI Model Service",
-        "docs": "/docs",
-        "health": "/health",
-        "model_info": "/model-info",
-        "main_prediction_endpoint": "/predict-gagent",
-        "baseline_prediction_endpoint": "/predict-baseline",
+        "message": "Use /health, /model-info, or /docs",
     }
 
 
