@@ -1,0 +1,3 @@
+model_group,best_model,feature_set,dataset_used,accuracy,precision_macro,recall_macro,f1_macro,f1_weighted,high_recall
+Baseline/Common Model,Decision Tree,Common interaction metrics only,gagent_common_features_export.csv,0.9965277777777778,0.996534981284101,0.9966326468527328,0.9965823845098624,0.9965265418856112,0.9989567031820552
+Main GAgent Model,Decision Tree,Full GAgent UX friction attributes,gagent_full_ux_friction_dataset.csv,1.0,1.0,1.0,1.0,1.0,1.0
