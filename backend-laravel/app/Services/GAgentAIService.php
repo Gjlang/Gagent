@@ -2,83 +2,173 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Http\Client\ConnectionException;
-use Illuminate\Http\Client\RequestException;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class GAgentAIService
 {
     private string $baseUrl;
+
+    private array $gagentFeatureKeys = [
+        'flow_type',
+        'viewport_type',
+        'task_completed',
+        'task_failed',
+        'completion_time',
+        'click_count',
+        'scroll_count',
+        'keyboard_count',
+        'retry_count',
+        'error_count',
+        'failed_clicks',
+        'unnecessary_clicks',
+        'path_deviation_score',
+        'page_load_time_ms',
+        'dom_content_loaded_ms',
+        'time_to_first_byte_ms',
+        'feedback_delay_ms',
+        'interaction_to_next_paint_ms',
+        'cumulative_layout_shift',
+        'error_message_present',
+        'error_message_clarity',
+        'popup_detected',
+        'cookie_banner_detected',
+        'overlay_blocks_cta',
+    ];
+
+  private array $baselineFeatureKeys = [
+    'completion_time',
+    'click_count',
+    'scroll_count',
+    'keyboard_count',
+    'retry_count',
+    'error_count',
+    'failed_clicks',
+    'task_completed',
+];
 
     public function __construct()
     {
         $this->baseUrl = rtrim(env('GAGENT_AI_SERVICE_URL', 'http://127.0.0.1:8001'), '/');
     }
 
-    public function predict(array $metrics): array
+    public function health(): array
+    {
+        return $this->get('/health', 5);
+    }
+
+    public function modelInfo(): array
+    {
+        return $this->get('/model-info', 5);
+    }
+
+    public function predictGAgent(array $features): array
+    {
+        $payload = Arr::only($features, $this->gagentFeatureKeys);
+
+        return $this->post('/predict-gagent', $payload);
+    }
+
+    public function predictBaseline(array $features): array
+    {
+        $payload = Arr::only($features, $this->baselineFeatureKeys);
+
+        return $this->post('/predict-baseline', $payload);
+    }
+
+    public function batchPredictGAgent(array $items): array
+    {
+        $payload = [
+            'items' => collect($items)
+                ->map(fn ($item) => Arr::only($item, $this->gagentFeatureKeys))
+                ->values()
+                ->all(),
+        ];
+
+        return $this->post('/batch-predict-gagent', $payload, 30);
+    }
+
+    public function batchPredictBaseline(array $items): array
+    {
+        $payload = [
+            'items' => collect($items)
+                ->map(fn ($item) => Arr::only($item, $this->baselineFeatureKeys))
+                ->values()
+                ->all(),
+        ];
+
+        return $this->post('/batch-predict-baseline', $payload, 30);
+    }
+
+    private function get(string $endpoint, int $timeout = 10): array
     {
         try {
-            $response = Http::timeout(10)
+            $response = Http::timeout($timeout)
                 ->acceptJson()
-                ->post($this->baseUrl . '/predict', $metrics);
+                ->get($this->baseUrl . $endpoint);
 
-            if ($response->successful()) {
-                return [
-                    'status' => 'success',
-                    'http_status' => $response->status(),
-                    'data' => $response->json(),
-                ];
-            }
+            return $this->formatResponse($response->successful(), $response->status(), $response->json());
+        } catch (Throwable $error) {
+            Log::error('GAgent FastAPI GET request failed', [
+                'endpoint' => $endpoint,
+                'error' => $error->getMessage(),
+            ]);
 
-            return [
-                'status' => 'error',
-                'http_status' => $response->status(),
-                'message' => 'FastAPI returned an error response.',
-                'details' => $response->json(),
-            ];
-        } catch (ConnectionException $error) {
-            return [
-                'status' => 'error',
-                'http_status' => null,
-                'message' => 'Laravel could not connect to the FastAPI AI service.',
-                'details' => $error->getMessage(),
-            ];
-        } catch (RequestException $error) {
-            return [
-                'status' => 'error',
-                'http_status' => null,
-                'message' => 'Laravel request to FastAPI failed.',
-                'details' => $error->getMessage(),
-            ];
-        } catch (\Throwable $error) {
-            return [
-                'status' => 'error',
-                'http_status' => null,
-                'message' => 'Unexpected Laravel AI service error.',
-                'details' => $error->getMessage(),
-            ];
+            return $this->formatError('Laravel could not connect to the FastAPI AI service.', $error);
         }
     }
 
-    public function health(): array
+    private function post(string $endpoint, array $payload, int $timeout = 15): array
     {
         try {
-            $response = Http::timeout(5)
+            $response = Http::timeout($timeout)
                 ->acceptJson()
-                ->get($this->baseUrl . '/health');
+                ->asJson()
+                ->post($this->baseUrl . $endpoint, $payload);
 
-            return [
-                'status' => $response->successful() ? 'success' : 'error',
-                'http_status' => $response->status(),
-                'data' => $response->json(),
-            ];
-        } catch (\Throwable $error) {
-            return [
-                'status' => 'error',
-                'http_status' => null,
-                'message' => 'Could not reach FastAPI health endpoint.',
-                'details' => $error->getMessage(),
-            ];
+            if (!$response->successful()) {
+                Log::warning('GAgent FastAPI returned an error response', [
+                    'endpoint' => $endpoint,
+                    'http_status' => $response->status(),
+                    'payload' => $payload,
+                    'response' => $response->json(),
+                ]);
+            }
+
+            return $this->formatResponse($response->successful(), $response->status(), $response->json(), $payload);
+        } catch (Throwable $error) {
+            Log::error('GAgent FastAPI POST request failed', [
+                'endpoint' => $endpoint,
+                'payload' => $payload,
+                'error' => $error->getMessage(),
+            ]);
+
+            return $this->formatError('Laravel request to FastAPI failed.', $error, $payload);
         }
+    }
+
+    private function formatResponse(bool $successful, int $httpStatus, mixed $data, array $payload = []): array
+    {
+        return [
+            'status' => $successful ? 'success' : 'error',
+            'http_status' => $httpStatus,
+            'data' => $data,
+            'payload_sent' => $payload,
+            'message' => $successful ? 'Request completed successfully.' : 'FastAPI returned an error response.',
+        ];
+    }
+
+    private function formatError(string $message, Throwable $error, array $payload = []): array
+    {
+        return [
+            'status' => 'error',
+            'http_status' => null,
+            'data' => null,
+            'payload_sent' => $payload,
+            'message' => $message,
+            'details' => $error->getMessage(),
+        ];
     }
 }

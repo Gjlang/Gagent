@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Project extends Model
 {
     protected $fillable = [
-        'project_name',
-        'platform_type',
-        'website_url',
+        'name',
+        'description',
+        'target_type',
+        'target_url',
         'status',
     ];
 

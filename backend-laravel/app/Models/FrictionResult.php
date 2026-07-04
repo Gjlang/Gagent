@@ -9,19 +9,23 @@ class FrictionResult extends Model
 {
     protected $fillable = [
         'test_run_id',
+        'model_name',
+        'model_type',
+        'prediction_source',
         'friction_level',
         'confidence_score',
-        'model_used',
         'class_probabilities',
-        'recommendation',
-        'predicted_at',
+        'recommendations',
+        'input_features',
+        'is_final',
     ];
 
     protected $casts = [
         'confidence_score' => 'float',
         'class_probabilities' => 'array',
-        'recommendation' => 'array',
-        'predicted_at' => 'datetime',
+        'recommendations' => 'array',
+        'input_features' => 'array',
+        'is_final' => 'boolean',
     ];
 
     public function testRun(): BelongsTo

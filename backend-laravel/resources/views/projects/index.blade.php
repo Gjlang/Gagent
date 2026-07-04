@@ -8,7 +8,7 @@
 </div>
 
 <div class="card">
-    <h3>Project List</h3>
+    <h3>UX Test Projects</h3>
 
     @if ($projects->isEmpty())
         <p class="muted">No projects found.</p>
@@ -16,10 +16,9 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Project Name</th>
-                    <th>Platform</th>
-                    <th>Website URL</th>
+                    <th>Name</th>
+                    <th>Target Type</th>
+                    <th>Target URL</th>
                     <th>Status</th>
                     <th>Test Runs</th>
                     <th>Action</th>
@@ -28,21 +27,12 @@
             <tbody>
                 @foreach ($projects as $project)
                     <tr>
-                        <td>{{ $project->id }}</td>
-                        <td>{{ $project->project_name }}</td>
-                        <td>{{ $project->platform_type }}</td>
-                        <td>{{ $project->website_url ?? 'N/A' }}</td>
+                        <td>{{ $project->name }}</td>
+                        <td>{{ $project->target_type }}</td>
+                        <td>{{ $project->target_url ?? 'N/A' }}</td>
                         <td>{{ $project->status }}</td>
                         <td>{{ $project->test_runs_count }}</td>
-                        <td>
-                            <a class="btn" href="{{ route('projects.show', $project) }}">View</a>
-
-                            <form action="{{ route('projects.destroy', $project) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Delete this project?')">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-danger" type="submit">Delete</button>
-                            </form>
-                        </td>
+                        <td><a class="btn" href="{{ route('projects.show', $project) }}">View</a></td>
                     </tr>
                 @endforeach
             </tbody>

@@ -13,20 +13,18 @@ Route::get('/', function () {
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::resource('projects', ProjectController::class)
-    ->only(['index', 'create', 'store', 'show', 'destroy']);
+Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
+Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
+Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
+Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
 
-Route::resource('test-runs', TestRunController::class)
-    ->only(['index', 'show']);
+Route::get('/test-runs', [TestRunController::class, 'index'])->name('test-runs.index');
+Route::get('/test-runs/{testRun}', [TestRunController::class, 'show'])->name('test-runs.show');
+Route::post('/test-runs/{testRun}/predict-gagent', [TestRunController::class, 'runPrediction'])->name('test-runs.predict-gagent');
+Route::post('/test-runs/{testRun}/predict-baseline', [TestRunController::class, 'runBaselinePrediction'])->name('test-runs.predict-baseline');
 
-Route::resource('reports', ReportController::class)
-    ->only(['index', 'show']);
+Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+Route::get('/reports/{report}', [ReportController::class, 'show'])->name('reports.show');
+Route::post('/reports/generate/{testRun}', [ReportController::class, 'generate'])->name('reports.generate');
 
-Route::post('/reports/{report}/predict', [ReportController::class, 'predict'])
-    ->name('reports.predict');
-
-Route::get('/reports/{report}/export', [ReportController::class, 'export'])
-    ->name('reports.export');
-
-Route::get('/test-ai-prediction', AIServiceTestController::class)
-    ->name('ai.test');
+Route::get('/ai-service-test', AIServiceTestController::class)->name('ai.test');

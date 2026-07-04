@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="card">
-    <h3>Test Run History</h3>
+    <h3>All Test Runs</h3>
 
     @if ($testRuns->isEmpty())
         <p class="muted">No test runs found. Run the demo seeder first.</p>
@@ -12,20 +12,23 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>Run Code</th>
                     <th>Project</th>
-                    <th>Flow Type</th>
-                    <th>Status</th>
-                    <th>Completion Time</th>
-                    <th>Friction</th>
-                    <th>Confidence</th>
+                    <th>Flow</th>
+                    <th>Scenario</th>
+                    <th>Viewport</th>
+                    <th>Final Friction</th>
+                    <th>Main Confidence</th>
+                    <th>Baseline</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($testRuns as $run)
                     @php
-                        $level = $run->frictionResult?->friction_level ?? 'Not predicted';
+                        $final = $run->finalFrictionResult;
+                        $baseline = $run->baselineResult;
+                        $level = $final?->friction_level ?? 'Not predicted';
                         $badgeClass = match ($level) {
                             'Low' => 'badge-low',
                             'Medium' => 'badge-medium',
@@ -34,18 +37,15 @@
                         };
                     @endphp
                     <tr>
-                        <td>{{ $run->id }}</td>
-                        <td>{{ $run->project?->project_name ?? 'N/A' }}</td>
+                        <td>{{ $run->run_code }}</td>
+                        <td>{{ $run->project?->name ?? 'N/A' }}</td>
                         <td>{{ $run->flow_type ?? 'N/A' }}</td>
-                        <td>{{ $run->status }}</td>
-                        <td>{{ $run->uxMetric?->completion_time ?? 'N/A' }}</td>
+                        <td>{{ $run->scenario_type ?? 'N/A' }}</td>
+                        <td>{{ $run->viewport_type ?? 'N/A' }}</td>
                         <td><span class="badge {{ $badgeClass }}">{{ $level }}</span></td>
-                        <td>
-                            {{ $run->frictionResult?->confidence_score !== null ? number_format($run->frictionResult->confidence_score * 100, 1) . '%' : 'N/A' }}
-                        </td>
-                        <td>
-                            <a class="btn" href="{{ route('test-runs.show', $run) }}">View</a>
-                        </td>
+                        <td>{{ $final?->confidence_score !== null ? number_format($final->confidence_score * 100, 1) . '%' : 'N/A' }}</td>
+                        <td>{{ $baseline?->friction_level ?? 'N/A' }}</td>
+                        <td><a class="btn" href="{{ route('test-runs.show', $run) }}">View</a></td>
                     </tr>
                 @endforeach
             </tbody>

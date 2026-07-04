@@ -11,189 +11,241 @@ use App\Models\TestRun;
 use App\Models\UXMetric;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 class GAgentDemoSeeder extends Seeder
 {
     public function run(): void
     {
-        $project = Project::firstOrCreate(
-            ['project_name' => 'GAgent Demo Website'],
-            [
-                'platform_type' => 'Web',
-                'website_url' => 'http://127.0.0.1:3000',
-                'status' => 'Active',
-            ]
-        );
+        $project = Project::create([
+            'name' => 'GAgent Dummy Website Demo',
+            'description' => 'Demo project using stored sample UX metrics for Phase 6 dashboard testing.',
+            'target_type' => 'dummy_website',
+            'target_url' => 'http://127.0.0.1:3000',
+            'status' => 'active',
+        ]);
 
         $demoRuns = [
             [
-                'run_code' => 'DEMO-LOW-001',
-                'flow_type' => 'signup_good',
-                'page_url' => 'http://127.0.0.1:3000/saas/signup-good',
-                'status' => 'Completed',
+                'run_code' => 'DEMO-LOW-' . Str::upper(Str::random(5)),
+                'flow_type' => 'signup',
+                'scenario_type' => 'good',
+                'viewport_type' => 'desktop',
+                'page_url' => '/saas/signup-good',
+                'friction_level' => 'Low',
+                'confidence_score' => 0.94,
                 'metrics' => [
-                    'completion_time' => 1200,
-                    'click_count' => 3,
-                    'scroll_count' => 0,
-                    'keyboard_count' => 2,
+                    'task_completed' => true,
+                    'task_failed' => false,
+                    'completion_time' => 3.8,
+                    'click_count' => 4,
+                    'scroll_count' => 1,
+                    'keyboard_count' => 3,
                     'retry_count' => 0,
                     'error_count' => 0,
                     'failed_clicks' => 0,
-                    'feedback_delay' => 300,
-                    'task_completed' => 1,
-                    'screenshot_count' => 2,
+                    'unnecessary_clicks' => 0,
+                    'path_deviation_score' => 0.05,
+                    'page_load_time_ms' => 850,
+                    'dom_content_loaded_ms' => 620,
+                    'time_to_first_byte_ms' => 140,
+                    'feedback_delay_ms' => 110,
+                    'interaction_to_next_paint_ms' => 80,
+                    'cumulative_layout_shift' => 0.01,
+                    'error_message_present' => false,
                     'error_message_clarity' => 2,
-                ],
-                'result' => [
-                    'friction_level' => 'Low',
-                    'confidence_score' => 0.96,
-                    'model_used' => 'RandomForestClassifier',
-                    'recommendation' => [
-                        'No major UX friction indicator detected from the submitted metrics.',
-                    ],
+                    'popup_detected' => false,
+                    'cookie_banner_detected' => false,
+                    'overlay_blocks_cta' => false,
                 ],
             ],
             [
-                'run_code' => 'DEMO-MEDIUM-001',
-                'flow_type' => 'signup_medium',
-                'page_url' => 'http://127.0.0.1:3000/saas/signup-medium',
-                'status' => 'Completed',
+                'run_code' => 'DEMO-MED-' . Str::upper(Str::random(5)),
+                'flow_type' => 'search',
+                'scenario_type' => 'medium',
+                'viewport_type' => 'tablet',
+                'page_url' => '/ecommerce/search-medium',
+                'friction_level' => 'Medium',
+                'confidence_score' => 0.86,
                 'metrics' => [
-                    'completion_time' => 4200,
-                    'click_count' => 7,
-                    'scroll_count' => 2,
-                    'keyboard_count' => 4,
-                    'retry_count' => 1,
+                    'task_completed' => true,
+                    'task_failed' => false,
+                    'completion_time' => 9.7,
+                    'click_count' => 9,
+                    'scroll_count' => 4,
+                    'keyboard_count' => 5,
+                    'retry_count' => 2,
                     'error_count' => 1,
-                    'failed_clicks' => 0,
-                    'feedback_delay' => 1400,
-                    'task_completed' => 1,
-                    'screenshot_count' => 3,
-                    'error_message_clarity' => 1,
-                ],
-                'result' => [
-                    'friction_level' => 'Medium',
-                    'confidence_score' => 0.88,
-                    'model_used' => 'RandomForestClassifier',
-                    'recommendation' => [
-                        'High feedback delay detected. Improve response time or add a loading indicator.',
-                        'Errors detected. Improve form validation and error handling.',
-                    ],
+                    'failed_clicks' => 2,
+                    'unnecessary_clicks' => 3,
+                    'path_deviation_score' => 0.42,
+                    'page_load_time_ms' => 2300,
+                    'dom_content_loaded_ms' => 1600,
+                    'time_to_first_byte_ms' => 420,
+                    'feedback_delay_ms' => 850,
+                    'interaction_to_next_paint_ms' => 420,
+                    'cumulative_layout_shift' => 0.12,
+                    'error_message_present' => true,
+                    'error_message_clarity' => 2,
+                    'popup_detected' => true,
+                    'cookie_banner_detected' => false,
+                    'overlay_blocks_cta' => false,
                 ],
             ],
             [
-                'run_code' => 'DEMO-HIGH-001',
-                'flow_type' => 'signup_bad',
-                'page_url' => 'http://127.0.0.1:3000/saas/signup-bad',
-                'status' => 'Completed',
+                'run_code' => 'DEMO-HIGH-' . Str::upper(Str::random(5)),
+                'flow_type' => 'login',
+                'scenario_type' => 'bad',
+                'viewport_type' => 'mobile',
+                'page_url' => '/banking/login-bad',
+                'friction_level' => 'High',
+                'confidence_score' => 0.91,
                 'metrics' => [
-                    'completion_time' => 15000,
-                    'click_count' => 15,
+                    'task_completed' => false,
+                    'task_failed' => true,
+                    'completion_time' => 18.9,
+                    'click_count' => 17,
                     'scroll_count' => 8,
-                    'keyboard_count' => 6,
-                    'retry_count' => 4,
-                    'error_count' => 3,
-                    'failed_clicks' => 2,
-                    'feedback_delay' => 3200,
-                    'task_completed' => 0,
-                    'screenshot_count' => 4,
-                    'error_message_clarity' => 0,
-                ],
-                'result' => [
-                    'friction_level' => 'High',
-                    'confidence_score' => 0.93,
-                    'model_used' => 'RandomForestClassifier',
-                    'recommendation' => [
-                        'Task failure detected. Review the user flow.',
-                        'High retry count detected. Review button labels or form instructions.',
-                        'Failed clicks detected. Check whether buttons are visible, clickable, and correctly positioned.',
-                        'Low error message clarity detected. Improve error message wording and guidance.',
-                    ],
+                    'keyboard_count' => 7,
+                    'retry_count' => 5,
+                    'error_count' => 4,
+                    'failed_clicks' => 6,
+                    'unnecessary_clicks' => 8,
+                    'path_deviation_score' => 0.88,
+                    'page_load_time_ms' => 5200,
+                    'dom_content_loaded_ms' => 3900,
+                    'time_to_first_byte_ms' => 1200,
+                    'feedback_delay_ms' => 2600,
+                    'interaction_to_next_paint_ms' => 1250,
+                    'cumulative_layout_shift' => 0.35,
+                    'error_message_present' => true,
+                    'error_message_clarity' => 1,
+                    'popup_detected' => true,
+                    'cookie_banner_detected' => true,
+                    'overlay_blocks_cta' => true,
                 ],
             ],
         ];
 
         foreach ($demoRuns as $demoRun) {
-            $testRun = TestRun::updateOrCreate(
-                ['run_code' => $demoRun['run_code']],
+            $testRun = TestRun::create([
+                'project_id' => $project->id,
+                'run_code' => $demoRun['run_code'],
+                'flow_type' => $demoRun['flow_type'],
+                'scenario_type' => $demoRun['scenario_type'],
+                'viewport_type' => $demoRun['viewport_type'],
+                'page_url' => $demoRun['page_url'],
+                'status' => 'completed',
+                'started_at' => Carbon::now()->subMinutes(20),
+                'completed_at' => Carbon::now()->subMinutes(10),
+                'notes' => 'Seeder-generated Phase 6 demo test run.',
+            ]);
+
+            UXMetric::create(array_merge(
                 [
-                    'project_id' => $project->id,
+                    'test_run_id' => $testRun->id,
                     'flow_type' => $demoRun['flow_type'],
-                    'page_url' => $demoRun['page_url'],
-                    'status' => $demoRun['status'],
-                    'started_at' => Carbon::now()->subMinutes(20),
-                    'completed_at' => Carbon::now()->subMinutes(15),
-                    'notes' => 'Demo test run for Phase 6 dashboard verification.',
-                ]
-            );
-
-            UXMetric::updateOrCreate(
-                ['test_run_id' => $testRun->id],
+                    'scenario_type' => $demoRun['scenario_type'],
+                    'viewport_type' => $demoRun['viewport_type'],
+                ],
                 $demoRun['metrics']
-            );
+            ));
 
-            FrictionResult::updateOrCreate(
-                ['test_run_id' => $testRun->id],
-                [
-                    'friction_level' => $demoRun['result']['friction_level'],
-                    'confidence_score' => $demoRun['result']['confidence_score'],
-                    'model_used' => $demoRun['result']['model_used'],
-                    'class_probabilities' => [
-                        'Low' => $demoRun['result']['friction_level'] === 'Low' ? 0.96 : 0.03,
-                        'Medium' => $demoRun['result']['friction_level'] === 'Medium' ? 0.88 : 0.04,
-                        'High' => $demoRun['result']['friction_level'] === 'High' ? 0.93 : 0.01,
-                    ],
-                    'recommendation' => $demoRun['result']['recommendation'],
-                    'predicted_at' => Carbon::now(),
-                ]
-            );
+            $payload = UXMetric::where('test_run_id', $testRun->id)->first()->toGAgentPayload();
 
-            Report::updateOrCreate(
-                ['test_run_id' => $testRun->id],
-                [
-                    'title' => 'UX Friction Report - ' . $demoRun['flow_type'],
-                    'summary' => 'Demo AI-assisted UX friction report generated for Phase 6.',
-                    'conclusion' => 'The test run shows ' . $demoRun['result']['friction_level'] . ' UX friction based on collected interaction metrics.',
-                    'generated_at' => Carbon::now(),
-                ]
-            );
-
-            InteractionLog::firstOrCreate(
-                [
-                    'test_run_id' => $testRun->id,
-                    'event_type' => 'page_load',
-                    'event_label' => 'Page loaded',
+            FrictionResult::create([
+                'test_run_id' => $testRun->id,
+                'model_name' => 'main_gagent_model',
+                'model_type' => 'Decision Tree',
+                'prediction_source' => 'main_gagent',
+                'friction_level' => $demoRun['friction_level'],
+                'confidence_score' => $demoRun['confidence_score'],
+                'class_probabilities' => [
+                    'Low' => $demoRun['friction_level'] === 'Low' ? 0.94 : 0.04,
+                    'Medium' => $demoRun['friction_level'] === 'Medium' ? 0.86 : 0.05,
+                    'High' => $demoRun['friction_level'] === 'High' ? 0.91 : 0.03,
                 ],
-                [
-                    'event_value' => $demoRun['page_url'],
-                    'event_time' => 0,
-                    'metadata' => ['source' => 'demo_seeder'],
-                ]
-            );
+                'recommendations' => $this->recommendationsFor($demoRun['friction_level']),
+                'input_features' => $payload,
+                'is_final' => true,
+            ]);
 
-            InteractionLog::firstOrCreate(
-                [
-                    'test_run_id' => $testRun->id,
-                    'event_type' => 'click',
-                    'event_label' => 'Submit button clicked',
+            FrictionResult::create([
+                'test_run_id' => $testRun->id,
+                'model_name' => 'baseline_model',
+                'model_type' => 'Baseline Comparison',
+                'prediction_source' => 'baseline',
+                'friction_level' => $demoRun['friction_level'],
+                'confidence_score' => max(0.60, $demoRun['confidence_score'] - 0.12),
+                'class_probabilities' => [
+                    'Low' => $demoRun['friction_level'] === 'Low' ? 0.78 : 0.12,
+                    'Medium' => $demoRun['friction_level'] === 'Medium' ? 0.74 : 0.13,
+                    'High' => $demoRun['friction_level'] === 'High' ? 0.76 : 0.10,
                 ],
-                [
-                    'event_value' => 'submit',
-                    'event_time' => 1200,
-                    'metadata' => ['source' => 'demo_seeder'],
-                ]
-            );
+                'recommendations' => [
+                    'Baseline result is shown only for comparison.',
+                    'Use the main GAgent model as the final system decision.',
+                ],
+                'input_features' => UXMetric::where('test_run_id', $testRun->id)->first()->toBaselinePayload(),
+                'is_final' => false,
+            ]);
 
-            Screenshot::firstOrCreate(
-                [
-                    'test_run_id' => $testRun->id,
-                    'file_path' => 'https://placehold.co/800x450?text=' . urlencode($demoRun['flow_type']),
-                ],
-                [
-                    'label' => 'Demo screenshot evidence',
-                    'captured_at' => Carbon::now(),
-                ]
-            );
+            InteractionLog::create([
+                'test_run_id' => $testRun->id,
+                'event_type' => 'click',
+                'event_label' => 'primary_cta',
+                'event_value' => 'submit',
+                'event_time' => 1.2,
+                'metadata' => ['source' => 'demo_seeder'],
+            ]);
+
+            InteractionLog::create([
+                'test_run_id' => $testRun->id,
+                'event_type' => 'navigation',
+                'event_label' => $demoRun['page_url'],
+                'event_value' => $demoRun['scenario_type'],
+                'event_time' => 2.4,
+                'metadata' => ['viewport' => $demoRun['viewport_type']],
+            ]);
+
+            Screenshot::create([
+                'test_run_id' => $testRun->id,
+                'file_path' => 'https://placehold.co/800x450?text=' . urlencode($demoRun['flow_type'] . ' ' . $demoRun['friction_level']),
+                'label' => 'Demo screenshot evidence',
+                'captured_at' => Carbon::now(),
+            ]);
+
+            Report::create([
+                'test_run_id' => $testRun->id,
+                'title' => 'UX Friction Report - ' . $testRun->run_code,
+                'summary' => 'Seeder-generated report for ' . $demoRun['friction_level'] . ' friction scenario.',
+                'conclusion' => 'Main GAgent prediction is treated as the final result. Baseline prediction is stored for comparison only.',
+                'generated_at' => Carbon::now(),
+            ]);
         }
+    }
+
+    private function recommendationsFor(string $level): array
+    {
+        return match ($level) {
+            'Low' => [
+                'Maintain current UX flow because task completion is smooth.',
+                'Continue monitoring performance and interaction delay.',
+            ],
+            'Medium' => [
+                'Reduce unnecessary clicks and retries in this flow.',
+                'Improve feedback speed after user interaction.',
+                'Review popup or layout behavior that may interrupt the task.',
+            ],
+            'High' => [
+                'Fix blocking overlays, popup interruptions, and cookie banner placement.',
+                'Reduce page load delay and interaction response time.',
+                'Improve error message clarity and prevent repeated failed clicks.',
+                'Review the navigation path because users are likely deviating from the expected flow.',
+            ],
+            default => [
+                'Review UX metrics manually.',
+            ],
+        };
     }
 }

@@ -24,9 +24,10 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'project_name' => ['required', 'string', 'max:255'],
-            'platform_type' => ['required', 'string', 'max:50'],
-            'website_url' => ['nullable', 'url', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'target_type' => ['required', 'in:dummy_website,web_application,android_application'],
+            'target_url' => ['nullable', 'url', 'max:255'],
             'status' => ['required', 'string', 'max:50'],
         ]);
 
@@ -41,19 +42,12 @@ class ProjectController extends Controller
     {
         $project->load([
             'testRuns.uxMetric',
-            'testRuns.frictionResult',
+            'testRuns.finalFrictionResult',
+            'testRuns.mainGAgentResult',
+            'testRuns.baselineResult',
             'testRuns.report',
         ]);
 
         return view('projects.show', compact('project'));
-    }
-
-    public function destroy(Project $project)
-    {
-        $project->delete();
-
-        return redirect()
-            ->route('projects.index')
-            ->with('success', 'Project deleted successfully.');
     }
 }

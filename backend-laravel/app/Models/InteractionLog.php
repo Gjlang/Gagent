@@ -17,6 +17,7 @@ class InteractionLog extends Model
     ];
 
     protected $casts = [
+        'event_time' => 'float',
         'metadata' => 'array',
     ];
 

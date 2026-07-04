@@ -15,29 +15,27 @@
     </div>
 
     <div class="card">
-        <div class="muted">Average Confidence</div>
-        <div class="stat-value">
-            {{ $averageConfidence ? number_format($averageConfidence * 100, 1) . '%' : 'N/A' }}
-        </div>
+        <div class="muted">Total Reports</div>
+        <div class="stat-value">{{ $totalReports }}</div>
     </div>
 
     <div class="card">
-        <div class="muted">High Friction Runs</div>
-        <div class="stat-value">{{ $severityCounts['High'] }}</div>
+        <div class="muted">Average Final Confidence</div>
+        <div class="stat-value">
+            {{ $averageConfidence ? number_format($averageConfidence * 100, 1) . '%' : 'N/A' }}
+        </div>
     </div>
 </div>
 
 <div class="grid grid-2">
     <div class="card">
-        <h3>Friction Severity Distribution</h3>
-        <canvas id="severityChart"></canvas>
+        <h3>Final Friction Distribution</h3>
+        <canvas id="frictionChart"></canvas>
     </div>
 
     <div class="card">
-        <h3>Severity Counts</h3>
-        <p><span class="badge badge-low">Low</span> {{ $severityCounts['Low'] }}</p>
-        <p><span class="badge badge-medium">Medium</span> {{ $severityCounts['Medium'] }}</p>
-        <p><span class="badge badge-high">High</span> {{ $severityCounts['High'] }}</p>
+        <h3>Flow Type Distribution</h3>
+        <canvas id="flowChart"></canvas>
     </div>
 </div>
 
@@ -45,16 +43,16 @@
     <h3>Recent Test Runs</h3>
 
     @if ($recentTestRuns->isEmpty())
-        <p class="muted">No test runs available yet. Run the demo seeder first.</p>
+        <p class="muted">No test runs available. Run the demo seeder first.</p>
     @else
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>Run Code</th>
                     <th>Project</th>
-                    <th>Flow Type</th>
-                    <th>Status</th>
-                    <th>Friction</th>
+                    <th>Flow</th>
+                    <th>Viewport</th>
+                    <th>Final Friction</th>
                     <th>Confidence</th>
                     <th>Action</th>
                 </tr>
@@ -62,7 +60,8 @@
             <tbody>
                 @foreach ($recentTestRuns as $run)
                     @php
-                        $level = $run->frictionResult?->friction_level ?? 'Not predicted';
+                        $result = $run->finalFrictionResult;
+                        $level = $result?->friction_level ?? 'Not predicted';
                         $badgeClass = match ($level) {
                             'Low' => 'badge-low',
                             'Medium' => 'badge-medium',
@@ -71,17 +70,42 @@
                         };
                     @endphp
                     <tr>
-                        <td>{{ $run->id }}</td>
-                        <td>{{ $run->project?->project_name ?? 'N/A' }}</td>
+                        <td>{{ $run->run_code }}</td>
+                        <td>{{ $run->project?->name ?? 'N/A' }}</td>
                         <td>{{ $run->flow_type ?? 'N/A' }}</td>
-                        <td>{{ $run->status }}</td>
+                        <td>{{ $run->viewport_type ?? 'N/A' }}</td>
                         <td><span class="badge {{ $badgeClass }}">{{ $level }}</span></td>
-                        <td>
-                            {{ $run->frictionResult?->confidence_score !== null ? number_format($run->frictionResult->confidence_score * 100, 1) . '%' : 'N/A' }}
-                        </td>
-                        <td>
-                            <a class="btn" href="{{ route('test-runs.show', $run) }}">View</a>
-                        </td>
+                        <td>{{ $result?->confidence_score !== null ? number_format($result->confidence_score * 100, 1) . '%' : 'N/A' }}</td>
+                        <td><a class="btn" href="{{ route('test-runs.show', $run) }}">View</a></td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @endif
+</div>
+
+<div class="card">
+    <h3>Recent Reports</h3>
+
+    @if ($recentReports->isEmpty())
+        <p class="muted">No reports available.</p>
+    @else
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Project</th>
+                    <th>Generated At</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($recentReports as $report)
+                    <tr>
+                        <td>{{ $report->title }}</td>
+                        <td>{{ $report->testRun?->project?->name ?? 'N/A' }}</td>
+                        <td>{{ $report->generated_at ?? 'N/A' }}</td>
+                        <td><a class="btn" href="{{ route('reports.show', $report) }}">View Report</a></td>
                     </tr>
                 @endforeach
             </tbody>
@@ -92,9 +116,7 @@
 
 @push('scripts')
 <script>
-    const severityCtx = document.getElementById('severityChart');
-
-    new Chart(severityCtx, {
+    new Chart(document.getElementById('frictionChart'), {
         type: 'doughnut',
         data: {
             labels: ['Low', 'Medium', 'High'],
@@ -104,6 +126,17 @@
                     {{ $severityCounts['Medium'] }},
                     {{ $severityCounts['High'] }}
                 ]
+            }]
+        }
+    });
+
+    new Chart(document.getElementById('flowChart'), {
+        type: 'bar',
+        data: {
+            labels: @json(array_keys($flowDistribution)),
+            datasets: [{
+                label: 'Test Runs',
+                data: @json(array_values($flowDistribution))
             }]
         }
     });

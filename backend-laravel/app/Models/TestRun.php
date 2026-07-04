@@ -13,6 +13,8 @@ class TestRun extends Model
         'project_id',
         'run_code',
         'flow_type',
+        'scenario_type',
+        'viewport_type',
         'page_url',
         'status',
         'started_at',
@@ -35,9 +37,24 @@ class TestRun extends Model
         return $this->hasOne(UXMetric::class);
     }
 
-    public function frictionResult(): HasOne
+    public function frictionResults(): HasMany
     {
-        return $this->hasOne(FrictionResult::class);
+        return $this->hasMany(FrictionResult::class);
+    }
+
+    public function finalFrictionResult(): HasOne
+    {
+        return $this->hasOne(FrictionResult::class)->where('is_final', true);
+    }
+
+    public function mainGAgentResult(): HasOne
+    {
+        return $this->hasOne(FrictionResult::class)->where('prediction_source', 'main_gagent');
+    }
+
+    public function baselineResult(): HasOne
+    {
+        return $this->hasOne(FrictionResult::class)->where('prediction_source', 'baseline');
     }
 
     public function interactionLogs(): HasMany
