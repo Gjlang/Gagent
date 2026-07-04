@@ -15,16 +15,28 @@ class TestRun extends Model
         'flow_type',
         'scenario_type',
         'viewport_type',
+        'network_condition',
+        'run_mode',
+        'max_duration_seconds',
         'page_url',
+        'target_url',
         'status',
         'started_at',
         'completed_at',
+        'duration_seconds',
+        'playwright_exit_code',
+        'error_message',
+        'raw_metrics_path',
+        'report_path',
         'notes',
     ];
 
     protected $casts = [
         'started_at' => 'datetime',
         'completed_at' => 'datetime',
+        'duration_seconds' => 'float',
+        'max_duration_seconds' => 'integer',
+        'playwright_exit_code' => 'integer',
     ];
 
     public function project(): BelongsTo
@@ -70,5 +82,10 @@ class TestRun extends Model
     public function report(): HasOne
     {
         return $this->hasOne(Report::class);
+    }
+
+    public function isLiveWebsiteRun(): bool
+    {
+        return $this->run_mode === 'live_website';
     }
 }

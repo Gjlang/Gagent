@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AIServiceTestController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LiveTestController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TestRunController;
@@ -17,6 +18,11 @@ Route::get('/projects', [ProjectController::class, 'index'])->name('projects.ind
 Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
 Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
 Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
+
+Route::get('/live-tests/create', [LiveTestController::class, 'create'])->name('live-tests.create');
+Route::post('/live-tests', [LiveTestController::class, 'store'])->name('live-tests.store');
+Route::get('/live-tests/{testRun}', [LiveTestController::class, 'show'])->name('live-tests.show');
+Route::post('/live-tests/{testRun}/run', [LiveTestController::class, 'run'])->name('live-tests.run');
 
 Route::get('/test-runs', [TestRunController::class, 'index'])->name('test-runs.index');
 Route::get('/test-runs/{testRun}', [TestRunController::class, 'show'])->name('test-runs.show');
