@@ -36,6 +36,16 @@ class UXMetric extends Model
         'popup_detected',
         'cookie_banner_detected',
         'overlay_blocks_cta',
+        'device_type',
+        'platform_name',
+        'app_launch_time_ms',
+        'screen_load_time_ms',
+        'interaction_response_time_ms',
+        'finish_time_ms',
+        'overlay_blocks_action',
+        'timeout_occurred',
+        'crash_detected',
+        'anr_detected',
     ];
 
     protected $casts = [
@@ -61,6 +71,14 @@ class UXMetric extends Model
         'popup_detected' => 'boolean',
         'cookie_banner_detected' => 'boolean',
         'overlay_blocks_cta' => 'boolean',
+        'app_launch_time_ms' => 'float',
+        'screen_load_time_ms' => 'float',
+        'interaction_response_time_ms' => 'float',
+        'finish_time_ms' => 'float',
+        'overlay_blocks_action' => 'boolean',
+        'timeout_occurred' => 'boolean',
+        'crash_detected' => 'boolean',
+        'anr_detected' => 'boolean',
     ];
 
     public function testRun(): BelongsTo
@@ -109,6 +127,42 @@ class UXMetric extends Model
             'error_count' => (int) $this->error_count,
             'failed_clicks' => (int) $this->failed_clicks,
             'task_completed' => (int) $this->task_completed,
+        ];
+    }
+
+    public function toAndroidPayload(): array
+    {
+        return [
+            'flow_type' => (string) $this->flow_type,
+            'device_type' => (string) ($this->device_type ?? 'android_emulator'),
+            'platform_name' => (string) ($this->platform_name ?? 'Android'),
+
+            'task_completed' => (int) $this->task_completed,
+            'task_failed' => (int) $this->task_failed,
+
+            'completion_time' => (float) $this->completion_time,
+            'click_count' => (int) $this->click_count,
+            'scroll_count' => (int) $this->scroll_count,
+            'keyboard_count' => (int) $this->keyboard_count,
+            'retry_count' => (int) $this->retry_count,
+            'error_count' => (int) $this->error_count,
+            'failed_clicks' => (int) $this->failed_clicks,
+            'unnecessary_clicks' => (int) $this->unnecessary_clicks,
+
+            'path_deviation_score' => (float) $this->path_deviation_score,
+            'app_launch_time_ms' => (float) $this->app_launch_time_ms,
+            'screen_load_time_ms' => (float) $this->screen_load_time_ms,
+            'feedback_delay_ms' => (float) $this->feedback_delay_ms,
+            'interaction_response_time_ms' => (float) $this->interaction_response_time_ms,
+            'finish_time_ms' => (float) $this->finish_time_ms,
+
+            'error_message_present' => (int) $this->error_message_present,
+            'error_message_clarity' => (int) $this->error_message_clarity,
+            'popup_detected' => (int) $this->popup_detected,
+            'overlay_blocks_action' => (int) $this->overlay_blocks_action,
+            'timeout_occurred' => (int) $this->timeout_occurred,
+            'crash_detected' => (int) $this->crash_detected,
+            'anr_detected' => (int) $this->anr_detected,
         ];
     }
 }

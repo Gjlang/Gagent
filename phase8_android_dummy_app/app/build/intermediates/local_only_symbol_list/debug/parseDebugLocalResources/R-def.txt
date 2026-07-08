@@ -1,0 +1,29 @@
+R_DEF: Internal format may change without notice
+local
+id error_message
+id flow_button_click_button
+id flow_form_submit_button
+id flow_login_button
+id flow_search_button
+id flow_signup_button
+id form_email_input
+id form_name_input
+id form_submit_button
+id hidden_scroll_button
+id login_email_input
+id login_password_input
+id login_submit_button
+id main_cta_button
+id popup_close_button
+id popup_modal
+id scenario_spinner
+id search_input
+id search_submit_button
+id signup_email_input
+id signup_name_input
+id signup_submit_button
+id small_tap_button
+id status_message
+id success_message
+string app_name
+style AppTheme

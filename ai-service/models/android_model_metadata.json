@@ -1,0 +1,102 @@
+{
+  "model_type": "android_appium_experimental_extension",
+  "best_model_name": "Logistic Regression",
+  "dataset_path": "D:\\FYP\\GAgent\\GAgent\\phase8_android_ml_model\\datasets\\android_appium_dataset_10005_rows_labeled.csv",
+  "dataset_shape": {
+    "rows": 10005,
+    "columns": 31
+  },
+  "label_distribution": {
+    "Low": 3335,
+    "Medium": 3335,
+    "High": 3335
+  },
+  "label_classes": [
+    "High",
+    "Low",
+    "Medium"
+  ],
+  "selected_features": [
+    "flow_type",
+    "task_completed",
+    "task_failed",
+    "completion_time",
+    "click_count",
+    "scroll_count",
+    "keyboard_count",
+    "retry_count",
+    "error_count",
+    "failed_clicks",
+    "unnecessary_clicks",
+    "path_deviation_score",
+    "app_launch_time_ms",
+    "screen_load_time_ms",
+    "feedback_delay_ms",
+    "interaction_response_time_ms",
+    "finish_time_ms",
+    "error_message_present",
+    "error_message_clarity",
+    "popup_detected",
+    "overlay_blocks_action",
+    "timeout_occurred",
+    "crash_detected",
+    "anr_detected"
+  ],
+  "numeric_features": [
+    "task_completed",
+    "task_failed",
+    "completion_time",
+    "click_count",
+    "scroll_count",
+    "keyboard_count",
+    "retry_count",
+    "error_count",
+    "failed_clicks",
+    "unnecessary_clicks",
+    "path_deviation_score",
+    "app_launch_time_ms",
+    "screen_load_time_ms",
+    "feedback_delay_ms",
+    "interaction_response_time_ms",
+    "finish_time_ms",
+    "error_message_present",
+    "popup_detected",
+    "overlay_blocks_action",
+    "timeout_occurred",
+    "crash_detected",
+    "anr_detected"
+  ],
+  "categorical_features": [
+    "flow_type",
+    "error_message_clarity"
+  ],
+  "excluded_columns": [
+    "friction_level",
+    "friction_level_prediction",
+    "scenario_type",
+    "run_index",
+    "target_type"
+  ],
+  "dropped_constant_features": [
+    "device_type",
+    "platform_name"
+  ],
+  "selection_priority": [
+    "f1_macro",
+    "high_recall",
+    "f1_weighted",
+    "accuracy"
+  ],
+  "best_model_metrics": {
+    "model_name": "Logistic Regression",
+    "accuracy": 0.999000499750125,
+    "precision_macro": 0.9990012478790545,
+    "recall_macro": 0.999000499750125,
+    "f1_macro": 0.9990004994692963,
+    "f1_weighted": 0.9990004994692963,
+    "high_recall": 1.0
+  },
+  "created_at": "2026-07-08T02:24:01",
+  "scope_note": "The Web GAgent model remains the main model. The Android Appium model is an experimental extension trained on controlled Android dummy-app UX-friction data.",
+  "limitation": "High scores are expected because the Android dataset is controlled and scenario-generated. Do not overclaim real-world Android generalization."
+}

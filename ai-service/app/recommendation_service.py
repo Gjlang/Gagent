@@ -76,3 +76,26 @@ def generate_recommendations(
         recommendations.append("No major UX issue detected from the submitted interaction metrics.")
 
     return recommendations
+
+def generate_android_recommendations(input_data, predicted_friction_level):
+    if predicted_friction_level == "Low":
+        return [
+            "No major Android UX friction detected.",
+            "Maintain current interaction responsiveness.",
+        ]
+
+    if predicted_friction_level == "Medium":
+        return [
+            "Review screen load time, tap feedback delay, and error message clarity.",
+            "Reduce unnecessary taps and improve navigation flow.",
+        ]
+
+    if predicted_friction_level == "High":
+        return [
+            "Fix timeout, blocked actions, vague errors, and slow response.",
+            "Improve task completion path and remove obstructive popup/modal behavior.",
+        ]
+
+    return [
+        "Review Android interaction metrics and confirm the friction level manually.",
+    ]

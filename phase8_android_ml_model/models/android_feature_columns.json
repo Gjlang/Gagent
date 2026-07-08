@@ -1,0 +1,69 @@
+{
+  "android_features": [
+    "flow_type",
+    "task_completed",
+    "task_failed",
+    "completion_time",
+    "click_count",
+    "scroll_count",
+    "keyboard_count",
+    "retry_count",
+    "error_count",
+    "failed_clicks",
+    "unnecessary_clicks",
+    "path_deviation_score",
+    "app_launch_time_ms",
+    "screen_load_time_ms",
+    "feedback_delay_ms",
+    "interaction_response_time_ms",
+    "finish_time_ms",
+    "error_message_present",
+    "error_message_clarity",
+    "popup_detected",
+    "overlay_blocks_action",
+    "timeout_occurred",
+    "crash_detected",
+    "anr_detected"
+  ],
+  "numeric_features": [
+    "task_completed",
+    "task_failed",
+    "completion_time",
+    "click_count",
+    "scroll_count",
+    "keyboard_count",
+    "retry_count",
+    "error_count",
+    "failed_clicks",
+    "unnecessary_clicks",
+    "path_deviation_score",
+    "app_launch_time_ms",
+    "screen_load_time_ms",
+    "feedback_delay_ms",
+    "interaction_response_time_ms",
+    "finish_time_ms",
+    "error_message_present",
+    "popup_detected",
+    "overlay_blocks_action",
+    "timeout_occurred",
+    "crash_detected",
+    "anr_detected"
+  ],
+  "categorical_features": [
+    "flow_type",
+    "error_message_clarity"
+  ],
+  "dropped_constant_features": [
+    "device_type",
+    "platform_name"
+  ],
+  "missing_recommended_features": [],
+  "excluded_columns": [
+    "friction_level",
+    "friction_level_prediction",
+    "scenario_type",
+    "run_index",
+    "target_type"
+  ],
+  "target_column": "friction_level"
+}

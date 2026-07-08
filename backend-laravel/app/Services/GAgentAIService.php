@@ -49,6 +49,35 @@ class GAgentAIService
     'task_completed',
 ];
 
+private array $androidFeatureKeys = [
+    'flow_type',
+    'device_type',
+    'platform_name',
+    'task_completed',
+    'task_failed',
+    'completion_time',
+    'click_count',
+    'scroll_count',
+    'keyboard_count',
+    'retry_count',
+    'error_count',
+    'failed_clicks',
+    'unnecessary_clicks',
+    'path_deviation_score',
+    'app_launch_time_ms',
+    'screen_load_time_ms',
+    'feedback_delay_ms',
+    'interaction_response_time_ms',
+    'finish_time_ms',
+    'error_message_present',
+    'error_message_clarity',
+    'popup_detected',
+    'overlay_blocks_action',
+    'timeout_occurred',
+    'crash_detected',
+    'anr_detected',
+];
+
     public function __construct()
     {
         $this->baseUrl = rtrim(env('GAGENT_AI_SERVICE_URL', 'http://127.0.0.1:8001'), '/');
@@ -76,6 +105,13 @@ class GAgentAIService
         $payload = Arr::only($features, $this->baselineFeatureKeys);
 
         return $this->post('/predict-baseline', $payload);
+    }
+
+    public function predictAndroid(array $features): array
+    {
+        $payload = Arr::only($features, $this->androidFeatureKeys);
+
+        return $this->post('/predict-android', $payload);
     }
 
     public function batchPredictGAgent(array $items): array

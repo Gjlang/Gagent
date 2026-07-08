@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException
-
+from app.prediction_service import predict_android
+from app.schemas import AndroidPredictionInput, AndroidPredictionResponse
 from app.model_loader import get_model_info, is_loaded, load_model_artifacts
 from app.prediction_service import (
     batch_predict_baseline,
@@ -118,3 +119,18 @@ def batch_predict_baseline_endpoint(payload: BatchBaselinePredictionInput) -> di
         raise HTTPException(status_code=422, detail=str(error)) from error
     except Exception as error:
         raise HTTPException(status_code=500, detail=f"Baseline batch prediction failed: {error}") from error
+    
+
+@router.post("/predict-android", response_model=AndroidPredictionResponse)
+def predict_android_endpoint(payload: AndroidPredictionInput):
+    try:
+        return predict_android(payload.model_dump())
+    except FileNotFoundError as error:
+        raise HTTPException(status_code=503, detail=str(error)) from error
+    except ValueError as error:
+        raise HTTPException(status_code=422, detail=str(error)) from error
+    except Exception as error:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Android prediction failed: {error}",
+        ) from error

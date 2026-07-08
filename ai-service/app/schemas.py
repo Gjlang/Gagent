@@ -1,4 +1,6 @@
 from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional
+from pydantic import BaseModel, Field, ConfigDict, field_validator
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
@@ -144,6 +146,64 @@ class GAgentPredictionInput(BaseModel):
                 f"viewport_type must be one of: {sorted(allowed_values)}"
             )
         return value
+    
+class AndroidPredictionInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    flow_type: str = Field(..., min_length=1)
+    device_type: str = Field(..., min_length=1)
+    platform_name: str = Field(..., min_length=1)
+
+    task_completed: int = Field(..., ge=0, le=1)
+    task_failed: int = Field(..., ge=0, le=1)
+
+    completion_time: float = Field(..., ge=0)
+    click_count: int = Field(..., ge=0)
+    scroll_count: int = Field(..., ge=0)
+    keyboard_count: int = Field(..., ge=0)
+    retry_count: int = Field(..., ge=0)
+    error_count: int = Field(..., ge=0)
+    failed_clicks: int = Field(..., ge=0)
+    unnecessary_clicks: int = Field(..., ge=0)
+
+    path_deviation_score: float = Field(..., ge=0)
+    app_launch_time_ms: float = Field(..., ge=0)
+    screen_load_time_ms: float = Field(..., ge=0)
+    feedback_delay_ms: float = Field(..., ge=0)
+    interaction_response_time_ms: float = Field(..., ge=0)
+    finish_time_ms: float = Field(..., ge=0)
+
+    error_message_present: int = Field(..., ge=0, le=1)
+    error_message_clarity: int = Field(..., ge=-1, le=2)
+    popup_detected: int = Field(..., ge=0, le=1)
+    overlay_blocks_action: int = Field(..., ge=0, le=1)
+    timeout_occurred: int = Field(..., ge=0, le=1)
+    crash_detected: int = Field(..., ge=0, le=1)
+    anr_detected: int = Field(..., ge=0, le=1)
+
+    @field_validator("flow_type")
+    @classmethod
+    def validate_flow_type(cls, value: str) -> str:
+        allowed = {
+            "login",
+            "signup",
+            "search",
+            "button_click",
+            "form_submit",
+        }
+
+        if value not in allowed:
+            raise ValueError(f"flow_type must be one of: {sorted(allowed)}")
+
+        return value
+
+
+class AndroidPredictionResponse(BaseModel):
+    model_type: str
+    prediction: str
+    confidence_score: Optional[float] = None
+    class_probabilities: Optional[Dict[str, float]] = None
+    recommendations: List[str]
 
 
 class BaselinePredictionInput(BaseModel):

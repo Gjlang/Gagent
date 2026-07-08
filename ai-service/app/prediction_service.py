@@ -2,6 +2,11 @@ from typing import Any, Dict, List, Optional
 import numpy as np
 import pandas as pd
 from sklearn.pipeline import Pipeline
+import pandas as pd
+import numpy as np
+
+from app.model_loader import load_android_model_artifacts
+from app.recommendation_service import generate_android_recommendations
 
 from app.model_loader import load_model_artifacts
 from app.recommendation_service import generate_recommendations
@@ -185,3 +190,73 @@ def batch_predict_gagent(items: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
 
 def batch_predict_baseline(items: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     return [predict_baseline(item) for item in items]
+
+def predict_android(input_data: dict) -> dict:
+    artifacts = load_android_model_artifacts()
+
+    feature_payload = artifacts.android_feature_columns
+    feature_order = feature_payload.get("android_features", [])
+    categorical_features = feature_payload.get("categorical_features", [])
+
+    if not feature_order:
+        raise ValueError("android_feature_columns.json does not contain android_features.")
+
+    missing_features = [feature for feature in feature_order if feature not in input_data]
+
+    if missing_features:
+        raise ValueError(f"Missing Android input features: {missing_features}")
+
+    input_df = pd.DataFrame(
+        [{feature: input_data[feature] for feature in feature_order}],
+        columns=feature_order,
+    )
+
+    for col in categorical_features:
+        if col in input_df.columns:
+            input_df[col] = input_df[col].fillna("missing").astype(str)
+
+    prediction_input = artifacts.android_preprocessor.transform(input_df)
+
+    raw_prediction = artifacts.android_model.predict(prediction_input)[0]
+
+    if isinstance(raw_prediction, str):
+        prediction_label = raw_prediction
+    else:
+        prediction_label = str(
+            artifacts.android_label_encoder.inverse_transform([int(raw_prediction)])[0]
+        )
+
+    confidence_score = None
+    class_probabilities = None
+
+    if hasattr(artifacts.android_model, "predict_proba"):
+        probabilities = artifacts.android_model.predict_proba(prediction_input)[0]
+        class_probabilities = {}
+
+        for class_value, probability in zip(artifacts.android_model.classes_, probabilities):
+            if isinstance(class_value, str):
+                class_label = class_value
+            else:
+                class_label = str(
+                    artifacts.android_label_encoder.inverse_transform([int(class_value)])[0]
+                )
+
+            class_probabilities[class_label] = round(float(probability), 4)
+
+        confidence_score = class_probabilities.get(
+            prediction_label,
+            round(float(np.max(probabilities)), 4),
+        )
+
+    recommendations = generate_android_recommendations(
+        input_data=input_data,
+        predicted_friction_level=prediction_label,
+    )
+
+    return {
+        "model_type": "android_appium",
+        "prediction": prediction_label,
+        "confidence_score": confidence_score,
+        "class_probabilities": class_probabilities,
+        "recommendations": recommendations,
+    }

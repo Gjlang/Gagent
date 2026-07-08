@@ -166,6 +166,7 @@
         <a href="{{ route('projects.index') }}">Projects</a>
         <a href="{{ route('projects.create') }}">Create Project</a>
         <a href="{{ route('live-tests.create') }}">Live Website Test</a>
+        <a href="{{ route('android-tests.create') }}">Android Test</a>
         <a href="{{ route('test-runs.index') }}">Test Runs</a>
         <a href="{{ route('reports.index') }}">Reports</a>
         <a href="{{ route('ai.test') }}">AI Service Test</a>

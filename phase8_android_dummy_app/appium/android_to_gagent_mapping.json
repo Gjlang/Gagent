@@ -1,0 +1,26 @@
+{
+  "target_type": "android_app",
+  "mapping": {
+    "app_launch_time_ms": "page_load_time_ms",
+    "screen_load_time_ms": "dom_content_loaded_ms",
+    "feedback_delay_ms": "feedback_delay_ms",
+    "interaction_response_time_ms": "interaction_to_next_paint_ms",
+    "overlay_blocks_action": "overlay_blocks_cta",
+    "popup_detected": "popup_detected",
+    "error_message_present": "error_message_present",
+    "error_message_clarity": "error_message_clarity"
+  },
+  "neutral_values_if_unavailable": {
+    "layout_shift_score": 0,
+    "rage_click_count": 0,
+    "dead_click_count": 0,
+    "network_request_count": 0,
+    "network_error_count": 0
+  },
+  "notes": [
+    "friction_level_prediction is not an Appium input feature.",
+    "friction_level_prediction must be filled only after FastAPI model prediction.",
+    "Android metrics are mapped to web-style GAgent fields only for prototype compatibility.",
+    "Unavailable web-specific fields must use measured Android equivalents where possible or documented neutral values."
+  ]
+}

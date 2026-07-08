@@ -18,6 +18,12 @@ FEATURE_COLUMNS_PATH = MODELS_DIR / "feature_columns.json"
 MODEL_METADATA_PATH = MODELS_DIR / "model_metadata.json"
 BASELINE_METADATA_PATH = MODELS_DIR / "baseline_metadata.json"
 
+ANDROID_MODEL_PATH = MODELS_DIR / "android_appium_model.pkl"
+ANDROID_PREPROCESSOR_PATH = MODELS_DIR / "android_preprocessing_pipeline.pkl"
+ANDROID_LABEL_ENCODER_PATH = MODELS_DIR / "android_label_encoder.pkl"
+ANDROID_FEATURE_COLUMNS_PATH = MODELS_DIR / "android_feature_columns.json"
+ANDROID_METADATA_PATH = MODELS_DIR / "android_model_metadata.json"
+
 
 @dataclass
 class ModelArtifacts:
@@ -28,6 +34,15 @@ class ModelArtifacts:
     feature_columns: Dict[str, Any]
     model_metadata: Dict[str, Any]
     baseline_metadata: Optional[Dict[str, Any]]
+
+
+@dataclass
+class AndroidModelArtifacts:
+    android_model: Any
+    android_preprocessor: Any
+    android_label_encoder: Any
+    android_feature_columns: Dict[str, Any]
+    android_metadata: Dict[str, Any]
 
 
 def _read_json(path: Path) -> Dict[str, Any]:
@@ -69,6 +84,25 @@ def validate_required_files() -> None:
         )
 
 
+def validate_required_android_files() -> None:
+    required_files = [
+        ANDROID_MODEL_PATH,
+        ANDROID_PREPROCESSOR_PATH,
+        ANDROID_LABEL_ENCODER_PATH,
+        ANDROID_FEATURE_COLUMNS_PATH,
+        ANDROID_METADATA_PATH,
+    ]
+
+    missing_files = [str(path) for path in required_files if not path.exists()]
+
+    if missing_files:
+        missing_text = "\n".join(missing_files)
+        raise FileNotFoundError(
+            "Required Android model files are missing:\n"
+            f"{missing_text}"
+        )
+
+
 @lru_cache(maxsize=1)
 def load_model_artifacts() -> ModelArtifacts:
     validate_required_files()
@@ -105,9 +139,36 @@ def load_model_artifacts() -> ModelArtifacts:
     )
 
 
+@lru_cache(maxsize=1)
+def load_android_model_artifacts() -> AndroidModelArtifacts:
+    validate_required_android_files()
+
+    android_model = _load_joblib(ANDROID_MODEL_PATH)
+    android_preprocessor = _load_joblib(ANDROID_PREPROCESSOR_PATH)
+    android_label_encoder = _load_joblib(ANDROID_LABEL_ENCODER_PATH)
+    android_feature_columns = _read_json(ANDROID_FEATURE_COLUMNS_PATH)
+    android_metadata = _read_json(ANDROID_METADATA_PATH)
+
+    return AndroidModelArtifacts(
+        android_model=android_model,
+        android_preprocessor=android_preprocessor,
+        android_label_encoder=android_label_encoder,
+        android_feature_columns=android_feature_columns,
+        android_metadata=android_metadata,
+    )
+
+
 def is_loaded() -> bool:
     try:
         load_model_artifacts()
+        return True
+    except Exception:
+        return False
+
+
+def is_android_loaded() -> bool:
+    try:
+        load_android_model_artifacts()
         return True
     except Exception:
         return False
@@ -137,6 +198,26 @@ def get_model_metadata() -> Dict[str, Any]:
     return load_model_artifacts().model_metadata
 
 
+def get_android_model() -> Any:
+    return load_android_model_artifacts().android_model
+
+
+def get_android_preprocessor() -> Any:
+    return load_android_model_artifacts().android_preprocessor
+
+
+def get_android_label_encoder() -> Any:
+    return load_android_model_artifacts().android_label_encoder
+
+
+def get_android_feature_columns() -> Dict[str, Any]:
+    return load_android_model_artifacts().android_feature_columns
+
+
+def get_android_metadata() -> Dict[str, Any]:
+    return load_android_model_artifacts().android_metadata
+
+
 def get_model_info() -> Dict[str, Any]:
     artifacts = load_model_artifacts()
 
@@ -155,7 +236,7 @@ def get_model_info() -> Dict[str, Any]:
             str(feature) for feature in artifacts.baseline_model.feature_names_in_
         ]
 
-    return {
+    info: Dict[str, Any] = {
         "model_loaded": True,
         "models": {
             "main_gagent_model": {
@@ -180,4 +261,68 @@ def get_model_info() -> Dict[str, Any]:
         "preprocessing_pipeline_loaded": True,
         "model_metadata": artifacts.model_metadata,
         "baseline_metadata": artifacts.baseline_metadata,
+    }
+
+    # Optionally include Android model info if it's available, without
+    # breaking get_model_info() for callers when the Android model isn't set up yet.
+    if is_android_loaded():
+        android_artifacts = load_android_model_artifacts()
+
+        android_labels: List[str] = []
+        if hasattr(android_artifacts.android_label_encoder, "classes_"):
+            android_labels = [
+                str(label) for label in android_artifacts.android_label_encoder.classes_
+            ]
+
+        android_features = android_artifacts.android_feature_columns.get(
+            "android_features", []
+        )
+
+        info["models"]["android_appium_model"] = {
+            "loaded": True,
+            "type": type(android_artifacts.android_model).__name__,
+            "path": str(ANDROID_MODEL_PATH),
+            "supports_probability": hasattr(
+                android_artifacts.android_model, "predict_proba"
+            ),
+            "feature_count": len(android_features),
+            "features": android_features,
+        }
+        info["android_available_labels"] = android_labels
+        info["android_metadata"] = android_artifacts.android_metadata
+    else:
+        info["models"]["android_appium_model"] = {"loaded": False}
+
+    return info
+
+
+def get_android_model_info() -> Dict[str, Any]:
+    artifacts = load_android_model_artifacts()
+
+    available_labels: List[str] = []
+    if hasattr(artifacts.android_label_encoder, "classes_"):
+        available_labels = [
+            str(label) for label in artifacts.android_label_encoder.classes_
+        ]
+
+    android_features = artifacts.android_feature_columns.get("android_features", [])
+
+    return {
+        "model_loaded": True,
+        "model": {
+            "android_appium_model": {
+                "loaded": True,
+                "type": type(artifacts.android_model).__name__,
+                "path": str(ANDROID_MODEL_PATH),
+                "supports_probability": hasattr(
+                    artifacts.android_model, "predict_proba"
+                ),
+                "feature_count": len(android_features),
+                "features": android_features,
+            }
+        },
+        "label_encoder_loaded": True,
+        "available_labels": available_labels,
+        "preprocessor_loaded": True,
+        "android_metadata": artifacts.android_metadata,
     }

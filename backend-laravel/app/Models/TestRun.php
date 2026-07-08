@@ -29,6 +29,14 @@ class TestRun extends Model
         'raw_metrics_path',
         'report_path',
         'notes',
+        'platform',
+        'target_type',
+        'target_app_package',
+        'target_app_activity',
+        'apk_path',
+        'device_name',
+        'automation_driver',
+        'appium_exit_code',
     ];
 
     protected $casts = [
@@ -37,6 +45,7 @@ class TestRun extends Model
         'duration_seconds' => 'float',
         'max_duration_seconds' => 'integer',
         'playwright_exit_code' => 'integer',
+        'appium_exit_code' => 'integer',
     ];
 
     public function project(): BelongsTo
@@ -69,6 +78,11 @@ class TestRun extends Model
         return $this->hasOne(FrictionResult::class)->where('prediction_source', 'baseline');
     }
 
+    public function androidResult(): HasOne
+    {
+        return $this->hasOne(FrictionResult::class)->where('prediction_source', 'android_appium');
+    }
+
     public function interactionLogs(): HasMany
     {
         return $this->hasMany(InteractionLog::class);
@@ -87,5 +101,10 @@ class TestRun extends Model
     public function isLiveWebsiteRun(): bool
     {
         return $this->run_mode === 'live_website';
+    }
+
+    public function isAndroidRun(): bool
+    {
+        return $this->platform === 'android';
     }
 }

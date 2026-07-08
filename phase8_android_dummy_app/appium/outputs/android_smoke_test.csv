@@ -1,0 +1,16 @@
+target_type,flow_type,scenario_type,device_type,platform_name,task_completed,task_failed,completion_time,click_count,scroll_count,keyboard_count,retry_count,error_count,failed_clicks,unnecessary_clicks,path_deviation_score,app_launch_time_ms,screen_load_time_ms,feedback_delay_ms,interaction_response_time_ms,finish_time_ms,error_message_present,error_message_clarity,popup_detected,overlay_blocks_action,timeout_occurred,crash_detected,anr_detected,friction_level_prediction,run_index
+android_app,login,good,android_emulator,Android,1,0,9.1098,2,0,2,0,0,0,0,0,47819,602,3947,3947,9109,0,none,0,0,0,0,0,,1
+android_app,login,medium,android_emulator,Android,1,0,12.9665,3,0,2,0,0,0,0,0,47819,1614,4624,4624,12966,0,none,1,1,0,0,0,,1
+android_app,login,bad,android_emulator,Android,0,1,12.2625,2,0,1,1,1,0,0,0,47819,2600,5978,5978,12262,1,vague,0,0,1,0,0,,1
+android_app,signup,good,android_emulator,Android,1,0,8.2026,2,0,2,0,0,0,0,0,47819,598,3956,3956,8202,0,none,0,0,0,0,0,,1
+android_app,signup,medium,android_emulator,Android,0,1,9.6559,2,0,2,0,1,0,0,0,47819,1602,4567,4567,9655,1,clear,0,0,0,0,0,,1
+android_app,signup,bad,android_emulator,Android,0,1,13.6718,2,0,2,0,1,0,0,0,47819,2603,7539,7539,13671,1,medium,0,0,0,0,0,,1
+android_app,search,good,android_emulator,Android,1,0,7.4314,2,0,1,0,0,0,0,0,47819,633,2406,2406,7431,0,none,0,0,0,0,0,,1
+android_app,search,medium,android_emulator,Android,1,0,10.3563,3,0,1,0,0,0,0,0,47819,1609,3110,3110,10356,0,none,1,1,0,0,0,,1
+android_app,search,bad,android_emulator,Android,0,1,12.8317,2,0,1,0,1,0,0,1,47819,2613,6025,6025,12831,1,vague,0,0,0,0,0,,1
+android_app,button_click,good,android_emulator,Android,1,0,5.7853,2,0,0,0,0,0,0,0,47819,605,802,802,5785,0,none,0,0,0,0,0,,1
+android_app,button_click,medium,android_emulator,Android,1,0,7.0017,2,0,0,0,0,0,0,0,47819,1606,1404,1404,7001,0,none,0,0,0,0,0,,1
+android_app,button_click,bad,android_emulator,Android,1,0,12.996,4,1,0,0,1,0,0,0,47819,2600,6427,6427,12996,1,medium,0,0,1,0,1,,1
+android_app,form_submit,good,android_emulator,Android,1,0,8.6658,2,0,2,0,0,0,0,0,47819,601,3944,3944,8665,0,none,0,0,0,0,0,,1
+android_app,form_submit,medium,android_emulator,Android,0,1,9.4886,2,0,1,1,1,0,0,0,47819,1613,3558,3558,9488,1,clear,0,0,0,0,0,,1
+android_app,form_submit,bad,android_emulator,Android,0,1,3.9214,0,0,0,0,1,0,0,0,47819,0,0,0,3921,0,none,0,0,0,1,0,,1

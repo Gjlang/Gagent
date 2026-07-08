@@ -1,0 +1,7 @@
+com.gagent.dummyandroid.app-pngs-0 D:\FYP\GAgent\GAgent\phase8_android_dummy_app\app\build\generated\res\pngs\debug
+com.gagent.dummyandroid.app-resValues-1 D:\FYP\GAgent\GAgent\phase8_android_dummy_app\app\build\generated\res\resValues\debug
+com.gagent.dummyandroid.app-packageDebugResources-2 D:\FYP\GAgent\GAgent\phase8_android_dummy_app\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.gagent.dummyandroid.app-packageDebugResources-3 D:\FYP\GAgent\GAgent\phase8_android_dummy_app\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.gagent.dummyandroid.app-debug-4 D:\FYP\GAgent\GAgent\phase8_android_dummy_app\app\build\intermediates\merged_res\debug\mergeDebugResources
+com.gagent.dummyandroid.app-debug-5 D:\FYP\GAgent\GAgent\phase8_android_dummy_app\app\src\debug\res
+com.gagent.dummyandroid.app-main-6 D:\FYP\GAgent\GAgent\phase8_android_dummy_app\app\src\main\res
