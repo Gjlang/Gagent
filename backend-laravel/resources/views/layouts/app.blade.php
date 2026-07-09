@@ -4,190 +4,91 @@
     <meta charset="UTF-8">
     <title>GAgent - @yield('title', 'Dashboard')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <style>
-        * { box-sizing: border-box; }
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f3f4f6;
-            color: #111827;
-        }
-        .app { display: flex; min-height: 100vh; }
-        .sidebar {
-            width: 250px;
-            background: #111827;
-            color: white;
-            padding: 20px;
-        }
-        .sidebar h2 { margin: 0 0 8px 0; }
-        .sidebar p {
-            color: #9ca3af;
-            font-size: 13px;
-            line-height: 1.4;
-        }
-        .sidebar a {
-            display: block;
-            color: #d1d5db;
-            text-decoration: none;
-            padding: 10px 12px;
-            border-radius: 8px;
-            margin: 6px 0;
-            font-size: 14px;
-        }
-        .sidebar a:hover { background: #374151; color: white; }
-        .main { flex: 1; }
-        .topbar {
-            background: white;
-            border-bottom: 1px solid #e5e7eb;
-            padding: 16px 24px;
-        }
-        .topbar h1 { margin: 0; font-size: 22px; }
-        .content { padding: 24px; }
-        .card {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 18px;
-            margin-bottom: 18px;
-        }
-        .grid { display: grid; gap: 16px; }
-        .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-        .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-        .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-        .stat-value {
-            font-size: 30px;
-            font-weight: bold;
-            margin-top: 8px;
-        }
-        .muted { color: #6b7280; font-size: 14px; }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-        }
-        th, td {
-            border-bottom: 1px solid #e5e7eb;
-            padding: 11px;
-            text-align: left;
-            font-size: 14px;
-            vertical-align: top;
-        }
-        th { background: #f9fafb; }
-        .btn {
-            display: inline-block;
-            padding: 9px 12px;
-            border-radius: 8px;
-            border: none;
-            background: #2563eb;
-            color: white;
-            text-decoration: none;
-            font-size: 14px;
-            cursor: pointer;
-            margin: 2px;
-        }
-        .btn-secondary { background: #4b5563; }
-        .btn-danger { background: #dc2626; }
-        .badge {
-            display: inline-block;
-            padding: 5px 9px;
-            border-radius: 999px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        .badge-low { background: #dcfce7; color: #166534; }
-        .badge-medium { background: #fef3c7; color: #92400e; }
-        .badge-high { background: #fee2e2; color: #991b1b; }
-        .badge-neutral { background: #e5e7eb; color: #374151; }
-        .badge-final { background: #dbeafe; color: #1d4ed8; }
-        input, select, textarea {
-            width: 100%;
-            padding: 10px;
-            margin-top: 6px;
-            margin-bottom: 14px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-        }
-        label {
-            font-weight: bold;
-            font-size: 14px;
-        }
-        .alert-success {
-            background: #dcfce7;
-            color: #166534;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 16px;
-        }
-        .alert-error {
-            background: #fee2e2;
-            color: #991b1b;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 16px;
-        }
-        pre {
-            white-space: pre-wrap;
-            background: #111827;
-            color: #f9fafb;
-            padding: 14px;
-            border-radius: 8px;
-            font-size: 13px;
-            overflow-x: auto;
-        }
-        .screenshot-box {
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            padding: 12px;
-            background: #f9fafb;
-        }
-        .screenshot-box img {
-            max-width: 100%;
-            border-radius: 8px;
-            border: 1px solid #e5e7eb;
-        }
-        @media (max-width: 900px) {
-            .app { display: block; }
-            .sidebar { width: 100%; }
-            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
-            .content { padding: 14px; }
-        }
-    </style>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @else
+        <style>
+            {!! file_get_contents(resource_path('css/app.css')) !!}
+        </style>
+    @endif
 </head>
 <body>
-<div class="app">
-    <aside class="sidebar">
-        <h2>GAgent</h2>
-        <p>Autonomous AI-driven mystery shopper dashboard for UX friction detection.</p>
+@php
+    $navItems = [
+        ['label' => 'Dashboard', 'route' => 'dashboard', 'match' => 'dashboard', 'icon' => '▦'],
+        ['label' => 'Projects', 'route' => 'projects.index', 'match' => 'projects.*', 'icon' => '▣'],
+        ['label' => 'Test Runs', 'route' => 'test-runs.index', 'match' => 'test-runs.*', 'icon' => '◉'],
+        ['label' => 'Reports', 'route' => 'reports.index', 'match' => 'reports.*', 'icon' => '▤'],
+        ['label' => 'AI Analysis', 'route' => 'ai.test', 'match' => 'ai.*', 'icon' => '✦'],
+        ['label' => 'Live Website Testing', 'route' => 'live-tests.create', 'match' => 'live-tests.*', 'icon' => '◎'],
+        ['label' => 'Android Testing', 'route' => 'android-tests.create', 'match' => 'android-tests.*', 'icon' => '▥'],
+    ];
+@endphp
 
-        <a href="{{ route('dashboard') }}">Dashboard</a>
-        <a href="{{ route('projects.index') }}">Projects</a>
-        <a href="{{ route('projects.create') }}">Create Project</a>
-        <a href="{{ route('live-tests.create') }}">Live Website Test</a>
-        <a href="{{ route('android-tests.create') }}">Android Test</a>
-        <a href="{{ route('test-runs.index') }}">Test Runs</a>
-        <a href="{{ route('reports.index') }}">Reports</a>
-        <a href="{{ route('ai.test') }}">AI Service Test</a>
-    </aside>
-
-    <main class="main">
-        <div class="topbar">
-            <h1>@yield('title', 'Dashboard')</h1>
+<div class="g-shell">
+    <aside class="g-sidebar">
+        <div class="g-brand">
+            <div class="g-brand-mark">G</div>
+            <div>
+                <div class="g-brand-title">GAgent</div>
+                <div class="g-brand-subtitle">AI UX Testing</div>
+            </div>
         </div>
 
-        <div class="content">
+        <nav class="g-nav" aria-label="Main navigation">
+            @foreach ($navItems as $item)
+                @if (\Illuminate\Support\Facades\Route::has($item['route']))
+                    <a class="g-nav-link {{ request()->routeIs($item['match']) ? 'is-active' : '' }}" href="{{ route($item['route']) }}">
+                        <span class="g-nav-icon">{{ $item['icon'] }}</span>
+                        <span>{{ $item['label'] }}</span>
+                    </a>
+                @endif
+            @endforeach
+        </nav>
+
+        <div class="g-sidebar-footer">
+            <div><span class="g-status-dot"></span>AI Status: Operational</div>
+            <div style="margin-top: 8px;">© {{ date('Y') }} GAgent AI</div>
+        </div>
+    </aside>
+
+    <main class="g-main">
+        <header class="g-topbar">
+            <div>
+                <div class="g-page-kicker">@yield('kicker', 'GAgent System')</div>
+                <h1 class="g-page-title">@yield('title', 'Dashboard')</h1>
+            </div>
+
+            <div class="g-topbar-search" aria-label="Visual search bar">
+                <span>⌕</span>
+                <input type="search" placeholder="Search tests, reports, metrics, or agents..." readonly>
+            </div>
+
+            <div class="g-topbar-actions">
+                <div class="g-icon-btn" title="System status">⌘</div>
+                <div class="g-icon-btn" title="Notifications">●</div>
+                <div class="g-avatar" title="Demo user">AI</div>
+            </div>
+        </header>
+
+        <section class="g-content">
             @if (session('success'))
-                <div class="alert-success">{{ session('success') }}</div>
+                <div class="g-alert-success">{{ session('success') }}</div>
             @endif
 
             @if (session('error'))
-                <div class="alert-error">{{ session('error') }}</div>
+                <div class="g-alert-error">{{ session('error') }}</div>
             @endif
 
             @yield('content')
-        </div>
+        </section>
+
+        <footer class="g-footer">
+            <span>Documentation · Support · Privacy</span>
+            <span><span class="g-status-dot"></span>AI Status: Operational</span>
+        </footer>
     </main>
 </div>
 

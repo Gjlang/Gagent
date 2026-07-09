@@ -1,18 +1,19 @@
 @extends('layouts.app')
 
-@section('title', 'Create Android Test')
+@section('title', 'Android Testing')
+@section('kicker', 'Appium Metrics')
 
 @section('content')
-<div class="card">
-    <h3>Phase 8 Android Appium Experimental Test</h3>
-    <p class="muted">
-        This page sends Android UX metrics to FastAPI POST /predict-android.
-        It is an experimental Android extension. The Web GAgent model remains the main model.
-    </p>
+<div class="g-page-header">
+    <div>
+        <h2>Create Android Test</h2>
+        <p>Save Android UX metrics, APK/app details, and friction signals before sending the payload to FastAPI /predict-android.</p>
+    </div>
+    <a class="g-btn" href="{{ route('test-runs.index') }}">View Test Runs</a>
 </div>
 
 @if ($errors->any())
-    <div class="alert-error">
+    <div class="g-alert-error">
         <strong>Validation error:</strong>
         <ul>
             @foreach ($errors->all() as $error)
@@ -24,181 +25,162 @@
 
 <form method="POST" action="{{ route('android-tests.store') }}" enctype="multipart/form-data">
     @csrf
+    <div class="g-layout-2-1">
+        <div class="g-stack">
+            <div class="g-card">
+                <h3>Android App Configuration</h3>
+                <div class="g-form-grid">
+                    <div class="g-form-field">
+                        <label>Project</label>
+                        <select class="g-select" name="project_id" required>
+                            <option value="">Select project</option>
+                            @foreach ($projects as $project)
+                                <option value="{{ $project->id }}" @selected(old('project_id') == $project->id)>{{ $project->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="g-form-field">
+                        <label>Flow Type</label>
+                        <select class="g-select" name="flow_type" required>
+                            @foreach (['login', 'signup', 'search', 'button_click', 'form_submit'] as $flow)
+                                <option value="{{ $flow }}" @selected(old('flow_type', 'login') === $flow)>{{ $flow }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="g-form-field">
+                        <label>Target App Package</label>
+                        <input class="g-input" name="target_app_package" value="{{ old('target_app_package', 'com.gagent.dummyandroid') }}">
+                    </div>
+                    <div class="g-form-field">
+                        <label>Target App Activity</label>
+                        <input class="g-input" name="target_app_activity" value="{{ old('target_app_activity', 'com.gagent.dummyandroid.MainActivity') }}">
+                    </div>
+                    <div class="g-form-field">
+                        <label>Device Name</label>
+                        <input class="g-input" name="device_name" value="{{ old('device_name', 'emulator-5554') }}">
+                    </div>
+                    <div class="g-form-field">
+                        <label>APK Path / Installed App Path</label>
+                        <input class="g-input" name="apk_path" placeholder="Optional when uploading APK" value="{{ old('apk_path') }}">
+                    </div>
+                    <div class="g-form-field" style="grid-column: 1 / -1;">
+                        <label>Upload Android APK</label>
+                        <div id="apk-drop-zone" class="g-upload-zone">
+                            <p style="margin: 0; font-weight: 850;">Drop APK file here</p>
+                            <p class="g-muted" style="margin: 6px 0 0;">or click to select APK</p>
+                            <input id="apk-file-input" type="file" name="apk_file" accept=".apk" style="display: none;">
+                            <p id="apk-file-name" style="margin-top: 12px; color: #334155;"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    <div class="card">
-        <h3>Android Test Information</h3>
+            <div class="g-grid g-grid-2">
+                <div class="g-card">
+                    <h3>Task Metrics</h3>
+                    <div class="g-form-grid" style="grid-template-columns: 1fr;">
+                        @foreach ([
+                            'completion_time' => ['Completion Time', '12', '0.01'],
+                            'click_count' => ['Click Count', '7', '1'],
+                            'scroll_count' => ['Scroll Count', '2', '1'],
+                            'keyboard_count' => ['Keyboard Count', '4', '1'],
+                            'retry_count' => ['Retry Count', '1', '1'],
+                            'error_count' => ['Error Count', '1', '1'],
+                            'failed_clicks' => ['Failed Clicks', '1', '1'],
+                            'unnecessary_clicks' => ['Unnecessary Clicks', '2', '1'],
+                            'path_deviation_score' => ['Path Deviation Score', '0.35', '0.01'],
+                        ] as $name => $meta)
+                            <div class="g-form-field">
+                                <label>{{ $meta[0] }}</label>
+                                <input class="g-input" type="number" step="{{ $meta[2] }}" name="{{ $name }}" value="{{ old($name, $meta[1]) }}">
+                            </div>
+                        @endforeach
 
-        <label>Project</label>
-        <select name="project_id" required>
-            <option value="">Select project</option>
-            @foreach ($projects as $project)
-                <option value="{{ $project->id }}">{{ $project->name }}</option>
-            @endforeach
-        </select>
+                        <div class="g-form-field">
+                            <label>Task Completed</label>
+                            <select class="g-select" name="task_completed">
+                                <option value="1" @selected(old('task_completed', '1') === '1')>1 - Yes</option>
+                                <option value="0" @selected(old('task_completed') === '0')>0 - No</option>
+                            </select>
+                        </div>
 
-        <label>Flow Type</label>
-        <select name="flow_type" required>
-            <option value="login">login</option>
-            <option value="signup">signup</option>
-            <option value="search">search</option>
-            <option value="button_click">button_click</option>
-            <option value="form_submit">form_submit</option>
-        </select>
+                        <div class="g-form-field">
+                            <label>Task Failed</label>
+                            <select class="g-select" name="task_failed">
+                                <option value="0" @selected(old('task_failed', '0') === '0')>0 - No</option>
+                                <option value="1" @selected(old('task_failed') === '1')>1 - Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
 
-        <label>Target App Package</label>
-        <input name="target_app_package" value="com.gagent.dummyandroid">
+                <div class="g-card">
+                    <h3>Android Performance and Friction</h3>
+                    <div class="g-form-grid" style="grid-template-columns: 1fr;">
+                        @foreach ([
+                            'app_launch_time_ms' => ['App Launch Time MS', '1300'],
+                            'screen_load_time_ms' => ['Screen Load Time MS', '1700'],
+                            'feedback_delay_ms' => ['Feedback Delay MS', '1200'],
+                            'interaction_response_time_ms' => ['Interaction Response Time MS', '1500'],
+                            'finish_time_ms' => ['Finish Time MS', '12500'],
+                        ] as $name => $meta)
+                            <div class="g-form-field">
+                                <label>{{ $meta[0] }}</label>
+                                <input class="g-input" type="number" step="0.01" name="{{ $name }}" value="{{ old($name, $meta[1]) }}">
+                            </div>
+                        @endforeach
 
-        <label>Target App Activity</label>
-        <input name="target_app_activity" value="com.gagent.dummyandroid.MainActivity">
+                        <div class="g-form-field">
+                            <label>Error Message Present</label>
+                            <select class="g-select" name="error_message_present">
+                                <option value="1" @selected(old('error_message_present', '1') === '1')>1 - Yes</option>
+                                <option value="0" @selected(old('error_message_present') === '0')>0 - No</option>
+                            </select>
+                        </div>
 
-        <label>Upload Android APK</label>
+                        <div class="g-form-field">
+                            <label>Error Message Clarity</label>
+                            <select class="g-select" name="error_message_clarity">
+                                <option value="-1">-1 - No error message</option>
+                                <option value="0">0 - Vague</option>
+                                <option value="1" selected>1 - Acceptable</option>
+                                <option value="2">2 - Clear</option>
+                            </select>
+                        </div>
 
-        <div
-            id="apk-drop-zone"
-            style="
-                border: 2px dashed #cbd5e1;
-                border-radius: 12px;
-                padding: 24px;
-                text-align: center;
-                background: #f8fafc;
-                cursor: pointer;
-                margin-bottom: 12px;
-            "
-        >
-            <p style="margin: 0; font-weight: 600;">Drag and drop APK file here</p>
-            <p style="margin: 6px 0 0; color: #64748b;">or click to select APK</p>
-
-            <input
-                id="apk-file-input"
-                type="file"
-                name="apk_file"
-                accept=".apk"
-                style="display: none;"
-            >
-
-            <p id="apk-file-name" style="margin-top: 12px; color: #334155;"></p>
+                        @foreach (['popup_detected' => 'Popup Detected', 'overlay_blocks_action' => 'Overlay Blocks Action', 'timeout_occurred' => 'Timeout Occurred', 'crash_detected' => 'Crash Detected', 'anr_detected' => 'ANR Detected'] as $name => $label)
+                            <div class="g-form-field">
+                                <label>{{ $label }}</label>
+                                <select class="g-select" name="{{ $name }}">
+                                    <option value="0" @selected(old($name, '0') === '0')>0 - No</option>
+                                    <option value="1" @selected(old($name) === '1')>1 - Yes</option>
+                                </select>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <label>APK Path / Installed App Path</label>
-        <input
-            name="apk_path"
-            placeholder="Optional. Leave empty if uploading APK above."
-            value="{{ old('apk_path') }}"
-        >
-
-        <label>Device Name</label>
-        <input name="device_name" value="emulator-5554">
+        <aside class="g-panel">
+            <div class="g-soft-label">Device / Emulator Status</div>
+            <h3 style="margin-top: 7px;">Android Test Console</h3>
+            <div class="g-device-stage" style="margin-top: 14px;">
+                <div class="g-phone">
+                    <div class="g-phone-line"></div>
+                    <div class="g-phone-line"></div>
+                    <div class="g-phone-line active"></div>
+                    <div class="g-phone-line"></div>
+                </div>
+            </div>
+            <div class="g-kv" style="margin-top: 14px;">
+                <div class="g-kv-row"><span>Driver</span><span>Appium</span></div>
+                <div class="g-kv-row"><span>Model Endpoint</span><span>/predict-android</span></div>
+                <div class="g-kv-row"><span>Result</span><span>Low / Medium / High</span></div>
+            </div>
+            <button class="g-btn g-btn-primary g-btn-block" type="submit" style="margin-top: 16px;">Save Android Metrics</button>
+        </aside>
     </div>
-
-    <div class="grid grid-2">
-        <div class="card">
-            <h3>Task Metrics</h3>
-
-            <label>Task Completed</label>
-            <select name="task_completed">
-                <option value="1">1 - Yes</option>
-                <option value="0">0 - No</option>
-            </select>
-
-            <label>Task Failed</label>
-            <select name="task_failed">
-                <option value="0">0 - No</option>
-                <option value="1">1 - Yes</option>
-            </select>
-
-            <label>Completion Time</label>
-            <input type="number" step="0.01" name="completion_time" value="12">
-
-            <label>Click Count</label>
-            <input type="number" name="click_count" value="7">
-
-            <label>Scroll Count</label>
-            <input type="number" name="scroll_count" value="2">
-
-            <label>Keyboard Count</label>
-            <input type="number" name="keyboard_count" value="4">
-
-            <label>Retry Count</label>
-            <input type="number" name="retry_count" value="1">
-
-            <label>Error Count</label>
-            <input type="number" name="error_count" value="1">
-
-            <label>Failed Clicks</label>
-            <input type="number" name="failed_clicks" value="1">
-
-            <label>Unnecessary Clicks</label>
-            <input type="number" name="unnecessary_clicks" value="2">
-
-            <label>Path Deviation Score</label>
-            <input type="number" step="0.01" name="path_deviation_score" value="0.35">
-        </div>
-
-        <div class="card">
-            <h3>Android Performance and Friction Metrics</h3>
-
-            <label>App Launch Time MS</label>
-            <input type="number" step="0.01" name="app_launch_time_ms" value="1300">
-
-            <label>Screen Load Time MS</label>
-            <input type="number" step="0.01" name="screen_load_time_ms" value="1700">
-
-            <label>Feedback Delay MS</label>
-            <input type="number" step="0.01" name="feedback_delay_ms" value="1200">
-
-            <label>Interaction Response Time MS</label>
-            <input type="number" step="0.01" name="interaction_response_time_ms" value="1500">
-
-            <label>Finish Time MS</label>
-            <input type="number" step="0.01" name="finish_time_ms" value="12500">
-
-            <label>Error Message Present</label>
-            <select name="error_message_present">
-                <option value="1">1 - Yes</option>
-                <option value="0">0 - No</option>
-            </select>
-
-            <label>Error Message Clarity</label>
-            <select name="error_message_clarity">
-                <option value="-1">-1 - No error message</option>
-                <option value="0">0 - Vague</option>
-                <option value="1" selected>1 - Acceptable</option>
-                <option value="2">2 - Clear</option>
-            </select>
-
-            <label>Popup Detected</label>
-            <select name="popup_detected">
-                <option value="1">1 - Yes</option>
-                <option value="0">0 - No</option>
-            </select>
-
-            <label>Overlay Blocks Action</label>
-            <select name="overlay_blocks_action">
-                <option value="0">0 - No</option>
-                <option value="1">1 - Yes</option>
-            </select>
-
-            <label>Timeout Occurred</label>
-            <select name="timeout_occurred">
-                <option value="0">0 - No</option>
-                <option value="1">1 - Yes</option>
-            </select>
-
-            <label>Crash Detected</label>
-            <select name="crash_detected">
-                <option value="0">0 - No</option>
-                <option value="1">1 - Yes</option>
-            </select>
-
-            <label>ANR Detected</label>
-            <select name="anr_detected">
-                <option value="0">0 - No</option>
-                <option value="1">1 - Yes</option>
-            </select>
-        </div>
-    </div>
-
-    <button class="btn" type="submit">Save Android Metrics</button>
 </form>
 
 <script>
@@ -206,25 +188,20 @@
     const fileInput = document.getElementById('apk-file-input');
     const fileName = document.getElementById('apk-file-name');
 
-    dropZone.addEventListener('click', () => {
-        fileInput.click();
-    });
+    dropZone.addEventListener('click', () => fileInput.click());
 
     dropZone.addEventListener('dragover', (event) => {
         event.preventDefault();
-        dropZone.style.background = '#e0f2fe';
-        dropZone.style.borderColor = '#0284c7';
+        dropZone.classList.add('is-dragging');
     });
 
     dropZone.addEventListener('dragleave', () => {
-        dropZone.style.background = '#f8fafc';
-        dropZone.style.borderColor = '#cbd5e1';
+        dropZone.classList.remove('is-dragging');
     });
 
     dropZone.addEventListener('drop', (event) => {
         event.preventDefault();
-        dropZone.style.background = '#f8fafc';
-        dropZone.style.borderColor = '#cbd5e1';
+        dropZone.classList.remove('is-dragging');
 
         if (event.dataTransfer.files.length > 0) {
             fileInput.files = event.dataTransfer.files;
@@ -233,9 +210,7 @@
     });
 
     fileInput.addEventListener('change', () => {
-        if (fileInput.files.length > 0) {
-            fileName.textContent = fileInput.files[0].name;
-        }
+        fileName.textContent = fileInput.files.length ? fileInput.files[0].name : '';
     });
 </script>
 @endsection
