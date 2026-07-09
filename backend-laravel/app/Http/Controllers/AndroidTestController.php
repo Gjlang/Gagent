@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 use Throwable;
 
 class AndroidTestController extends Controller
@@ -32,6 +33,7 @@ class AndroidTestController extends Controller
             'target_app_package' => ['nullable', 'string', 'max:255'],
             'target_app_activity' => ['nullable', 'string', 'max:255'],
             'apk_path' => ['nullable', 'string', 'max:2048'],
+            'apk_file' => ['nullable', 'file', 'max:102400'],
             'device_name' => ['nullable', 'string', 'max:255'],
 
             'task_completed' => ['required', 'boolean'],
@@ -59,11 +61,29 @@ class AndroidTestController extends Controller
             'timeout_occurred' => ['required', 'boolean'],
             'crash_detected' => ['required', 'boolean'],
             'anr_detected' => ['required', 'boolean'],
+
         ]);
+        $uploadedApkPath = $validated['apk_path'] ?? null;
+
+        if ($request->hasFile('apk_file')) {
+            $apkFile = $request->file('apk_file');
+
+            if (strtolower($apkFile->getClientOriginalExtension()) !== 'apk') {
+                return back()
+                    ->withErrors(['apk_file' => 'The uploaded file must be an APK file.'])
+                    ->withInput();
+            }
+
+            $safeName = 'android-app-' . now()->format('Ymd-His') . '-' . Str::random(8) . '.apk';
+
+            $storedPath = $apkFile->storeAs('android-apks', $safeName);
+
+            $uploadedApkPath = Storage::path($storedPath);
+        }
 
         $testRun = null;
 
-        DB::transaction(function () use ($validated, &$testRun) {
+        DB::transaction(function () use ($validated, $uploadedApkPath, &$testRun) {
             $testRun = TestRun::create([
                 'project_id' => $validated['project_id'],
                 'run_code' => 'ANDROID-' . now()->format('Ymd-His') . '-' . Str::upper(Str::random(5)),
@@ -74,7 +94,7 @@ class AndroidTestController extends Controller
                 'target_type' => 'android_application',
                 'target_app_package' => $validated['target_app_package'] ?? 'com.gagent.dummyandroid',
                 'target_app_activity' => $validated['target_app_activity'] ?? 'com.gagent.dummyandroid.MainActivity',
-                'apk_path' => $validated['apk_path'] ?? null,
+                'apk_path' => $uploadedApkPath,
                 'device_name' => $validated['device_name'] ?? 'emulator-5554',
                 'automation_driver' => 'appium',
                 'run_mode' => 'android_manual_metrics',

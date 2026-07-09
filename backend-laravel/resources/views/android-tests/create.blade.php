@@ -22,7 +22,7 @@
     </div>
 @endif
 
-<form method="POST" action="{{ route('android-tests.store') }}">
+<form method="POST" action="{{ route('android-tests.store') }}" enctype="multipart/form-data">
     @csrf
 
     <div class="card">
@@ -51,8 +51,40 @@
         <label>Target App Activity</label>
         <input name="target_app_activity" value="com.gagent.dummyandroid.MainActivity">
 
-        <label>APK Path</label>
-        <input name="apk_path" value="D:\FYP\GAgent\GAgent\phase8_android_dummy_app\app\build\outputs\apk\debug\app-debug.apk">
+        <label>Upload Android APK</label>
+
+        <div
+            id="apk-drop-zone"
+            style="
+                border: 2px dashed #cbd5e1;
+                border-radius: 12px;
+                padding: 24px;
+                text-align: center;
+                background: #f8fafc;
+                cursor: pointer;
+                margin-bottom: 12px;
+            "
+        >
+            <p style="margin: 0; font-weight: 600;">Drag and drop APK file here</p>
+            <p style="margin: 6px 0 0; color: #64748b;">or click to select APK</p>
+
+            <input
+                id="apk-file-input"
+                type="file"
+                name="apk_file"
+                accept=".apk"
+                style="display: none;"
+            >
+
+            <p id="apk-file-name" style="margin-top: 12px; color: #334155;"></p>
+        </div>
+
+        <label>APK Path / Installed App Path</label>
+        <input
+            name="apk_path"
+            placeholder="Optional. Leave empty if uploading APK above."
+            value="{{ old('apk_path') }}"
+        >
 
         <label>Device Name</label>
         <input name="device_name" value="emulator-5554">
@@ -168,4 +200,42 @@
 
     <button class="btn" type="submit">Save Android Metrics</button>
 </form>
+
+<script>
+    const dropZone = document.getElementById('apk-drop-zone');
+    const fileInput = document.getElementById('apk-file-input');
+    const fileName = document.getElementById('apk-file-name');
+
+    dropZone.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    dropZone.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        dropZone.style.background = '#e0f2fe';
+        dropZone.style.borderColor = '#0284c7';
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.style.background = '#f8fafc';
+        dropZone.style.borderColor = '#cbd5e1';
+    });
+
+    dropZone.addEventListener('drop', (event) => {
+        event.preventDefault();
+        dropZone.style.background = '#f8fafc';
+        dropZone.style.borderColor = '#cbd5e1';
+
+        if (event.dataTransfer.files.length > 0) {
+            fileInput.files = event.dataTransfer.files;
+            fileName.textContent = event.dataTransfer.files[0].name;
+        }
+    });
+
+    fileInput.addEventListener('change', () => {
+        if (fileInput.files.length > 0) {
+            fileName.textContent = fileInput.files[0].name;
+        }
+    });
+</script>
 @endsection
