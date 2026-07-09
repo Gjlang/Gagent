@@ -142,44 +142,61 @@
                     <strong>No screenshots available.</strong>
                     Screenshot evidence will appear here after the test runner saves captures.
                 </div>
-            <?php else: ?>
-                <div class="g-evidence-grid" style="margin-top: 14px;">
-                    <?php $__currentLoopData = $screenshots; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $screenshot): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <?php
-                            $path = $screenshot->file_path ?? '';
-                            $cleanPath = ltrim($path, '/');
+           <?php else: ?>
+    <div class="g-screenshot-full-list">
+        <?php $__currentLoopData = $screenshots; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $screenshot): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <?php
+                $path = $screenshot->file_path ?? '';
+                $cleanPath = ltrim($path, '/');
 
-                            if ($path && str_starts_with($path, 'http')) {
-                                $imageSrc = $path;
-                            } elseif ($path && str_starts_with($cleanPath, 'storage/')) {
-                                $imageSrc = asset($cleanPath);
-                            } elseif ($path) {
-                                $imageSrc = asset('storage/' . $cleanPath);
-                            } else {
-                                $imageSrc = null;
-                            }
-                        ?>
+                if ($path && str_starts_with($path, 'http')) {
+                    $imageSrc = $path;
+                } elseif ($path && str_starts_with($cleanPath, 'storage/')) {
+                    $imageSrc = asset($cleanPath);
+                } elseif ($path) {
+                    $imageSrc = asset('storage/' . $cleanPath);
+                } else {
+                    $imageSrc = null;
+                }
+            ?>
 
-                        <div class="g-evidence-card">
-                            <?php if($imageSrc): ?>
-                                <img class="g-screenshot-img" src="<?php echo e($imageSrc); ?>" alt="<?php echo e($screenshot->label ?? 'Screenshot evidence'); ?>">
-                            <?php else: ?>
-                                <div class="g-evidence-visual">No Image</div>
-                            <?php endif; ?>
+            <div class="g-screenshot-full-card">
+                <div class="g-screenshot-full-header">
+                    <div>
+                        <strong><?php echo e($screenshot->label ?? 'Screenshot Evidence'); ?></strong>
+                        <p class="g-muted g-small">
+                            <?php echo e($screenshot->file_path ?? 'No file path available'); ?>
 
-                            <div class="g-evidence-body">
-                                <strong><?php echo e($screenshot->label ?? 'Screenshot Evidence'); ?></strong>
-                                <p class="g-muted g-small" style="margin-bottom: 8px;">
-                                    <?php echo e($screenshot->file_path ?? 'No file path available'); ?>
+                        </p>
+                    </div>
 
-                                </p>
-
-                                <span class="g-badge <?php echo e($badgeClass); ?>"><?php echo e($level); ?></span>
-                            </div>
-                        </div>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    <span class="g-badge <?php echo e($badgeClass); ?>"><?php echo e($level); ?></span>
                 </div>
-            <?php endif; ?>
+
+                <?php if($imageSrc): ?>
+                    <a href="<?php echo e($imageSrc); ?>" target="_blank" class="g-screenshot-full-link">
+                        <img
+                            class="g-screenshot-full-img"
+                            src="<?php echo e($imageSrc); ?>"
+                            alt="<?php echo e($screenshot->label ?? 'Screenshot evidence'); ?>"
+                        >
+                    </a>
+
+                    <div style="margin-top: 12px;">
+                        <a class="g-btn" href="<?php echo e($imageSrc); ?>" target="_blank">
+                            Open Full Screenshot
+                        </a>
+                    </div>
+                <?php else: ?>
+                    <div class="g-empty">
+                        <strong>No image file found.</strong>
+                        Screenshot path exists but the image could not be loaded.
+                    </div>
+                <?php endif; ?>
+            </div>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    </div>
+<?php endif; ?>
         </div>
 
         <div class="g-grid g-grid-2">

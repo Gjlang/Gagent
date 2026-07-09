@@ -7,7 +7,9 @@ use App\Http\Controllers\LiveTestController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TestRunController;
+use App\Http\Controllers\UnifiedTestController;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/', function () {
     return redirect()->route('dashboard');
@@ -19,6 +21,9 @@ Route::get('/projects', [ProjectController::class, 'index'])->name('projects.ind
 Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
 Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
 Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
+
+Route::get('/run-test', [UnifiedTestController::class, 'create'])->name('unified-tests.create');
+Route::post('/run-test', [UnifiedTestController::class, 'store'])->name('unified-tests.store');
 
 Route::get('/live-tests/create', [LiveTestController::class, 'create'])->name('live-tests.create');
 Route::post('/live-tests', [LiveTestController::class, 'store'])->name('live-tests.store');

@@ -141,10 +141,9 @@ class PlaywrightLiveTestService
             throw new RuntimeException('Only http and https URLs are allowed.');
         }
 
-        if (!in_array($flowType, ['landing_navigation', 'cta_click', 'basic_search'], true)) {
+        if (!in_array($flowType, ['auto', 'landing_navigation', 'cta_click', 'basic_search'], true)) {
             throw new RuntimeException('Invalid flow type.');
         }
-
         if (!in_array($viewportType, ['desktop', 'tablet', 'mobile'], true)) {
             throw new RuntimeException('Invalid viewport type.');
         }

@@ -299,6 +299,103 @@ async function findBestCTA(page) {
     return scored[0] || null;
   }, CTA_KEYWORDS);
 }
+async function getLocatorAnnotation(locator, label, severity = "High") {
+  try {
+    const box = await locator.evaluate((element) => {
+      const rect = element.getBoundingClientRect();
+
+      return {
+        x: rect.left + window.scrollX,
+        y: rect.top + window.scrollY,
+        width: rect.width,
+        height: rect.height,
+        text:
+          element.innerText ||
+          element.value ||
+          element.getAttribute("aria-label") ||
+          element.getAttribute("placeholder") ||
+          "",
+      };
+    });
+
+    if (!box || box.width <= 0 || box.height <= 0) {
+      return null;
+    }
+
+    return {
+      label,
+      severity,
+      x: Math.round(box.x),
+      y: Math.round(box.y),
+      width: Math.round(box.width),
+      height: Math.round(box.height),
+      text: String(box.text || "")
+        .trim()
+        .slice(0, 80),
+    };
+  } catch (error) {
+    return null;
+  }
+}
+
+async function drawGAgentAnnotations(page, annotations = []) {
+  if (!annotations.length) return;
+
+  await page.evaluate((items) => {
+    const oldLayer = document.getElementById("__gagent_annotation_layer");
+    if (oldLayer) oldLayer.remove();
+
+    const layer = document.createElement("div");
+    layer.id = "__gagent_annotation_layer";
+    layer.style.position = "absolute";
+    layer.style.left = "0";
+    layer.style.top = "0";
+    layer.style.width = "100%";
+    layer.style.height = `${Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)}px`;
+    layer.style.zIndex = "2147483647";
+    layer.style.pointerEvents = "none";
+
+    items.forEach((item, index) => {
+      const box = document.createElement("div");
+      box.style.position = "absolute";
+      box.style.left = `${item.x}px`;
+      box.style.top = `${item.y}px`;
+      box.style.width = `${Math.max(item.width, 20)}px`;
+      box.style.height = `${Math.max(item.height, 20)}px`;
+      box.style.border = "4px solid #ef4444";
+      box.style.borderRadius = "10px";
+      box.style.boxShadow = "0 0 0 9999px rgba(239, 68, 68, 0.05)";
+      box.style.background = "rgba(239, 68, 68, 0.08)";
+
+      const label = document.createElement("div");
+      label.textContent = `${index + 1}. ${item.label}`;
+      label.style.position = "absolute";
+      label.style.left = `${item.x}px`;
+      label.style.top = `${Math.max(0, item.y - 34)}px`;
+      label.style.background = "#ef4444";
+      label.style.color = "#ffffff";
+      label.style.padding = "6px 10px";
+      label.style.borderRadius = "999px";
+      label.style.font = "700 13px Arial, sans-serif";
+      label.style.whiteSpace = "nowrap";
+      label.style.boxShadow = "0 8px 18px rgba(15, 23, 42, 0.24)";
+
+      layer.appendChild(box);
+      layer.appendChild(label);
+    });
+
+    document.body.appendChild(layer);
+  }, annotations);
+}
+
+async function clearGAgentAnnotations(page) {
+  await page
+    .evaluate(() => {
+      const layer = document.getElementById("__gagent_annotation_layer");
+      if (layer) layer.remove();
+    })
+    .catch(() => {});
+}
 
 async function clickBestCTA(page) {
   const candidate = await findBestCTA(page);
@@ -309,6 +406,7 @@ async function clickBestCTA(page) {
       failed_clicks: 1,
       feedback_delay_ms: 0,
       reason: "No suitable CTA candidate found.",
+      annotations: [],
     };
   }
 
@@ -320,6 +418,7 @@ async function clickBestCTA(page) {
         'button, a[role="button"], input[type="submit"], a, [aria-label]',
       )
       .all();
+
     const target = elements[candidate.index];
 
     if (!target) {
@@ -328,8 +427,15 @@ async function clickBestCTA(page) {
         failed_clicks: 1,
         feedback_delay_ms: 0,
         reason: "CTA candidate became unavailable before click.",
+        annotations: [],
       };
     }
+
+    const annotation = await getLocatorAnnotation(
+      target,
+      `Clicked CTA: ${candidate.text || "button"}`,
+      "High",
+    );
 
     await target.click({ timeout: 5000 });
 
@@ -339,11 +445,14 @@ async function clickBestCTA(page) {
       // Some CTA actions update the page without navigation.
     }
 
+    await page.waitForTimeout(2500);
+
     return {
       clicked: true,
       failed_clicks: 0,
       feedback_delay_ms: Date.now() - start,
       reason: "CTA clicked.",
+      annotations: annotation ? [annotation] : [],
     };
   } catch (error) {
     return {
@@ -351,6 +460,7 @@ async function clickBestCTA(page) {
       failed_clicks: 1,
       feedback_delay_ms: Date.now() - start,
       reason: error.message,
+      annotations: [],
     };
   }
 }
@@ -374,6 +484,12 @@ async function runBasicSearch(page) {
         (await locator.count()) > 0 &&
         (await locator.isVisible({ timeout: 1500 }))
       ) {
+        const annotation = await getLocatorAnnotation(
+          locator,
+          "Search input tested",
+          "Medium",
+        );
+
         await locator.fill("test");
         await locator.press("Enter");
 
@@ -383,10 +499,13 @@ async function runBasicSearch(page) {
           // Search may update dynamically.
         }
 
+        await page.waitForTimeout(2000);
+
         return {
           searched: true,
           feedback_delay_ms: Date.now() - start,
           reason: "Search input found and submitted.",
+          annotations: annotation ? [annotation] : [],
         };
       }
     } catch (error) {
@@ -398,6 +517,7 @@ async function runBasicSearch(page) {
     searched: false,
     feedback_delay_ms: 0,
     reason: "No search input found.",
+    annotations: [],
   };
 }
 
@@ -448,6 +568,111 @@ function mergeMetrics(base, browserMetrics, timing, signals, runtimeSeconds) {
   };
 }
 
+async function detectBestFlow(page) {
+  return await page.evaluate((ctaKeywords) => {
+    function isVisible(element) {
+      const style = window.getComputedStyle(element);
+      const box = element.getBoundingClientRect();
+
+      return (
+        style.display !== "none" &&
+        style.visibility !== "hidden" &&
+        style.opacity !== "0" &&
+        box.width >= 30 &&
+        box.height >= 20
+      );
+    }
+
+    const searchSelectors = [
+      'input[type="search"]',
+      'input[name*="search" i]',
+      'input[placeholder*="search" i]',
+      'input[aria-label*="search" i]',
+      '[role="searchbox"]',
+    ];
+
+    const searchInputs = searchSelectors
+      .flatMap((selector) => Array.from(document.querySelectorAll(selector)))
+      .filter(isVisible);
+
+    if (searchInputs.length > 0) {
+      return {
+        flow_type: "basic_search",
+        reason: "Search input detected on the page.",
+        confidence: 0.95,
+      };
+    }
+
+    const ctaCandidates = Array.from(
+      document.querySelectorAll(
+        'button, a[role="button"], input[type="submit"], a, [aria-label]',
+      ),
+    )
+      .filter(isVisible)
+      .map((element) => {
+        const box = element.getBoundingClientRect();
+        const text = (
+          element.innerText ||
+          element.value ||
+          element.getAttribute("aria-label") ||
+          ""
+        )
+          .trim()
+          .toLowerCase();
+
+        let score = 0;
+
+        if (ctaKeywords.some((keyword) => text.includes(keyword))) score += 60;
+        if (element.tagName.toLowerCase() === "button") score += 20;
+        if (element.getAttribute("role") === "button") score += 15;
+        if (element.tagName.toLowerCase() === "input") score += 15;
+        if (box.top >= 0 && box.top <= window.innerHeight) score += 15;
+        if (box.width >= 80 && box.height >= 30) score += 10;
+
+        if (
+          element.disabled ||
+          element.getAttribute("aria-disabled") === "true"
+        ) {
+          score -= 100;
+        }
+
+        return {
+          text,
+          score,
+        };
+      })
+      .filter((item) => item.score > 0)
+      .sort((a, b) => b.score - a.score);
+
+    if (ctaCandidates.length > 0) {
+      return {
+        flow_type: "cta_click",
+        reason: "CTA/button candidate detected on the page.",
+        confidence: Math.min(0.9, ctaCandidates[0].score / 100),
+      };
+    }
+
+    const forms = Array.from(document.querySelectorAll("form")).filter(
+      isVisible,
+    );
+
+    if (forms.length > 0) {
+      return {
+        flow_type: "cta_click",
+        reason: "Form detected. Using CTA click flow as fallback.",
+        confidence: 0.7,
+      };
+    }
+
+    return {
+      flow_type: "landing_navigation",
+      reason:
+        "No search input or strong CTA detected. Using landing navigation.",
+      confidence: 0.6,
+    };
+  }, CTA_KEYWORDS);
+}
+
 module.exports = {
   VIEWPORTS,
   NETWORK_PROFILES,
@@ -456,9 +681,12 @@ module.exports = {
   getNavigationTiming,
   getBrowserMetrics,
   detectPageSignals,
+  detectBestFlow,
   scrollPage,
   clickBestCTA,
   runBasicSearch,
+  drawGAgentAnnotations,
+  clearGAgentAnnotations,
   mergeMetrics,
   round,
 };

@@ -1,0 +1,496 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\FrictionResult;
+use App\Models\Project;
+use App\Models\Report;
+use App\Models\TestRun;
+use App\Models\UXMetric;
+use App\Services\AppiumAndroidTestService;
+use App\Services\GAgentAIService;
+use App\Services\PlaywrightLiveTestService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use App\Models\Screenshot;
+use Throwable;
+
+class UnifiedTestController extends Controller
+{
+    public function create()
+    {
+        return view('unified-tests.create');
+    }
+
+    public function store(
+        Request $request,
+        PlaywrightLiveTestService $playwrightService,
+        AppiumAndroidTestService $appiumService,
+        GAgentAIService $aiService
+    ) {
+        $request->validate([
+            'test_type' => ['required', 'in:website,android'],
+        ]);
+
+        if ($request->input('test_type') === 'website') {
+            return $this->runWebsiteTest($request, $playwrightService, $aiService);
+        }
+
+        return $this->runAndroidTest($request, $appiumService, $aiService);
+    }
+
+    private function runWebsiteTest(
+        Request $request,
+        PlaywrightLiveTestService $playwrightService,
+        GAgentAIService $aiService
+    ) {
+        $validated = $request->validate([
+            'target_url' => ['required', 'url', 'max:2048'],
+            'web_flow_type' => ['nullable', 'in:auto,landing_navigation,cta_click,basic_search'],
+            'viewport_type' => ['required', 'in:desktop,tablet,mobile'],
+            'network_condition' => ['required', 'in:normal,slow'],
+            'max_duration_seconds' => ['required', 'integer', 'min:10', 'max:120'],
+            'notes' => ['nullable', 'string', 'max:2000'],
+        ]);
+
+        $webFlowType = $validated['web_flow_type'] ?? 'auto';
+
+        $project = $this->findOrCreateProject(
+            targetType: 'web_application',
+            targetUrl: $validated['target_url'],
+            name: 'Website Test - ' . parse_url($validated['target_url'], PHP_URL_HOST),
+            description: 'Auto-created project from unified website UX test.'
+        );
+
+        $startedAt = Carbon::now();
+
+        $testRun = TestRun::create([
+            'project_id' => $project->id,
+            'run_code' => 'WEB-' . now()->format('Ymd-His') . '-' . Str::upper(Str::random(5)),
+            'flow_type' => $webFlowType,
+            'scenario_type' => 'live_website',
+            'viewport_type' => $validated['viewport_type'],
+            'network_condition' => $validated['network_condition'],
+            'run_mode' => 'live_website',
+            'max_duration_seconds' => $validated['max_duration_seconds'],
+            'page_url' => $validated['target_url'],
+            'target_url' => $validated['target_url'],
+            'platform' => 'web',
+            'target_type' => 'web_application',
+            'automation_driver' => 'playwright',
+            'status' => 'running',
+            'started_at' => $startedAt,
+            'notes' => $validated['notes'] ?? 'Created from unified Run UX Test page.',
+        ]);
+
+        try {
+            $playwrightResult = $playwrightService->run([
+                'target_url' => $testRun->target_url,
+                'flow_type' => $testRun->flow_type,
+                'viewport_type' => $testRun->viewport_type,
+                'network_condition' => $testRun->network_condition,
+                'max_duration_seconds' => $testRun->max_duration_seconds,
+                'test_run_id' => $testRun->id,
+            ]);
+
+            $finishedAt = Carbon::now();
+
+            $testRun->update([
+                'playwright_exit_code' => $playwrightResult['exit_code'],
+                'duration_seconds' => $startedAt->diffInMilliseconds($finishedAt) / 1000,
+            ]);
+
+            if (($playwrightResult['status'] ?? null) !== 'success') {
+                $errorData = $playwrightResult['data'] ?? [];
+
+                $testRun->update([
+                    'status' => 'failed',
+                    'completed_at' => $finishedAt,
+                    'error_message' => $playwrightResult['message'] ?? 'Playwright failed.',
+                    'raw_metrics_path' => $errorData['raw_metrics_path'] ?? null,
+                ]);
+
+                return redirect()
+                    ->route('test-runs.show', $testRun)
+                    ->with('error', 'Website test failed: ' . ($playwrightResult['message'] ?? 'Unknown Playwright error.'));
+            }
+
+            $data = $playwrightResult['data'] ?? [];
+            $metrics = $data['metrics'] ?? null;
+            $this->saveScreenshots($testRun, $data['screenshots'] ?? []);
+
+            if (!is_array($metrics)) {
+                throw new \RuntimeException('Playwright completed but no metrics were returned.');
+            }
+
+            $report = null;
+
+            DB::transaction(function () use ($testRun, $metrics, $data, $aiService, $finishedAt, &$report) {
+                $uxMetric = $this->saveWebsiteUXMetrics($testRun, $metrics);
+                $payload = $uxMetric->toGAgentPayload();
+
+                $prediction = $aiService->predictGAgent($payload);
+
+                if (($prediction['status'] ?? null) !== 'success') {
+                    throw new \RuntimeException($prediction['message'] ?? 'FastAPI web prediction failed.');
+                }
+
+                $predictionData = $prediction['data'] ?? [];
+
+                FrictionResult::where('test_run_id', $testRun->id)->update(['is_final' => false]);
+
+                FrictionResult::create([
+                    'test_run_id' => $testRun->id,
+                    'model_name' => $predictionData['model_name'] ?? 'main_gagent_model',
+                    'model_type' => $predictionData['model_type'] ?? 'main_gagent',
+                    'prediction_source' => 'main_gagent',
+                    'friction_level' => $predictionData['friction_level'] ?? $predictionData['prediction'] ?? null,
+                    'confidence_score' => $predictionData['confidence_score'] ?? $predictionData['confidence'] ?? null,
+                    'class_probabilities' => $predictionData['class_probabilities'] ?? [],
+                    'recommendations' => $predictionData['recommendations'] ?? $predictionData['recommendation'] ?? [],
+                    'input_features' => $payload,
+                    'is_final' => true,
+                ]);
+
+                $level = $predictionData['friction_level'] ?? $predictionData['prediction'] ?? 'Unknown';
+
+                $report = Report::updateOrCreate(
+                    ['test_run_id' => $testRun->id],
+                    [
+                        'title' => 'Website UX Friction Report - ' . $testRun->run_code,
+                        'summary' => 'Website test completed for ' . $testRun->target_url . '. Final UX friction level is ' . $level . '.',
+                        'conclusion' => 'This report was generated from Playwright UX metrics and the GAgent web machine learning model.',
+                        'generated_at' => Carbon::now(),
+                    ]
+                );
+
+                $testRun->update([
+                    'status' => 'completed',
+                    'flow_type' => $data['flow_type'] ?? $testRun->flow_type,
+                    'completed_at' => $finishedAt,
+                    'error_message' => null,
+                    'raw_metrics_path' => $data['raw_metrics_path'] ?? null,
+                    'report_path' => route('reports.show', $report),
+                ]);
+            });
+
+            return redirect()
+                ->route('reports.show', $report)
+                ->with('success', 'Website test completed. Project, test run, prediction, and report were created automatically.');
+        } catch (Throwable $error) {
+            $testRun->update([
+                'status' => 'failed',
+                'completed_at' => Carbon::now(),
+                'error_message' => $error->getMessage(),
+            ]);
+
+            return redirect()
+                ->route('test-runs.show', $testRun)
+                ->with('error', 'Website test failed: ' . $error->getMessage());
+        }
+    }
+
+    private function runAndroidTest(
+        Request $request,
+        AppiumAndroidTestService $appiumService,
+        GAgentAIService $aiService
+    ) {
+        $validated = $request->validate([
+            'android_flow_type' => ['required', 'in:login,signup,search,button_click,form_submit'],
+            'android_scenario_type' => ['required', 'in:good,medium,bad'],
+            'target_app_package' => ['nullable', 'string', 'max:255'],
+            'target_app_activity' => ['nullable', 'string', 'max:255'],
+            'apk_path' => ['nullable', 'string', 'max:2048'],
+            'apk_file' => ['nullable', 'file', 'max:102400'],
+            'device_name' => ['nullable', 'string', 'max:255'],
+            'notes' => ['nullable', 'string', 'max:2000'],
+        ]);
+
+        $package = $validated['target_app_package'] ?? 'com.gagent.dummyandroid';
+        $activity = $validated['target_app_activity'] ?? 'com.gagent.dummyandroid.MainActivity';
+
+        $apkPath = $validated['apk_path'] ?? base_path('../phase8_android_dummy_app/app/build/outputs/apk/debug/app-debug.apk');
+
+        if ($request->hasFile('apk_file')) {
+            $apkFile = $request->file('apk_file');
+
+            if (strtolower($apkFile->getClientOriginalExtension()) !== 'apk') {
+                return back()
+                    ->withErrors(['apk_file' => 'The uploaded file must be an APK file.'])
+                    ->withInput();
+            }
+
+            $safeName = 'android-app-' . now()->format('Ymd-His') . '-' . Str::random(8) . '.apk';
+            $storedPath = $apkFile->storeAs('android-apks', $safeName);
+            $apkPath = Storage::path($storedPath);
+        }
+
+        $project = $this->findOrCreateProject(
+            targetType: 'android_application',
+            targetUrl: 'android://' . $package,
+            name: 'Android Test - ' . $package,
+            description: 'Auto-created project from unified Android Appium UX test.'
+        );
+
+        $startedAt = Carbon::now();
+
+        $testRun = TestRun::create([
+            'project_id' => $project->id,
+            'run_code' => 'ANDROID-' . now()->format('Ymd-His') . '-' . Str::upper(Str::random(5)),
+            'flow_type' => $validated['android_flow_type'],
+            'scenario_type' => $validated['android_scenario_type'],
+            'viewport_type' => 'mobile',
+            'platform' => 'android',
+            'target_type' => 'android_application',
+            'target_app_package' => $package,
+            'target_app_activity' => $activity,
+            'apk_path' => $apkPath,
+            'device_name' => $validated['device_name'] ?? 'emulator-5554',
+            'automation_driver' => 'appium',
+            'run_mode' => 'android_appium_auto',
+            'status' => 'running',
+            'started_at' => $startedAt,
+            'notes' => $validated['notes'] ?? 'Created from unified Run UX Test page.',
+        ]);
+
+        try {
+            $appiumResult = $appiumService->run([
+                'test_run_id' => $testRun->id,
+                'apk_path' => $apkPath,
+                'flow_type' => $validated['android_flow_type'],
+                'scenario_type' => $validated['android_scenario_type'],
+            ]);
+
+            $finishedAt = Carbon::now();
+
+            $testRun->update([
+                'appium_exit_code' => $appiumResult['exit_code'],
+                'duration_seconds' => $startedAt->diffInMilliseconds($finishedAt) / 1000,
+                'raw_metrics_path' => $appiumResult['raw_metrics_path'] ?? null,
+            ]);
+
+            if (($appiumResult['status'] ?? null) !== 'success') {
+                $testRun->update([
+                    'status' => 'failed',
+                    'completed_at' => $finishedAt,
+                    'error_message' => $appiumResult['message'] ?? 'Appium failed.',
+                ]);
+
+                return redirect()
+                    ->route('test-runs.show', $testRun)
+                    ->with('error', 'Android Appium test failed: ' . ($appiumResult['message'] ?? 'Unknown Appium error.'));
+            }
+
+            $metrics = $appiumResult['metrics'] ?? null;
+
+            if (!is_array($metrics)) {
+                throw new \RuntimeException('Appium completed but no selected metrics row was returned.');
+            }
+
+            $report = null;
+
+            DB::transaction(function () use ($testRun, $metrics, $aiService, $finishedAt, &$report) {
+                $uxMetric = $this->saveAndroidUXMetrics($testRun, $metrics);
+                $payload = $uxMetric->toAndroidPayload();
+
+                $prediction = $aiService->predictAndroid($payload);
+
+                if (($prediction['status'] ?? null) !== 'success') {
+                    throw new \RuntimeException($prediction['message'] ?? 'FastAPI Android prediction failed.');
+                }
+
+                $predictionData = $prediction['data'] ?? [];
+
+                FrictionResult::where('test_run_id', $testRun->id)->update(['is_final' => false]);
+
+                FrictionResult::create([
+                    'test_run_id' => $testRun->id,
+                    'model_name' => 'android_appium_model',
+                    'model_type' => $predictionData['model_type'] ?? 'android_appium',
+                    'prediction_source' => 'android_appium',
+                    'friction_level' => $predictionData['friction_level'] ?? $predictionData['prediction'] ?? null,
+                    'confidence_score' => $predictionData['confidence_score'] ?? null,
+                    'class_probabilities' => $predictionData['class_probabilities'] ?? [],
+                    'recommendations' => $predictionData['recommendations'] ?? [],
+                    'input_features' => $payload,
+                    'is_final' => true,
+                ]);
+
+                $level = $predictionData['friction_level'] ?? $predictionData['prediction'] ?? 'Unknown';
+
+                $report = Report::updateOrCreate(
+                    ['test_run_id' => $testRun->id],
+                    [
+                        'title' => 'Android UX Friction Report - ' . $testRun->run_code,
+                        'summary' => 'Android Appium test completed for ' . $testRun->flow_type . ' / ' . $testRun->scenario_type . '. Final UX friction level is ' . $level . '.',
+                        'conclusion' => 'This report was generated from Appium Android UX metrics and the GAgent Android machine learning model.',
+                        'generated_at' => Carbon::now(),
+                    ]
+                );
+
+                $testRun->update([
+                    'status' => 'completed',
+                    'completed_at' => $finishedAt,
+                    'error_message' => null,
+                    'report_path' => route('reports.show', $report),
+                ]);
+            });
+
+            return redirect()
+                ->route('reports.show', $report)
+                ->with('success', 'Android test completed. Project, test run, prediction, and report were created automatically.');
+        } catch (Throwable $error) {
+            $testRun->update([
+                'status' => 'failed',
+                'completed_at' => Carbon::now(),
+                'error_message' => $error->getMessage(),
+            ]);
+
+            return redirect()
+                ->route('test-runs.show', $testRun)
+                ->with('error', 'Android test failed: ' . $error->getMessage());
+        }
+    }
+
+    private function findOrCreateProject(string $targetType, ?string $targetUrl, string $name, string $description): Project
+    {
+        return Project::firstOrCreate(
+            [
+                'target_type' => $targetType,
+                'target_url' => $targetUrl,
+            ],
+            [
+                'name' => $name,
+                'description' => $description,
+                'status' => 'active',
+            ]
+        );
+    }
+
+    private function saveWebsiteUXMetrics(TestRun $testRun, array $metrics): UXMetric
+    {
+        return UXMetric::updateOrCreate(
+            ['test_run_id' => $testRun->id],
+            [
+                'flow_type' => ($metrics['flow_type'] ?? $testRun->flow_type) === 'basic_search'
+                    ? 'search'
+                    : ($metrics['flow_type'] ?? $testRun->flow_type),
+                'scenario_type' => 'live_website',
+                'viewport_type' => $metrics['viewport_type'] ?? $testRun->viewport_type,
+
+                'task_completed' => (bool) ($metrics['task_completed'] ?? 0),
+                'task_failed' => (bool) ($metrics['task_failed'] ?? 1),
+                'completion_time' => (float) ($metrics['completion_time'] ?? 0),
+                'click_count' => (int) ($metrics['click_count'] ?? 0),
+                'scroll_count' => (int) ($metrics['scroll_count'] ?? 0),
+                'keyboard_count' => (int) ($metrics['keyboard_count'] ?? 0),
+                'retry_count' => (int) ($metrics['retry_count'] ?? 0),
+                'error_count' => (int) ($metrics['error_count'] ?? 0),
+                'failed_clicks' => (int) ($metrics['failed_clicks'] ?? 0),
+                'unnecessary_clicks' => (int) ($metrics['unnecessary_clicks'] ?? 0),
+                'path_deviation_score' => (float) ($metrics['path_deviation_score'] ?? 0),
+                'page_load_time_ms' => (float) ($metrics['page_load_time_ms'] ?? 0),
+                'dom_content_loaded_ms' => (float) ($metrics['dom_content_loaded_ms'] ?? 0),
+                'time_to_first_byte_ms' => (float) ($metrics['time_to_first_byte_ms'] ?? 0),
+                'feedback_delay_ms' => (float) ($metrics['feedback_delay_ms'] ?? 0),
+                'interaction_to_next_paint_ms' => (float) ($metrics['interaction_to_next_paint_ms'] ?? 0),
+                'cumulative_layout_shift' => (float) ($metrics['cumulative_layout_shift'] ?? 0),
+                'error_message_present' => (bool) ($metrics['error_message_present'] ?? 0),
+                'error_message_clarity' => (int) ($metrics['error_message_clarity'] ?? -1),
+                'popup_detected' => (bool) ($metrics['popup_detected'] ?? 0),
+                'cookie_banner_detected' => (bool) ($metrics['cookie_banner_detected'] ?? 0),
+                'overlay_blocks_cta' => (bool) ($metrics['overlay_blocks_cta'] ?? 0),
+            ]
+        );
+    }
+
+    private function saveAndroidUXMetrics(TestRun $testRun, array $metrics): UXMetric
+    {
+        return UXMetric::updateOrCreate(
+            ['test_run_id' => $testRun->id],
+            [
+                'flow_type' => $metrics['flow_type'] ?? $testRun->flow_type,
+                'scenario_type' => $metrics['scenario_type'] ?? $testRun->scenario_type,
+                'viewport_type' => 'mobile',
+                'device_type' => $metrics['device_type'] ?? 'android_emulator',
+                'platform_name' => $metrics['platform_name'] ?? 'Android',
+
+                'task_completed' => (bool) ($metrics['task_completed'] ?? 0),
+                'task_failed' => (bool) ($metrics['task_failed'] ?? 1),
+                'completion_time' => (float) ($metrics['completion_time'] ?? 0),
+                'click_count' => (int) ($metrics['click_count'] ?? 0),
+                'scroll_count' => (int) ($metrics['scroll_count'] ?? 0),
+                'keyboard_count' => (int) ($metrics['keyboard_count'] ?? 0),
+                'retry_count' => (int) ($metrics['retry_count'] ?? 0),
+                'error_count' => (int) ($metrics['error_count'] ?? 0),
+                'failed_clicks' => (int) ($metrics['failed_clicks'] ?? 0),
+                'unnecessary_clicks' => (int) ($metrics['unnecessary_clicks'] ?? 0),
+                'path_deviation_score' => (float) ($metrics['path_deviation_score'] ?? 0),
+
+                'app_launch_time_ms' => (float) ($metrics['app_launch_time_ms'] ?? 0),
+                'screen_load_time_ms' => (float) ($metrics['screen_load_time_ms'] ?? 0),
+                'feedback_delay_ms' => (float) ($metrics['feedback_delay_ms'] ?? 0),
+                'interaction_response_time_ms' => (float) ($metrics['interaction_response_time_ms'] ?? 0),
+                'finish_time_ms' => (float) ($metrics['finish_time_ms'] ?? 0),
+
+                'error_message_present' => (bool) ($metrics['error_message_present'] ?? 0),
+                'error_message_clarity' => $this->mapAndroidErrorClarity($metrics['error_message_clarity'] ?? 'none'),
+                'popup_detected' => (bool) ($metrics['popup_detected'] ?? 0),
+                'overlay_blocks_action' => (bool) ($metrics['overlay_blocks_action'] ?? 0),
+                'timeout_occurred' => (bool) ($metrics['timeout_occurred'] ?? 0),
+                'crash_detected' => (bool) ($metrics['crash_detected'] ?? 0),
+                'anr_detected' => (bool) ($metrics['anr_detected'] ?? 0),
+            ]
+        );
+    }
+
+    private function mapAndroidErrorClarity(mixed $value): int
+    {
+        if (is_numeric($value)) {
+            return (int) $value;
+        }
+
+        return match (strtolower((string) $value)) {
+            'none' => -1,
+            'vague' => 0,
+            'medium' => 1,
+            'clear' => 2,
+            default => -1,
+        };
+    }
+
+    private function saveScreenshots(TestRun $testRun, array $screenshots): void
+{
+    foreach ($screenshots as $index => $screenshot) {
+        $sourcePath = $screenshot['file_path'] ?? null;
+
+        if (!$sourcePath || !file_exists($sourcePath)) {
+            continue;
+        }
+
+        $extension = pathinfo($sourcePath, PATHINFO_EXTENSION) ?: 'png';
+
+        $fileName = 'test-run-' . $testRun->id . '-' . ($index + 1) . '-' . time() . '.' . $extension;
+
+        $storageFolder = storage_path('app/public/test-run-screenshots');
+
+        if (!is_dir($storageFolder)) {
+            mkdir($storageFolder, 0775, true);
+        }
+
+        $destinationPath = $storageFolder . DIRECTORY_SEPARATOR . $fileName;
+
+        copy($sourcePath, $destinationPath);
+
+        Screenshot::create([
+            'test_run_id' => $testRun->id,
+            'file_path' => 'test-run-screenshots/' . $fileName,
+            'label' => $screenshot['label'] ?? 'Screenshot Evidence',
+            'captured_at' => now(),
+        ]);
+    }
+}
+}

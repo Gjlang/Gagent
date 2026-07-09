@@ -26,9 +26,12 @@ const {
   getNavigationTiming,
   getBrowserMetrics,
   detectPageSignals,
+  detectBestFlow,
   scrollPage,
   clickBestCTA,
   runBasicSearch,
+  drawGAgentAnnotations,
+  clearGAgentAnnotations,
   mergeMetrics,
   round,
 } = require("../utils/live-metrics-collector");
@@ -86,13 +89,20 @@ async function main() {
   const args = parseArgs(process.argv);
 
   const targetUrl = args.url;
-  const flowType = args.flow || "landing_navigation";
+  const requestedFlowType = args.flow || "auto";
+  let flowType =
+    requestedFlowType === "auto" ? "landing_navigation" : requestedFlowType;
   const viewportType = args.viewport || "desktop";
   const networkCondition = args.network || "normal";
   const testRunId = args.testRunId || null;
   const maxDurationSeconds = Number(args.maxDuration || 60);
 
-  const allowedFlows = ["landing_navigation", "cta_click", "basic_search"];
+  const allowedFlows = [
+    "auto",
+    "landing_navigation",
+    "cta_click",
+    "basic_search",
+  ];
   const allowedViewports = ["desktop", "tablet", "mobile"];
   const allowedNetworks = ["normal", "slow"];
 
@@ -236,8 +246,23 @@ async function main() {
     }
 
     await page.waitForTimeout(1000);
+    let autoDetection = null;
+
+    if (requestedFlowType === "auto") {
+      autoDetection = await detectBestFlow(page).catch((error) => ({
+        flow_type: "landing_navigation",
+        reason:
+          "Auto flow detection failed. Fallback to landing navigation. " +
+          error.message,
+        confidence: 0.4,
+      }));
+
+      flowType = autoDetection.flow_type || "landing_navigation";
+      metrics.flow_type = flowType === "basic_search" ? "search" : flowType;
+    }
 
     let taskReason = "Task not completed.";
+    let screenshotAnnotations = [];
 
     if (flowType === "landing_navigation") {
       await scrollPage(page);
@@ -251,6 +276,9 @@ async function main() {
     if (flowType === "cta_click") {
       await scrollPage(page);
       const clickResult = await clickBestCTA(page);
+      screenshotAnnotations = screenshotAnnotations.concat(
+        clickResult.annotations || [],
+      );
 
       metrics.feedback_delay_ms = clickResult.feedback_delay_ms;
       metrics.failed_clicks += clickResult.failed_clicks;
@@ -269,6 +297,9 @@ async function main() {
 
     if (flowType === "basic_search") {
       const searchResult = await runBasicSearch(page);
+      screenshotAnnotations = screenshotAnnotations.concat(
+        searchResult.annotations || [],
+      );
 
       metrics.feedback_delay_ms = searchResult.feedback_delay_ms;
 
@@ -329,11 +360,26 @@ async function main() {
     const outputDir = path.resolve(__dirname, "../outputs/live_tests");
     fs.mkdirSync(outputDir, { recursive: true });
 
+    const screenshotDir = path.join(outputDir, "screenshots");
+    fs.mkdirSync(screenshotDir, { recursive: true });
+
+    const screenshotPath = path.join(
+      screenshotDir,
+      `annotated_screenshot_${testRunId || "manual"}_${Date.now()}.png`,
+    );
+
+    await drawGAgentAnnotations(page, screenshotAnnotations);
+
+    await page.screenshot({
+      path: screenshotPath,
+      fullPage: true,
+    });
+
+    await clearGAgentAnnotations(page);
     const outputPath = path.join(
       outputDir,
       `live_test_${testRunId || "manual"}_${Date.now()}.json`,
     );
-
     const output = {
       status: "success",
       test_run_id: testRunId,
@@ -343,6 +389,15 @@ async function main() {
       viewport_type: viewportType,
       network_condition: networkCondition,
       raw_metrics_path: outputPath,
+      screenshots: [
+  {
+    file_path: screenshotPath,
+    label: screenshotAnnotations.length > 0
+      ? "Annotated friction screenshot"
+      : "Final page screenshot",
+    annotations: screenshotAnnotations,
+  },
+],
       metrics: finalMetrics,
     };
 
