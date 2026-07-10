@@ -1,0 +1,370 @@
+{
+  "status": "success",
+  "message": "Full audit completed: 4 passed, 1 failed, 0 skipped.",
+  "test_run_id": "40",
+  "target_url": "https://m.shein.com/my/",
+  "flow_type": "full_audit",
+  "audit_mode": "full_audit",
+  "viewport_type": "desktop",
+  "network_condition": "normal",
+  "detected_features": {
+    "landing_navigation": true,
+    "search": false,
+    "cta_click": true,
+    "menu_toggle": true,
+    "header_navigation": false,
+    "category_navigation": true,
+    "product_navigation": true,
+    "login": false,
+    "form_review": false
+  },
+  "audit_summary": {
+    "tested_count": 5,
+    "passed_count": 4,
+    "failed_count": 1,
+    "skipped_count": 0
+  },
+  "flow_results": [
+    {
+      "audit_flow": "landing_navigation",
+      "flow_type": "landing_navigation",
+      "label": "Page loading and navigation",
+      "detected": true,
+      "status": "passed",
+      "reason": "Flow completed successfully.",
+      "metrics": {
+        "flow_type": "landing_navigation",
+        "viewport_type": "desktop",
+        "task_completed": 1,
+        "task_failed": 0,
+        "completion_time": 4.1,
+        "click_count": 0,
+        "scroll_count": 7,
+        "keyboard_count": 0,
+        "retry_count": 0,
+        "error_count": 0,
+        "failed_clicks": 0,
+        "unnecessary_clicks": 0,
+        "path_deviation_score": 0,
+        "page_load_time_ms": 2016,
+        "dom_content_loaded_ms": 650,
+        "time_to_first_byte_ms": 256,
+        "feedback_delay_ms": 0,
+        "interaction_to_next_paint_ms": 0,
+        "cumulative_layout_shift": 0.0006,
+        "error_message_present": 0,
+        "error_message_clarity": -1,
+        "popup_detected": 0,
+        "cookie_banner_detected": 0,
+        "overlay_blocks_cta": 0
+      },
+      "screenshots": [
+        {
+          "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_40_landing_navigation_1783709199885.png",
+          "label": "Full Audit — Page loading and navigation",
+          "flow_key": "landing_navigation",
+          "annotations": []
+        }
+      ]
+    },
+    {
+      "audit_flow": "cta_click",
+      "flow_type": "cta_click",
+      "label": "Safe CTA",
+      "detected": true,
+      "status": "failed",
+      "reason": "locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('button, a[role=\"button\"], input[type=\"button\"], input[type=\"submit\"], a, [aria-label]').nth(27)\u001b[22m\n\u001b[2m    - locator resolved to <div role=\"img\" tabindex=\"-1\" data-v-131ce087=\"\" aria-hidden=\"true\" data-key=\"1_19407570\" data-realswiperindex=\"1\" aria-label=\"UP TO 75% OFF 7.7 SALE SHOP NOW\" class=\"easy_slide c-immersiveBanner-new__real-slide not-fsp-element cloned-slide\">…</div>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - element is outside of the viewport\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - element is outside of the viewport\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - element is outside of the viewport\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is not stable\u001b[22m\n\u001b[2m  7 × retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - element is outside of the viewport\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n",
+      "metrics": {
+        "flow_type": "cta_click",
+        "viewport_type": "desktop",
+        "task_completed": 0,
+        "task_failed": 1,
+        "completion_time": 12.71,
+        "click_count": 0,
+        "scroll_count": 0,
+        "keyboard_count": 0,
+        "retry_count": 0,
+        "error_count": 1,
+        "failed_clicks": 1,
+        "unnecessary_clicks": 0,
+        "path_deviation_score": 0,
+        "page_load_time_ms": 2275,
+        "dom_content_loaded_ms": 764,
+        "time_to_first_byte_ms": 304,
+        "feedback_delay_ms": 0,
+        "interaction_to_next_paint_ms": 0,
+        "cumulative_layout_shift": 0,
+        "error_message_present": 0,
+        "error_message_clarity": -1,
+        "popup_detected": 1,
+        "cookie_banner_detected": 1,
+        "overlay_blocks_cta": 0
+      },
+      "screenshots": [
+        {
+          "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_40_cta_click_1783709203723.png",
+          "label": "Full Audit — Safe CTA",
+          "flow_key": "cta_click",
+          "annotations": [
+            {
+              "label": "Safe CTA tested: up to 75% off 7.7 sale shop now",
+              "severity": "Medium",
+              "x": -1366,
+              "y": -524.609375,
+              "width": 1366,
+              "height": 1150.890625
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "audit_flow": "menu_toggle",
+      "flow_type": "cta_click",
+      "label": "Menu or category control",
+      "detected": true,
+      "status": "passed",
+      "reason": "Flow completed successfully.",
+      "metrics": {
+        "flow_type": "cta_click",
+        "viewport_type": "desktop",
+        "task_completed": 1,
+        "task_failed": 0,
+        "completion_time": 9.18,
+        "click_count": 1,
+        "scroll_count": 1,
+        "keyboard_count": 1,
+        "retry_count": 0,
+        "error_count": 0,
+        "failed_clicks": 0,
+        "unnecessary_clicks": 0,
+        "path_deviation_score": 0,
+        "page_load_time_ms": 2291,
+        "dom_content_loaded_ms": 753,
+        "time_to_first_byte_ms": 244,
+        "feedback_delay_ms": 1791,
+        "interaction_to_next_paint_ms": 64,
+        "cumulative_layout_shift": 0,
+        "error_message_present": 0,
+        "error_message_clarity": -1,
+        "popup_detected": 1,
+        "cookie_banner_detected": 1,
+        "overlay_blocks_cta": 0
+      },
+      "screenshots": [
+        {
+          "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_40_menu_toggle_1783709216368.png",
+          "label": "Full Audit — Menu or category control",
+          "flow_key": "menu_toggle",
+          "annotations": [
+            {
+              "label": "Menu tested: category",
+              "severity": "Medium",
+              "x": 0,
+              "y": 10,
+              "width": 82.265625,
+              "height": 40
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "audit_flow": "category_navigation",
+      "flow_type": "landing_navigation",
+      "label": "Category navigation link",
+      "detected": true,
+      "status": "passed",
+      "reason": "Flow completed successfully.",
+      "metrics": {
+        "flow_type": "landing_navigation",
+        "viewport_type": "desktop",
+        "task_completed": 1,
+        "task_failed": 0,
+        "completion_time": 10.32,
+        "click_count": 1,
+        "scroll_count": 9,
+        "keyboard_count": 0,
+        "retry_count": 0,
+        "error_count": 0,
+        "failed_clicks": 0,
+        "unnecessary_clicks": 0,
+        "path_deviation_score": 0,
+        "page_load_time_ms": 2122,
+        "dom_content_loaded_ms": 668,
+        "time_to_first_byte_ms": 259,
+        "feedback_delay_ms": 3068,
+        "interaction_to_next_paint_ms": 48,
+        "cumulative_layout_shift": 0.0445,
+        "error_message_present": 0,
+        "error_message_clarity": -1,
+        "popup_detected": 0,
+        "cookie_banner_detected": 1,
+        "overlay_blocks_cta": 0
+      },
+      "screenshots": [
+        {
+          "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_40_category_navigation_1783709225421.png",
+          "label": "Full Audit — Category navigation link",
+          "flow_key": "category_navigation",
+          "annotations": [
+            {
+              "label": "Category navigation link tested: women",
+              "severity": "Medium",
+              "x": 20.5625,
+              "y": 898.375,
+              "width": 258.953125,
+              "height": 28.796875
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "audit_flow": "product_navigation",
+      "flow_type": "landing_navigation",
+      "label": "Product or content card",
+      "detected": true,
+      "status": "passed",
+      "reason": "Flow completed successfully.",
+      "metrics": {
+        "flow_type": "landing_navigation",
+        "viewport_type": "desktop",
+        "task_completed": 1,
+        "task_failed": 0,
+        "completion_time": 10.4,
+        "click_count": 1,
+        "scroll_count": 9,
+        "keyboard_count": 0,
+        "retry_count": 0,
+        "error_count": 0,
+        "failed_clicks": 0,
+        "unnecessary_clicks": 0,
+        "path_deviation_score": 0,
+        "page_load_time_ms": 768,
+        "dom_content_loaded_ms": 764,
+        "time_to_first_byte_ms": 270,
+        "feedback_delay_ms": 3129,
+        "interaction_to_next_paint_ms": 80,
+        "cumulative_layout_shift": 0.0024,
+        "error_message_present": 0,
+        "error_message_clarity": -1,
+        "popup_detected": 0,
+        "cookie_banner_detected": 0,
+        "overlay_blocks_cta": 0
+      },
+      "screenshots": [
+        {
+          "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_40_product_navigation_1783709235914.png",
+          "label": "Full Audit — Product or content card",
+          "flow_key": "product_navigation",
+          "annotations": [
+            {
+              "label": "Product or content card tested: women",
+              "severity": "Medium",
+              "x": 20.5625,
+              "y": 899.265625,
+              "width": 258.953125,
+              "height": 28.796875
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_40_landing_navigation_1783709199885.png",
+      "label": "Full Audit — Page loading and navigation",
+      "flow_key": "landing_navigation",
+      "annotations": []
+    },
+    {
+      "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_40_cta_click_1783709203723.png",
+      "label": "Full Audit — Safe CTA",
+      "flow_key": "cta_click",
+      "annotations": [
+        {
+          "label": "Safe CTA tested: up to 75% off 7.7 sale shop now",
+          "severity": "Medium",
+          "x": -1366,
+          "y": -524.609375,
+          "width": 1366,
+          "height": 1150.890625
+        }
+      ]
+    },
+    {
+      "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_40_menu_toggle_1783709216368.png",
+      "label": "Full Audit — Menu or category control",
+      "flow_key": "menu_toggle",
+      "annotations": [
+        {
+          "label": "Menu tested: category",
+          "severity": "Medium",
+          "x": 0,
+          "y": 10,
+          "width": 82.265625,
+          "height": 40
+        }
+      ]
+    },
+    {
+      "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_40_category_navigation_1783709225421.png",
+      "label": "Full Audit — Category navigation link",
+      "flow_key": "category_navigation",
+      "annotations": [
+        {
+          "label": "Category navigation link tested: women",
+          "severity": "Medium",
+          "x": 20.5625,
+          "y": 898.375,
+          "width": 258.953125,
+          "height": 28.796875
+        }
+      ]
+    },
+    {
+      "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_40_product_navigation_1783709235914.png",
+      "label": "Full Audit — Product or content card",
+      "flow_key": "product_navigation",
+      "annotations": [
+        {
+          "label": "Product or content card tested: women",
+          "severity": "Medium",
+          "x": 20.5625,
+          "y": 899.265625,
+          "width": 258.953125,
+          "height": 28.796875
+        }
+      ]
+    }
+  ],
+  "metrics": {
+    "flow_type": "cta_click",
+    "viewport_type": "desktop",
+    "task_completed": 0,
+    "task_failed": 1,
+    "completion_time": 12.71,
+    "click_count": 0,
+    "scroll_count": 0,
+    "keyboard_count": 0,
+    "retry_count": 0,
+    "error_count": 1,
+    "failed_clicks": 1,
+    "unnecessary_clicks": 0,
+    "path_deviation_score": 0,
+    "page_load_time_ms": 2275,
+    "dom_content_loaded_ms": 764,
+    "time_to_first_byte_ms": 304,
+    "feedback_delay_ms": 0,
+    "interaction_to_next_paint_ms": 0,
+    "cumulative_layout_shift": 0,
+    "error_message_present": 0,
+    "error_message_clarity": -1,
+    "popup_detected": 1,
+    "cookie_banner_detected": 1,
+    "overlay_blocks_cta": 0
+  },
+  "raw_metrics_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\full_audit_40_1783709242914.json"
+}

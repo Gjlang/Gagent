@@ -8,15 +8,19 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Screenshot extends Model
 {
     protected $fillable = [
-        'test_run_id',
-        'file_path',
-        'label',
-        'captured_at',
-    ];
+    'test_run_id',
+    'file_path',
+    'label',
+    'flow_key',
+    'friction_level',
+    'confidence_score',
+    'captured_at',
+];
 
     protected $casts = [
-        'captured_at' => 'datetime',
-    ];
+    'confidence_score' => 'float',
+    'captured_at' => 'datetime',
+];
 
     public function testRun(): BelongsTo
     {

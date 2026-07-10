@@ -21,24 +21,88 @@
     </div>
 <?php endif; ?>
 
-<form method="POST" action="<?php echo e(route('unified-tests.store')); ?>" enctype="multipart/form-data">
+<form
+    id="ux-test-form"
+    method="POST"
+    action="<?php echo e(route('unified-tests.store')); ?>"
+    enctype="multipart/form-data"
+>
     <?php echo csrf_field(); ?>
 
     <div class="g-layout-2-1">
         <div class="g-stack">
-            <div class="g-card">
-                <h3>Choose Test Type</h3>
+           <div class="g-card">
+    <h3>Choose Test Type</h3>
 
-                <div class="g-form-grid">
-                    <div class="g-form-field">
-                        <label>Test Type</label>
-                        <select class="g-select" name="test_type" id="test_type" required>
-                            <option value="website" <?php if(old('test_type', 'website') === 'website'): echo 'selected'; endif; ?>>Website</option>
-                            <option value="android" <?php if(old('test_type') === 'android'): echo 'selected'; endif; ?>>Android App</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
+    <div class="g-form-grid">
+        <div class="g-form-field">
+            <label>Test Type</label>
+
+            <select
+                class="g-select"
+                name="test_type"
+                id="test_type"
+                required
+            >
+                <option
+                    value="website"
+                    <?php if(old('test_type', 'website') === 'website'): echo 'selected'; endif; ?>
+                >
+                    Website — Playwright
+                </option>
+
+                <option
+                    value="android"
+                    <?php if(old('test_type') === 'android'): echo 'selected'; endif; ?>
+                >
+                    Android — Appium
+                </option>
+            </select>
+        </div>
+
+        <div class="g-form-field">
+            <label>Show Live Browser</label>
+
+            <select
+                class="g-select"
+                name="show_browser"
+                id="show_browser"
+            >
+                <option
+                    value="1"
+                    <?php if(old('show_browser', '1') === '1'): echo 'selected'; endif; ?>
+                >
+                    Yes — show browser testing
+                </option>
+
+                <option
+                    value="0"
+                    <?php if(old('show_browser') === '0'): echo 'selected'; endif; ?>
+                >
+                    No — run browser in background
+                </option>
+            </select>
+        </div>
+
+        <div class="g-form-field">
+            <label>Playwright Action Delay</label>
+
+            <input
+                class="g-input"
+                type="number"
+                name="slow_mo_ms"
+                value="<?php echo e(old('slow_mo_ms', 350)); ?>"
+                min="0"
+                max="1000"
+                step="50"
+            >
+
+            <span class="g-muted g-small">
+                Recommended for demonstration: 300–500 milliseconds.
+            </span>
+        </div>
+    </div>
+</div>
 
             <div class="g-card" id="website-section">
                 <h3>Website Test Configuration</h3>
@@ -49,7 +113,50 @@
                         <input class="g-input" type="url" name="target_url" value="<?php echo e(old('target_url', 'http://127.0.0.1:3000/landing-good')); ?>">
                     </div>
 
-                    <input type="hidden" name="web_flow_type" value="auto">
+                    <div class="g-form-field">
+    <label>Website Audit Mode</label>
+
+    <select
+        class="g-select"
+        name="web_flow_type"
+        required
+    >
+        <option
+            value="full_audit"
+            <?php if(old('web_flow_type', 'full_audit') === 'full_audit'): echo 'selected'; endif; ?>
+        >
+            Full Website Audit — test all detected safe features
+        </option>
+
+        <option
+            value="auto"
+            <?php if(old('web_flow_type') === 'auto'): echo 'selected'; endif; ?>
+        >
+            Quick Auto Test — test one detected flow
+        </option>
+
+        <option
+            value="landing_navigation"
+            <?php if(old('web_flow_type') === 'landing_navigation'): echo 'selected'; endif; ?>
+        >
+            Page Loading and Navigation Only
+        </option>
+
+        <option
+            value="basic_search"
+            <?php if(old('web_flow_type') === 'basic_search'): echo 'selected'; endif; ?>
+        >
+            Search Only
+        </option>
+
+        <option
+            value="cta_click"
+            <?php if(old('web_flow_type') === 'cta_click'): echo 'selected'; endif; ?>
+        >
+            CTA Only
+        </option>
+    </select>
+</div>
 
                     <div class="g-form-field">
                         <label>Viewport Type</label>
@@ -70,7 +177,19 @@
 
                     <div class="g-form-field">
                         <label>Max Duration Seconds</label>
-                        <input class="g-input" type="number" name="max_duration_seconds" value="<?php echo e(old('max_duration_seconds', 30)); ?>" min="10" max="120">
+
+                        <input
+                            class="g-input"
+                            type="number"
+                            name="max_duration_seconds"
+                            value="<?php echo e(old('max_duration_seconds', 180)); ?>"
+                            min="30"
+                            max="300"
+                        >
+
+                        <span class="g-muted g-small">
+                            Recommended for Full Website Audit: 180 seconds.
+                        </span>
                     </div>
                 </div>
             </div>
@@ -133,7 +252,13 @@
                 <textarea class="g-textarea" name="notes" rows="4" placeholder="Optional testing notes"><?php echo e(old('notes')); ?></textarea>
 
                 <div class="g-actions" style="margin-top: 18px;">
-                    <button class="g-btn g-btn-primary" type="submit">Run UX Test Now</button>
+                    <button
+    class="g-btn g-btn-primary"
+    type="submit"
+    id="run-ux-test-button"
+>
+    Run UX Test Now
+</button>
                 </div>
             </div>
         </div>
@@ -164,11 +289,46 @@
         </aside>
     </div>
 </form>
+<div id="g-test-running-overlay" class="g-test-running-overlay" hidden>
+    <div class="g-test-running-card">
+        <div class="g-ai-scan-screen" aria-hidden="true">
+            <div class="g-ai-scan-grid"></div>
+            <div class="g-ai-scan-target g-ai-scan-target-one"></div>
+            <div class="g-ai-scan-target g-ai-scan-target-two"></div>
+            <div class="g-ai-scan-line"></div>
+        </div>
+
+        <div class="g-soft-label">GAgent Autonomous Testing</div>
+
+        <h3 id="g-test-running-title">
+            Starting UX Test
+        </h3>
+
+        <p id="g-test-running-message" class="g-muted">
+            Preparing the automation runner...
+        </p>
+
+        <div class="g-running-progress">
+            <span></span>
+        </div>
+
+        <p class="g-muted g-small">
+            Do not close this page while the test is running.
+        </p>
+    </div>
+</div>
 
 <script>
     const testType = document.getElementById('test_type');
     const websiteSection = document.getElementById('website-section');
     const androidSection = document.getElementById('android-section');
+
+    const uxTestForm = document.getElementById('ux-test-form');
+    const runButton = document.getElementById('run-ux-test-button');
+
+    const runningOverlay = document.getElementById('g-test-running-overlay');
+    const runningTitle = document.getElementById('g-test-running-title');
+    const runningMessage = document.getElementById('g-test-running-message');
 
     function toggleSections() {
         if (testType.value === 'android') {
@@ -180,7 +340,59 @@
         }
     }
 
+    function startRunningAnimation() {
+        const isWebsite = testType.value === 'website';
+
+        const websiteMessages = [
+            'Launching the Playwright browser...',
+            'Opening the target website...',
+            'Inspecting page structure and interactive elements...',
+            'Testing navigation, scrolling, and user actions...',
+            'Collecting UX performance metrics...',
+            'Capturing screenshot evidence...',
+            'Sending metrics to the AI prediction service...',
+            'Generating the final UX friction report...'
+        ];
+
+        const androidMessages = [
+            'Connecting to the Appium server...',
+            'Preparing the Android device...',
+            'Launching the target application...',
+            'Testing the selected Android flow...',
+            'Collecting interaction and performance metrics...',
+            'Capturing screenshot evidence...',
+            'Sending metrics to the AI prediction service...',
+            'Generating the final UX friction report...'
+        ];
+
+        const messages = isWebsite ? websiteMessages : androidMessages;
+
+        runningTitle.textContent = isWebsite
+            ? 'Website UX Test Running'
+            : 'Android UX Test Running';
+
+        runningMessage.textContent = messages[0];
+        runningOverlay.hidden = false;
+
+        runButton.disabled = true;
+        runButton.textContent = isWebsite
+            ? 'Running Website Test...'
+            : 'Running Android Test...';
+
+        let messageIndex = 0;
+
+        window.setInterval(() => {
+            messageIndex = (messageIndex + 1) % messages.length;
+            runningMessage.textContent = messages[messageIndex];
+        }, 2600);
+    }
+
     testType.addEventListener('change', toggleSections);
+
+    uxTestForm.addEventListener('submit', function () {
+        startRunningAnimation();
+    });
+
     toggleSections();
 </script>
 <?php $__env->stopSection(); ?>

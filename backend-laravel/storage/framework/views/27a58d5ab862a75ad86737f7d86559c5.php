@@ -57,10 +57,24 @@
 
     $screenshots = $run?->screenshots ?? collect();
     $logs = $run?->interactionLogs ?? collect();
+    $auditLogs = $logs->where('event_type', 'audit_flow');
+    $finalInputFeatures = $final?->input_features ?? [];
 
+    if (is_string($finalInputFeatures)) {
+        $finalInputFeatures = json_decode($finalInputFeatures, true) ?? [];
+    }
+
+    $overallAuditScore = $finalInputFeatures['average_severity_score'] ?? null;
+    $isFullAuditReport = $run?->flow_type === 'full_audit';
+
+    if ($isFullAuditReport && $overallAuditScore !== null) {
+    $frictionScore = round((((float) $overallAuditScore - 1) / 2) * 100);
+    $frictionScore = max(0, min(100, $frictionScore));
+} else {
     $frictionScore = $final?->confidence_score !== null
         ? round($final->confidence_score * 100)
         : 0;
+}
 ?>
 
 <div class="g-page-header">
@@ -82,18 +96,60 @@
     </div>
 </div>
 
-<div class="g-layout-2-1">
+<div class="g-layout-2-1 g-report-page-layout">
     <div class="g-stack">
 
-        <div class="g-report-card">
-            <div class="g-split-row">
-                <div>
-                    <div class="g-soft-label">Report Analysis</div>
-                    <h3 style="margin-top: 6px;">Executive Summary</h3>
+        
+       <div class="g-report-card">
+    <div class="g-split-row">
+        <div>
+            <div class="g-soft-label">Report Analysis</div>
+
+            <h3 style="margin-top: 6px;">
+                Executive Summary
+            </h3>
+        </div>
+
+        <span class="g-badge <?php echo e($badgeClass); ?>">
+            <?php echo e($level); ?>
+
+        </span>
+    </div>
+
+    <span class="g-badge badge-final">
+        <?php echo e($auditLogs->count()); ?> flows
+    </span>
+</div>
+
+<?php if($overallAuditScore !== null): ?>
+    <div
+        class="g-card"
+        style="
+            margin-top: 14px;
+            background: var(--g-surface-soft);
+            box-shadow: none;
+        "
+    >
+        <div class="g-split-row">
+            <div>
+                <div class="g-soft-label">
+                    Overall Average Result
                 </div>
 
-                <span class="g-badge <?php echo e($badgeClass); ?>"><?php echo e($level); ?></span>
+                <strong>
+                    <?php echo e(number_format((float) $overallAuditScore, 2)); ?>
+
+                    / 3.00
+                </strong>
             </div>
+
+            <span class="g-badge <?php echo e($badgeClass); ?>">
+                <?php echo e($level); ?>
+
+            </span>
+        </div>
+    </div>
+<?php endif; ?>
 
             <p class="g-muted" style="margin-top: 12px;">
                 <?php echo e($report->summary ?? 'No executive summary available for this report.'); ?>
@@ -127,77 +183,94 @@
             </div>
         </div>
 
-        <div class="g-card">
-            <div class="g-split-row">
-                <div>
-                    <div class="g-soft-label">Friction Points Evidence</div>
-                    <h3 style="margin-top: 6px;">Screenshot Evidence</h3>
-                </div>
-
-                <span class="g-badge badge-neutral"><?php echo e($screenshots->count()); ?> captures</span>
-            </div>
-
-            <?php if(!$run || $screenshots->isEmpty()): ?>
-                <div class="g-empty">
-                    <strong>No screenshots available.</strong>
-                    Screenshot evidence will appear here after the test runner saves captures.
-                </div>
-           <?php else: ?>
-    <div class="g-screenshot-full-list">
-        <?php $__currentLoopData = $screenshots; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $screenshot): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <?php
-                $path = $screenshot->file_path ?? '';
-                $cleanPath = ltrim($path, '/');
-
-                if ($path && str_starts_with($path, 'http')) {
-                    $imageSrc = $path;
-                } elseif ($path && str_starts_with($cleanPath, 'storage/')) {
-                    $imageSrc = asset($cleanPath);
-                } elseif ($path) {
-                    $imageSrc = asset('storage/' . $cleanPath);
-                } else {
-                    $imageSrc = null;
-                }
-            ?>
-
-            <div class="g-screenshot-full-card">
-                <div class="g-screenshot-full-header">
+        
+        <?php if($run?->flow_type === 'full_audit' && $auditLogs->isNotEmpty()): ?>
+            <div class="g-card">
+                <div class="g-split-row">
                     <div>
-                        <strong><?php echo e($screenshot->label ?? 'Screenshot Evidence'); ?></strong>
-                        <p class="g-muted g-small">
-                            <?php echo e($screenshot->file_path ?? 'No file path available'); ?>
+                        <div class="g-soft-label">Full Website Audit</div>
+                        <h3 style="margin-top: 6px;">Detected Features and Test Results</h3>
+                        <?php if($overallAuditScore !== null): ?>
+    <div class="g-card" style="margin-top: 14px; background: var(--g-surface-soft); box-shadow: none;">
+        <div class="g-split-row">
+            <div>
+                <div class="g-soft-label">Overall Average Result</div>
 
-                        </p>
-                    </div>
-
-                    <span class="g-badge <?php echo e($badgeClass); ?>"><?php echo e($level); ?></span>
-                </div>
-
-                <?php if($imageSrc): ?>
-                    <a href="<?php echo e($imageSrc); ?>" target="_blank" class="g-screenshot-full-link">
-                        <img
-                            class="g-screenshot-full-img"
-                            src="<?php echo e($imageSrc); ?>"
-                            alt="<?php echo e($screenshot->label ?? 'Screenshot evidence'); ?>"
-                        >
-                    </a>
-
-                    <div style="margin-top: 12px;">
-                        <a class="g-btn" href="<?php echo e($imageSrc); ?>" target="_blank">
-                            Open Full Screenshot
-                        </a>
-                    </div>
-                <?php else: ?>
-                    <div class="g-empty">
-                        <strong>No image file found.</strong>
-                        Screenshot path exists but the image could not be loaded.
-                    </div>
-                <?php endif; ?>
+                <strong>
+                    <?php echo e(number_format((float) $overallAuditScore, 2)); ?> / 3.00
+                </strong>
             </div>
-        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+            <span class="g-badge <?php echo e($badgeClass); ?>">
+                <?php echo e($level); ?>
+
+            </span>
+        </div>
     </div>
 <?php endif; ?>
-        </div>
+                    </div>
+
+                    <span class="g-badge badge-final"><?php echo e($auditLogs->count()); ?> flows</span>
+                </div>
+
+                <div class="g-kv" style="margin-top: 14px;">
+                    <?php $__currentLoopData = $auditLogs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $auditLog): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <?php
+                            $rawMetadata = $auditLog->metadata;
+
+                            if (is_array($rawMetadata)) {
+                                $metadata = $rawMetadata;
+                            } elseif (is_string($rawMetadata)) {
+                                $metadata = json_decode($rawMetadata, true) ?? [];
+                            } else {
+                                $metadata = [];
+                            }
+
+                            $status = $metadata['status'] ?? $auditLog->event_value ?? 'unknown';
+
+                            $statusClass = match ($status) {
+                                'passed' => 'badge-low',
+                                'failed' => 'badge-high',
+                                'skipped' => 'badge-neutral',
+                                default => 'badge-neutral',
+                            };
+
+                            $prediction = $metadata['prediction'] ?? null;
+
+                            $flowLevel = is_array($prediction)
+                                ? ($prediction['friction_level'] ?? null)
+                                : null;
+
+                            $flowConfidence = is_array($prediction) && isset($prediction['confidence_score'])
+                                ? number_format(((float) $prediction['confidence_score']) * 100, 1) . '%'
+                                : null;
+                        ?>
+
+                        <div style="padding: 14px 0; border-bottom: 1px solid var(--g-border);">
+                            <div class="g-split-row">
+                                <strong><?php echo e($auditLog->event_label); ?></strong>
+                                <span class="g-badge <?php echo e($statusClass); ?>"><?php echo e($status); ?></span>
+                            </div>
+
+                            <p class="g-muted g-small" style="margin: 7px 0 0;">
+                                <?php echo e($metadata['reason'] ?? 'No details available.'); ?>
+
+                            </p>
+
+                            <?php if($flowLevel): ?>
+                                <div class="g-small" style="margin-top: 8px;">
+                                    AI result: <strong><?php echo e($flowLevel); ?></strong>
+                                    <?php if($flowConfidence): ?>
+                                        — <?php echo e($flowConfidence); ?>
+
+                                    <?php endif; ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </div>
+            </div>
+        <?php endif; ?>
 
         <div class="g-grid g-grid-2">
             <div class="g-card">
@@ -445,6 +518,99 @@
             <?php endif; ?>
         </div>
     </aside>
+</div>
+
+
+<div class="g-card g-report-screenshot-section">
+    <div class="g-split-row">
+        <div>
+            <div class="g-soft-label">Friction Points Evidence</div>
+            <h3 style="margin-top: 6px;">Screenshot Evidence</h3>
+        </div>
+
+        <span class="g-badge badge-neutral"><?php echo e($screenshots->count()); ?> captures</span>
+    </div>
+
+    <?php if(!$run || $screenshots->isEmpty()): ?>
+        <div class="g-empty">
+            <strong>No screenshots available.</strong>
+            Screenshot evidence will appear here after the test runner saves captures.
+        </div>
+    <?php else: ?>
+        <div class="g-screenshot-full-list">
+            <div class="g-screenshot-thumb-grid">
+                <?php $__currentLoopData = $screenshots; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $screenshot): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php
+                        $imageUrl = asset('storage/' . $screenshot->file_path);
+
+                        $screenshotLevel = $screenshot->friction_level ?: $level;
+
+                        $screenshotBadgeClass = match ($screenshotLevel) {
+                            'Low' => 'badge-low',
+                            'Medium' => 'badge-medium',
+                            'High' => 'badge-high',
+                            default => 'badge-neutral',
+                        };
+
+                        $screenshotConfidence = $screenshot->confidence_score !== null
+                            ? number_format($screenshot->confidence_score * 100, 1) . '%'
+                            : null;
+                    ?>
+
+                    <div class="g-screenshot-thumb-card">
+                        <div class="g-split-row" style="align-items: flex-start; margin-bottom: 10px;">
+                            <div style="min-width: 0;">
+                                <strong><?php echo e($screenshot->label ?? 'Screenshot Evidence'); ?></strong>
+                                <div class="g-muted g-small" style="margin-top: 4px; word-break: break-all;">
+                                    <?php echo e($screenshot->file_path); ?>
+
+                                </div>
+                            </div>
+
+                            <div style="text-align: right; flex-shrink: 0;">
+                                <span class="g-badge <?php echo e($screenshotBadgeClass); ?>">
+                                    <?php echo e($screenshotLevel); ?>
+
+                                </span>
+
+                                <?php if($screenshotConfidence): ?>
+                                    <div class="g-muted g-small" style="margin-top: 5px;">
+                                        <?php echo e($screenshotConfidence); ?>
+
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+
+                        <a
+                            href="<?php echo e($imageUrl); ?>"
+                            target="_blank"
+                            rel="noopener"
+                            class="g-screenshot-thumb-link"
+                        >
+                            <img
+                                src="<?php echo e($imageUrl); ?>"
+                                alt="<?php echo e($screenshot->label ?? 'Screenshot Evidence'); ?>"
+                                class="g-screenshot-thumb-img"
+                                loading="lazy"
+                            >
+                        </a>
+
+                        <div style="margin-top: 10px;">
+                            <a
+                                href="<?php echo e($imageUrl); ?>"
+                                target="_blank"
+                                rel="noopener"
+                                class="g-btn g-btn-ghost g-btn-block"
+                            >
+                                Open Full Screenshot
+                            </a>
+                        </div>
+                    </div>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            </div>
+        </div>
+    <?php endif; ?>
 </div>
 <?php $__env->stopSection(); ?>
 

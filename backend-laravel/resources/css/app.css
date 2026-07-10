@@ -29,9 +29,14 @@
     box-sizing: border-box;
 }
 
+html {
+    overflow-x: hidden;
+}
+
 body {
     margin: 0;
     min-height: 100vh;
+    overflow-x: hidden;
     font-family: var(--g-font);
     background:
         radial-gradient(
@@ -293,6 +298,7 @@ textarea {
 .g-grid {
     display: grid;
     gap: 16px;
+    align-items: start;
 }
 
 .g-grid-2 {
@@ -321,7 +327,8 @@ textarea {
 
 .g-stack {
     display: grid;
-    gap: 16px;
+    gap: 14px;
+    align-content: start;
 }
 
 .g-card,
@@ -892,6 +899,7 @@ pre {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 14px;
+    align-items: start;
 }
 
 .g-evidence-card {
@@ -1011,6 +1019,70 @@ pre {
     word-break: break-word;
 }
 
+/* ============================================
+   SCREENSHOT EVIDENCE — BASE STYLES
+   (applies at all breakpoints: 3 cols desktop,
+   2 cols tablet, 1 col mobile — see media queries below)
+   ============================================ */
+
+.g-report-screenshot-section {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin-top: 16px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.g-screenshot-full-list {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin-top: 16px;
+    box-sizing: border-box;
+}
+
+.g-screenshot-thumb-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 14px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.g-screenshot-thumb-card {
+    border: 1px solid var(--g-border);
+    border-radius: 16px;
+    background: #ffffff;
+    padding: 14px;
+    overflow: hidden;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    box-shadow: var(--g-shadow-soft);
+}
+
+.g-screenshot-thumb-link {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    border: 1px solid var(--g-border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: #f8fafc;
+    box-sizing: border-box;
+}
+
+.g-screenshot-thumb-img {
+    display: block;
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    object-position: top;
+}
+
 @media (max-width: 1280px) {
     .g-report-card .g-grid-3 {
         grid-template-columns: 1fr;
@@ -1026,6 +1098,12 @@ pre {
         grid-template-columns: 1fr;
     }
     .g-evidence-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 1024px) {
+    .g-screenshot-thumb-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
@@ -1077,115 +1155,260 @@ pre {
     .g-actions {
         margin-top: 14px;
     }
+}
 
-    .g-screenshot-full-list {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 22px;
-        margin-top: 16px;
-        max-width: 100%;
-        overflow: hidden;
-    }
-
-    .g-screenshot-full-card {
-        width: 100%;
-        max-width: 100%;
-        border: 1px solid #dbe4f0;
-        border-radius: 18px;
-        background: #ffffff;
-        padding: 18px;
-        overflow: hidden;
-    }
-
-    .g-screenshot-full-header {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 16px;
-        margin-bottom: 14px;
-    }
-
-    .g-screenshot-full-header p {
-        margin: 6px 0 0;
-        word-break: break-word;
-    }
-
-    .g-screenshot-full-link {
-        display: block;
-        width: 100%;
-        max-width: 100%;
-        border: 1px solid #dbe4f0;
-        border-radius: 16px;
-        background: #f8fafc;
-        overflow: hidden;
-    }
-
-    .g-screenshot-full-img {
-        display: block;
-        width: 100%;
-        max-width: 100%;
-        max-height: 760px;
-        object-fit: contain;
-        background: #f8fafc;
-    }
-    /* REPORT PAGE FIX */
-    .g-layout-2-1 {
-        grid-template-columns: minmax(0, 1fr) minmax(320px, 400px);
-    }
-
-    .g-layout-2-1 > .g-stack,
-    .g-layout-2-1 > aside {
-        min-width: 0;
-    }
-
-    .g-report-card {
-        min-width: 0;
-        max-width: 100%;
-        overflow: hidden;
-    }
-
+@media (max-width: 1350px) {
     .g-report-card .g-grid-3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 1180px) {
+    .g-layout-2-1 {
+        grid-template-columns: 1fr;
+    }
+
+    /* FIX REPORT PAGE OVERLAP */
+    .g-report-page-layout {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: minmax(0, calc(100% - 376px)) 360px;
         gap: 16px;
         width: 100%;
         max-width: 100%;
+        align-items: start;
     }
 
-    .g-report-card .g-metric-card {
-        min-width: 0;
+    .g-report-page-layout > .g-stack,
+    .g-report-page-layout > aside {
         width: 100%;
+        min-width: 0;
         max-width: 100%;
+    }
+
+    .g-report-page-layout > .g-stack:first-child {
         overflow: hidden;
     }
 
-    .g-panel,
-    .g-card,
-    .g-insight-card {
+    .g-report-page-layout .g-report-card,
+    .g-report-page-layout .g-card,
+    .g-report-page-layout .g-panel,
+    .g-report-page-layout .g-grid,
+    .g-report-page-layout .g-metric-card {
+        width: 100%;
         min-width: 0;
         max-width: 100%;
     }
 
-    .g-kv-row {
+    .g-report-page-layout .g-grid-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .g-report-page-layout .g-kv-row {
         min-width: 0;
     }
 
-    .g-kv-row span:last-child {
+    .g-report-page-layout .g-kv-row span:last-child {
         min-width: 0;
-        max-width: 220px;
+        max-width: 65%;
         overflow-wrap: anywhere;
         word-break: break-word;
     }
 
-    @media (max-width: 1350px) {
-        .g-report-card .g-grid-3 {
+    /* Sidebar takes 248px, so stack report earlier */
+    @media (max-width: 1500px) {
+        .g-report-page-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .g-report-page-layout .g-grid-3 {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 900px) {
+        .g-report-page-layout .g-grid-3 {
             grid-template-columns: 1fr;
         }
     }
 
-    @media (max-width: 1180px) {
-        .g-layout-2-1 {
-            grid-template-columns: 1fr;
+    /* GAgent live testing overlay */
+    .g-test-running-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        background: rgba(7, 22, 41, 0.72);
+        backdrop-filter: blur(8px);
+    }
+
+    .g-test-running-overlay[hidden] {
+        display: none;
+    }
+
+    .g-test-running-card {
+        width: min(460px, 100%);
+        padding: 28px;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 22px;
+        background: #ffffff;
+        text-align: center;
+        box-shadow: 0 30px 90px rgba(2, 6, 23, 0.35);
+    }
+
+    .g-test-running-card h3 {
+        margin: 8px 0;
+        font-size: 22px;
+    }
+
+    .g-test-running-card p {
+        line-height: 1.55;
+    }
+
+    .g-ai-scan-screen {
+        position: relative;
+        width: 100%;
+        height: 180px;
+        margin-bottom: 22px;
+        overflow: hidden;
+        border: 1px solid rgba(11, 132, 255, 0.26);
+        border-radius: 18px;
+        background:
+            linear-gradient(rgba(11, 132, 255, 0.08) 1px, transparent 1px),
+            linear-gradient(
+                90deg,
+                rgba(11, 132, 255, 0.08) 1px,
+                transparent 1px
+            ),
+            linear-gradient(135deg, #071629, #0b2747);
+        background-size:
+            24px 24px,
+            24px 24px,
+            auto;
+    }
+
+    .g-ai-scan-grid {
+        position: absolute;
+        inset: 22px;
+        border: 1px solid rgba(54, 194, 255, 0.28);
+        border-radius: 12px;
+    }
+
+    .g-ai-scan-line {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 10px;
+        height: 3px;
+        background: #36c2ff;
+        box-shadow:
+            0 0 10px rgba(54, 194, 255, 0.9),
+            0 0 28px rgba(54, 194, 255, 0.65);
+        animation: gagent-scan-line 2s ease-in-out infinite;
+    }
+
+    .g-ai-scan-target {
+        position: absolute;
+        width: 62px;
+        height: 42px;
+        border: 2px solid #36c2ff;
+        border-radius: 8px;
+        animation: gagent-target-pulse 1.4s ease-in-out infinite;
+    }
+
+    .g-ai-scan-target-one {
+        left: 18%;
+        top: 30%;
+    }
+
+    .g-ai-scan-target-two {
+        right: 17%;
+        bottom: 22%;
+        animation-delay: 0.45s;
+    }
+
+    .g-running-progress {
+        width: 100%;
+        height: 8px;
+        margin: 20px 0 16px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: #e2e8f0;
+    }
+
+    .g-running-progress span {
+        display: block;
+        width: 38%;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, #0b84ff, #36c2ff);
+        animation: gagent-running-progress 1.4s ease-in-out infinite;
+    }
+
+    #run-ux-test-button:disabled {
+        cursor: wait;
+        opacity: 0.75;
+        transform: none;
+    }
+
+    @keyframes gagent-scan-line {
+        0% {
+            top: 8px;
+            opacity: 0.45;
         }
+
+        50% {
+            top: calc(100% - 11px);
+            opacity: 1;
+        }
+
+        100% {
+            top: 8px;
+            opacity: 0.45;
+        }
+    }
+
+    @keyframes gagent-target-pulse {
+        0%,
+        100% {
+            opacity: 0.45;
+            transform: scale(0.96);
+        }
+
+        50% {
+            opacity: 1;
+            transform: scale(1.06);
+        }
+    }
+
+    @keyframes gagent-running-progress {
+        0% {
+            transform: translateX(-110%);
+        }
+
+        100% {
+            transform: translateX(360%);
+        }
+    }
+
+    @media (max-width: 600px) {
+        .g-test-running-card {
+            padding: 20px;
+        }
+
+        .g-ai-scan-screen {
+            height: 145px;
+        }
+    }
+}
+
+@media (max-width: 640px) {
+    .g-screenshot-thumb-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .g-screenshot-thumb-img {
+        height: 200px;
     }
 }

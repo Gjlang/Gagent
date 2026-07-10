@@ -96,6 +96,13 @@ async function main() {
   const networkCondition = args.network || "normal";
   const testRunId = args.testRunId || null;
   const maxDurationSeconds = Number(args.maxDuration || 60);
+  const showBrowser = String(args.headed ?? "0") === "1";
+
+  const requestedSlowMo = Number(args.slowMo ?? 0);
+
+  const slowMoMs = Number.isFinite(requestedSlowMo)
+    ? Math.max(0, Math.min(requestedSlowMo, 1000))
+    : 0;
 
   const allowedFlows = [
     "auto",
@@ -170,9 +177,9 @@ async function main() {
 
   try {
     browser = await chromium.launch({
-      headless: true,
+      headless: !showBrowser,
+      slowMo: showBrowser ? slowMoMs : 0,
     });
-
     const context = await browser.newContext({
       viewport: VIEWPORTS[viewportType],
       ignoreHTTPSErrors: true,
@@ -370,10 +377,22 @@ async function main() {
 
     await drawGAgentAnnotations(page, screenshotAnnotations);
 
+    /*
+     * Give the annotation time to render before taking the screenshot.
+     */
+    await page.waitForTimeout(700);
+
     await page.screenshot({
       path: screenshotPath,
       fullPage: true,
     });
+
+    /*
+     * Keep the red annotation visible for the live demonstration.
+     */
+    if (showBrowser) {
+      await page.waitForTimeout(8000);
+    }
 
     await clearGAgentAnnotations(page);
     const outputPath = path.join(
@@ -390,20 +409,26 @@ async function main() {
       network_condition: networkCondition,
       raw_metrics_path: outputPath,
       screenshots: [
-  {
-    file_path: screenshotPath,
-    label: screenshotAnnotations.length > 0
-      ? "Annotated friction screenshot"
-      : "Final page screenshot",
-    annotations: screenshotAnnotations,
-  },
-],
+        {
+          file_path: screenshotPath,
+          label:
+            screenshotAnnotations.length > 0
+              ? "Annotated friction screenshot"
+              : "Final page screenshot",
+          annotations: screenshotAnnotations,
+        },
+      ],
       metrics: finalMetrics,
     };
 
     fs.writeFileSync(outputPath, JSON.stringify(output, null, 2), "utf8");
 
     clearTimeout(hardTimeout);
+
+    if (showBrowser) {
+      await page.waitForTimeout(2000);
+    }
+
     await browser.close();
 
     printJsonAndExit(output, 0);
