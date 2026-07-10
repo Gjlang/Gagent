@@ -100,54 +100,21 @@
 <div class="g-layout-2-1 g-report-page-layout">
     <div class="g-stack">
 
-        {{-- Executive Summary card (audit checklist moved OUT of here) --}}
-       <div class="g-report-card">
-    <div class="g-split-row">
-        <div>
-            <div class="g-soft-label">Report Analysis</div>
+        {{-- Executive Summary --}}
+        <div class="g-report-card">
+            <div class="g-split-row">
+                <div>
+                    <div class="g-soft-label">Report Analysis</div>
 
-            <h3 style="margin-top: 6px;">
-                Executive Summary
-            </h3>
-        </div>
-
-        <span class="g-badge {{ $badgeClass }}">
-            {{ $level }}
-        </span>
-    </div>
-
-    <span class="g-badge badge-final">
-        {{ $auditLogs->count() }} flows
-    </span>
-</div>
-
-@if ($overallAuditScore !== null)
-    <div
-        class="g-card"
-        style="
-            margin-top: 14px;
-            background: var(--g-surface-soft);
-            box-shadow: none;
-        "
-    >
-        <div class="g-split-row">
-            <div>
-                <div class="g-soft-label">
-                    Overall Average Result
+                    <h3 style="margin-top: 6px;">
+                        Executive Summary
+                    </h3>
                 </div>
 
-                <strong>
-                    {{ number_format((float) $overallAuditScore, 2) }}
-                    / 3.00
-                </strong>
+                <span class="g-badge {{ $badgeClass }}">
+                    {{ $level }}
+                </span>
             </div>
-
-            <span class="g-badge {{ $badgeClass }}">
-                {{ $level }}
-            </span>
-        </div>
-    </div>
-@endif
 
             <p class="g-muted" style="margin-top: 12px;">
                 {{ $report->summary ?? 'No executive summary available for this report.' }}
@@ -185,7 +152,12 @@
                     <div>
                         <div class="g-soft-label">Full Website Audit</div>
                         <h3 style="margin-top: 6px;">Detected Features and Test Results</h3>
-                        @if ($overallAuditScore !== null)
+                    </div>
+
+                    <span class="g-badge badge-final">{{ $auditLogs->count() }} flows</span>
+                </div>
+
+                @if ($overallAuditScore !== null)
     <div class="g-card" style="margin-top: 14px; background: var(--g-surface-soft); box-shadow: none;">
         <div class="g-split-row">
             <div>
@@ -202,10 +174,6 @@
         </div>
     </div>
 @endif
-                    </div>
-
-                    <span class="g-badge badge-final">{{ $auditLogs->count() }} flows</span>
-                </div>
 
                 <div class="g-kv" style="margin-top: 14px;">
                     @foreach ($auditLogs as $auditLog)

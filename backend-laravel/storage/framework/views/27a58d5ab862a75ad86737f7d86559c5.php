@@ -100,56 +100,21 @@
     <div class="g-stack">
 
         
-       <div class="g-report-card">
-    <div class="g-split-row">
-        <div>
-            <div class="g-soft-label">Report Analysis</div>
+        <div class="g-report-card">
+            <div class="g-split-row">
+                <div>
+                    <div class="g-soft-label">Report Analysis</div>
 
-            <h3 style="margin-top: 6px;">
-                Executive Summary
-            </h3>
-        </div>
-
-        <span class="g-badge <?php echo e($badgeClass); ?>">
-            <?php echo e($level); ?>
-
-        </span>
-    </div>
-
-    <span class="g-badge badge-final">
-        <?php echo e($auditLogs->count()); ?> flows
-    </span>
-</div>
-
-<?php if($overallAuditScore !== null): ?>
-    <div
-        class="g-card"
-        style="
-            margin-top: 14px;
-            background: var(--g-surface-soft);
-            box-shadow: none;
-        "
-    >
-        <div class="g-split-row">
-            <div>
-                <div class="g-soft-label">
-                    Overall Average Result
+                    <h3 style="margin-top: 6px;">
+                        Executive Summary
+                    </h3>
                 </div>
 
-                <strong>
-                    <?php echo e(number_format((float) $overallAuditScore, 2)); ?>
+                <span class="g-badge <?php echo e($badgeClass); ?>">
+                    <?php echo e($level); ?>
 
-                    / 3.00
-                </strong>
+                </span>
             </div>
-
-            <span class="g-badge <?php echo e($badgeClass); ?>">
-                <?php echo e($level); ?>
-
-            </span>
-        </div>
-    </div>
-<?php endif; ?>
 
             <p class="g-muted" style="margin-top: 12px;">
                 <?php echo e($report->summary ?? 'No executive summary available for this report.'); ?>
@@ -190,7 +155,12 @@
                     <div>
                         <div class="g-soft-label">Full Website Audit</div>
                         <h3 style="margin-top: 6px;">Detected Features and Test Results</h3>
-                        <?php if($overallAuditScore !== null): ?>
+                    </div>
+
+                    <span class="g-badge badge-final"><?php echo e($auditLogs->count()); ?> flows</span>
+                </div>
+
+                <?php if($overallAuditScore !== null): ?>
     <div class="g-card" style="margin-top: 14px; background: var(--g-surface-soft); box-shadow: none;">
         <div class="g-split-row">
             <div>
@@ -208,10 +178,6 @@
         </div>
     </div>
 <?php endif; ?>
-                    </div>
-
-                    <span class="g-badge badge-final"><?php echo e($auditLogs->count()); ?> flows</span>
-                </div>
 
                 <div class="g-kv" style="margin-top: 14px;">
                     <?php $__currentLoopData = $auditLogs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $auditLog): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
