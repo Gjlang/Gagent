@@ -184,18 +184,30 @@ class AndroidPredictionInput(BaseModel):
     @field_validator("flow_type")
     @classmethod
     def validate_flow_type(cls, value: str) -> str:
-        allowed = {
-            "login",
-            "signup",
-            "search",
-            "button_click",
-            "form_submit",
+        value = value.strip().lower()
+
+        flow_mapping = {
+            # New generic Appium flows
+            "basic_navigation": "button_click",
+            "button_click": "button_click",
+            "form_input": "form_submit",
+            "search_flow": "search",
+
+            # Existing model flows
+            "login": "login",
+            "signup": "signup",
+            "search": "search",
+            "form_submit": "form_submit",
         }
 
-        if value not in allowed:
-            raise ValueError(f"flow_type must be one of: {sorted(allowed)}")
+        if value not in flow_mapping:
+            raise ValueError(
+                f"Unsupported Android flow_type: {value}. "
+                f"Allowed values: {sorted(flow_mapping.keys())}"
+            )
 
-        return value
+        # Return a value understood by the trained Android model.
+        return flow_mapping[value]
 
 
 class AndroidPredictionResponse(BaseModel):

@@ -8,104 +8,246 @@
     $android = $testRun->androidResult;
 @endphp
 
-<div class="card">
-    <h3>Android Test Run</h3>
+<div class="g-page-header">
+    <div>
+        <div class="g-soft-label">
+            Android Automation Run
+        </div>
 
-    <p><strong>Run Code:</strong> {{ $testRun->run_code }}</p>
-    <p><strong>Project:</strong> {{ $testRun->project->name ?? '-' }}</p>
-    <p><strong>Status:</strong> {{ $testRun->status }}</p>
-    <p><strong>Flow Type:</strong> {{ $testRun->flow_type }}</p>
-    <p><strong>Platform:</strong> {{ $testRun->platform }}</p>
-    <p><strong>Automation Driver:</strong> {{ $testRun->automation_driver }}</p>
-    <p><strong>Device:</strong> {{ $testRun->device_name }}</p>
-    <p><strong>App Package:</strong> {{ $testRun->target_app_package }}</p>
-    <p><strong>App Activity:</strong> {{ $testRun->target_app_activity }}</p>
+        <h2>{{ $testRun->run_code }}</h2>
 
-    @if (!$android)
-        <form method="POST" action="{{ route('android-tests.predict', $testRun) }}">
+        <p>
+            Review Android Appium metrics and
+            AI friction prediction.
+        </p>
+    </div>
+
+    <div class="g-actions">
+        <a
+            class="g-btn"
+            href="{{ route('android-tests.create') }}"
+        >
+            New Android Test
+        </a>
+    </div>
+</div>
+
+@if (session('success'))
+    <div class="g-alert g-alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if (session('error'))
+    <div class="g-alert g-alert-error">
+        {{ session('error') }}
+    </div>
+@endif
+
+@if ($testRun->error_message)
+    <div class="g-alert g-alert-error">
+        <strong>Last error:</strong>
+        {{ $testRun->error_message }}
+    </div>
+@endif
+
+<div class="g-card">
+    <h3>Test Configuration</h3>
+
+    <div class="g-kv">
+        <div class="g-kv-row">
+            <span>Status</span>
+            <span>{{ strtoupper($testRun->status) }}</span>
+        </div>
+
+        <div class="g-kv-row">
+            <span>Test Mode</span>
+            <span>{{ $testRun->test_mode ?? '-' }}</span>
+        </div>
+
+        <div class="g-kv-row">
+            <span>Flow</span>
+            <span>{{ $testRun->flow_type }}</span>
+        </div>
+
+        <div class="g-kv-row">
+            <span>Device</span>
+            <span>{{ $testRun->device_name }}</span>
+        </div>
+
+        <div class="g-kv-row">
+            <span>Package</span>
+            <span>
+                {{ $testRun->target_app_package ?? '-' }}
+            </span>
+        </div>
+
+        <div class="g-kv-row">
+            <span>Activity</span>
+            <span>
+                {{ $testRun->target_app_activity ?? '-' }}
+            </span>
+        </div>
+
+        <div class="g-kv-row">
+            <span>APK</span>
+            <span>{{ $testRun->apk_path ?? '-' }}</span>
+        </div>
+
+        <div class="g-kv-row">
+            <span>Maximum Duration</span>
+            <span>
+                {{ $testRun->max_duration_seconds }} seconds
+            </span>
+        </div>
+    </div>
+
+    @if (
+        in_array(
+            $testRun->status,
+            ['pending', 'failed', 'completed'],
+            true
+        )
+    )
+        <form
+            method="POST"
+            action="{{ route(
+                'android-tests.run',
+                $testRun
+            ) }}"
+            style="margin-top: 18px;"
+        >
             @csrf
-            <button class="btn" type="submit">Run Android Prediction</button>
+
+            <button
+                class="g-btn g-btn-primary"
+                type="submit"
+            >
+                {{ $testRun->status === 'completed'
+                    ? 'Run Android Test Again'
+                    : 'Run Android Appium Test'
+                }}
+            </button>
         </form>
-    @else
-        <span class="badge badge-final">Android prediction saved</span>
+    @elseif ($testRun->status === 'running')
+        <div
+            class="g-alert"
+            style="margin-top: 18px;"
+        >
+            Android Appium test is currently running.
+        </div>
     @endif
 </div>
 
-<div class="grid grid-2">
-    <div class="card">
+<div class="g-grid g-grid-2">
+    <div class="g-card">
         <h3>Collected Android Metrics</h3>
 
         @if (!$metric)
-            <p class="muted">No Android metrics found.</p>
+            <p class="muted">
+                No Android metrics have been collected yet.
+            </p>
         @else
             <table>
                 <tbody>
-                    <tr><th>Task Completed</th><td>{{ (int) $metric->task_completed }}</td></tr>
-                    <tr><th>Task Failed</th><td>{{ (int) $metric->task_failed }}</td></tr>
-                    <tr><th>Completion Time</th><td>{{ $metric->completion_time }}</td></tr>
-                    <tr><th>Click Count</th><td>{{ $metric->click_count }}</td></tr>
-                    <tr><th>Scroll Count</th><td>{{ $metric->scroll_count }}</td></tr>
-                    <tr><th>Keyboard Count</th><td>{{ $metric->keyboard_count }}</td></tr>
-                    <tr><th>Retry Count</th><td>{{ $metric->retry_count }}</td></tr>
-                    <tr><th>Error Count</th><td>{{ $metric->error_count }}</td></tr>
-                    <tr><th>Failed Clicks</th><td>{{ $metric->failed_clicks }}</td></tr>
-                    <tr><th>Unnecessary Clicks</th><td>{{ $metric->unnecessary_clicks }}</td></tr>
-                    <tr><th>Path Deviation Score</th><td>{{ $metric->path_deviation_score }}</td></tr>
-                    <tr><th>App Launch Time MS</th><td>{{ $metric->app_launch_time_ms }}</td></tr>
-                    <tr><th>Screen Load Time MS</th><td>{{ $metric->screen_load_time_ms }}</td></tr>
-                    <tr><th>Feedback Delay MS</th><td>{{ $metric->feedback_delay_ms }}</td></tr>
-                    <tr><th>Interaction Response Time MS</th><td>{{ $metric->interaction_response_time_ms }}</td></tr>
-                    <tr><th>Finish Time MS</th><td>{{ $metric->finish_time_ms }}</td></tr>
-                    <tr><th>Error Message Present</th><td>{{ (int) $metric->error_message_present }}</td></tr>
-                    <tr><th>Error Message Clarity</th><td>{{ $metric->error_message_clarity }}</td></tr>
-                    <tr><th>Popup Detected</th><td>{{ (int) $metric->popup_detected }}</td></tr>
-                    <tr><th>Overlay Blocks Action</th><td>{{ (int) $metric->overlay_blocks_action }}</td></tr>
-                    <tr><th>Timeout Occurred</th><td>{{ (int) $metric->timeout_occurred }}</td></tr>
-                    <tr><th>Crash Detected</th><td>{{ (int) $metric->crash_detected }}</td></tr>
-                    <tr><th>ANR Detected</th><td>{{ (int) $metric->anr_detected }}</td></tr>
+                    @foreach ([
+                        'task_completed' => 'Task Completed',
+                        'task_failed' => 'Task Failed',
+                        'completion_time' => 'Completion Time',
+                        'click_count' => 'Click Count',
+                        'scroll_count' => 'Scroll Count',
+                        'keyboard_count' => 'Keyboard Count',
+                        'retry_count' => 'Retry Count',
+                        'error_count' => 'Error Count',
+                        'failed_clicks' => 'Failed Clicks',
+                        'unnecessary_clicks' => 'Unnecessary Clicks',
+                        'path_deviation_score' => 'Path Deviation Score',
+                        'app_launch_time_ms' => 'App Launch Time MS',
+                        'screen_load_time_ms' => 'Screen Load Time MS',
+                        'feedback_delay_ms' => 'Feedback Delay MS',
+                        'interaction_response_time_ms' => 'Interaction Response Time MS',
+                        'finish_time_ms' => 'Finish Time MS',
+                        'error_message_present' => 'Error Message Present',
+                        'error_message_clarity' => 'Error Message Clarity',
+                        'popup_detected' => 'Popup Detected',
+                        'overlay_blocks_action' => 'Overlay Blocks Action',
+                        'timeout_occurred' => 'Timeout Occurred',
+                        'crash_detected' => 'Crash Detected',
+                        'anr_detected' => 'ANR Detected',
+                    ] as $field => $label)
+                        <tr>
+                            <th>{{ $label }}</th>
+                            <td>{{ $metric->{$field} }}</td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         @endif
     </div>
 
-    <div class="card">
-        <h3>Android Prediction Result</h3>
+    <div class="g-card">
+        <h3>Android AI Prediction</h3>
 
         @if (!$android)
-            <p class="muted">No Android prediction saved yet.</p>
+            <p class="muted">
+                No Android prediction has been saved.
+            </p>
         @else
             <p>
                 <strong>Friction Level:</strong>
-                <span class="badge badge-{{ strtolower($android->friction_level) }}">
+
+                <span class="g-badge">
                     {{ $android->friction_level }}
                 </span>
             </p>
 
-            <p><strong>Model:</strong> {{ $android->model_name }}</p>
-            <p><strong>Model Type:</strong> {{ $android->model_type }}</p>
-            <p><strong>Confidence:</strong> {{ number_format(($android->confidence_score ?? 0) * 100, 1) }}%</p>
+            <p>
+                <strong>Confidence:</strong>
+
+                {{ number_format(
+                    ($android->confidence_score ?? 0) * 100,
+                    1
+                ) }}%
+            </p>
+
+            <p>
+                <strong>Model:</strong>
+                {{ $android->model_name }}
+            </p>
 
             <h4>Class Probabilities</h4>
-            <pre>{{ json_encode($android->class_probabilities, JSON_PRETTY_PRINT) }}</pre>
+
+            <pre>{{ json_encode(
+                $android->class_probabilities,
+                JSON_PRETTY_PRINT
+            ) }}</pre>
 
             <h4>Recommendations</h4>
-            <ul>
-                @foreach (($android->recommendations ?? []) as $recommendation)
-                    <li>{{ $recommendation }}</li>
-                @endforeach
-            </ul>
 
-            <h4>Input Features Sent to FastAPI</h4>
-            <pre>{{ json_encode($android->input_features, JSON_PRETTY_PRINT) }}</pre>
+            <ul>
+                @forelse (
+                    ($android->recommendations ?? [])
+                    as $recommendation
+                )
+                    <li>{{ $recommendation }}</li>
+                @empty
+                    <li>No recommendations returned.</li>
+                @endforelse
+            </ul>
         @endif
     </div>
 </div>
 
-<div class="card">
-    <h3>Phase 8 Scope Note</h3>
+<div class="g-card">
+    <h3>Android Testing Limitation</h3>
+
     <p class="muted">
-        This Android module is an experimental extension of GAgent. The Web GAgent model remains the main model.
-        The Android result is based on controlled Android UX metrics and should not be overclaimed as full real-world Android generalization.
+        Real Android app testing uses generic Appium
+        exploration. It supports simple flows only and
+        does not bypass authentication, CAPTCHA, payment,
+        two-factor authentication, or private application
+        protections. The controlled dummy Android app
+        remains the main reliable test target for the FYP.
     </p>
 </div>
 @endsection

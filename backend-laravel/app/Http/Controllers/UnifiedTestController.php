@@ -361,21 +361,73 @@ class UnifiedTestController extends Controller
         AppiumAndroidTestService $appiumService,
         GAgentAIService $aiService
     ) {
-        $validated = $request->validate([
-            'android_flow_type' => ['required', 'in:login,signup,search,button_click,form_submit'],
-            'android_scenario_type' => ['required', 'in:good,medium,bad'],
-            'target_app_package' => ['nullable', 'string', 'max:255'],
-            'target_app_activity' => ['nullable', 'string', 'max:255'],
-            'apk_path' => ['nullable', 'string', 'max:2048'],
-            'apk_file' => ['nullable', 'file', 'max:102400'],
-            'device_name' => ['nullable', 'string', 'max:255'],
-            'notes' => ['nullable', 'string', 'max:2000'],
-        ]);
+       $validated = $request->validate([
+    'android_flow_type' => [
+        'required',
+        'in:login,signup,search,button_click,form_submit',
+    ],
 
-        $package = $validated['target_app_package'] ?? 'com.gagent.dummyandroid';
-        $activity = $validated['target_app_activity'] ?? 'com.gagent.dummyandroid.MainActivity';
+    'target_app_package' => [
+        'required',
+        'string',
+        'max:255',
+        'regex:/^[A-Za-z0-9_.]+$/',
+    ],
 
-        $apkPath = $validated['apk_path'] ?? base_path('../phase8_android_dummy_app/app/build/outputs/apk/debug/app-debug.apk');
+    'target_app_activity' => [
+        'required',
+        'string',
+        'max:255',
+    ],
+
+    'apk_path' => [
+        'nullable',
+        'string',
+        'max:2048',
+        'required_without:apk_file',
+    ],
+
+    'apk_file' => [
+        'nullable',
+        'file',
+        'max:102400',
+        'required_without:apk_path',
+    ],
+
+    'device_name' => [
+        'nullable',
+        'string',
+        'max:255',
+    ],
+
+    'notes' => [
+        'nullable',
+        'string',
+        'max:2000',
+    ],
+]);
+
+       $package = trim(
+    $validated['target_app_package']
+);
+
+$activity = trim(
+    $validated['target_app_activity']
+);
+
+$deviceName = filled(
+    $validated['device_name'] ?? null
+)
+    ? trim($validated['device_name'])
+    : 'emulator-5554';
+
+$scenarioType = 'real_app';
+
+$apkPath = filled(
+    $validated['apk_path'] ?? null
+)
+    ? $validated['apk_path']
+    : null;
 
         if ($request->hasFile('apk_file')) {
             $apkFile = $request->file('apk_file');
@@ -404,14 +456,14 @@ class UnifiedTestController extends Controller
             'project_id' => $project->id,
             'run_code' => 'ANDROID-' . now()->format('Ymd-His') . '-' . Str::upper(Str::random(5)),
             'flow_type' => $validated['android_flow_type'],
-            'scenario_type' => $validated['android_scenario_type'],
+            'scenario_type' => $scenarioType,
             'viewport_type' => 'mobile',
             'platform' => 'android',
             'target_type' => 'android_application',
             'target_app_package' => $package,
             'target_app_activity' => $activity,
             'apk_path' => $apkPath,
-            'device_name' => $validated['device_name'] ?? 'emulator-5554',
+            'device_name' => $deviceName,
             'automation_driver' => 'appium',
             'run_mode' => 'android_appium_auto',
             'status' => 'running',
@@ -424,7 +476,10 @@ class UnifiedTestController extends Controller
                 'test_run_id' => $testRun->id,
                 'apk_path' => $apkPath,
                 'flow_type' => $validated['android_flow_type'],
-                'scenario_type' => $validated['android_scenario_type'],
+
+                'target_app_package' => $package,
+                'target_app_activity' => $activity,
+                'device_name' => $deviceName,
             ]);
 
             $finishedAt = Carbon::now();

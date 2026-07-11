@@ -196,58 +196,112 @@
                 </div>
             </div>
 
-            <div class="g-card" id="android-section" style="display: none;">
-                <h3>Android Appium Configuration</h3>
+         <div
+    class="g-card"
+    id="android-section"
+    style="display: none;"
+>
+    <h3>Real Android APK Configuration</h3>
 
-                <div class="g-form-grid">
-                    <div class="g-form-field">
-                        <label>Android Flow</label>
-                        <select class="g-select" name="android_flow_type">
-                            @foreach (['login', 'signup', 'search', 'button_click', 'form_submit'] as $flow)
-                                <option value="{{ $flow }}" @selected(old('android_flow_type', 'login') === $flow)>{{ $flow }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+    <div class="g-form-grid">
+        <div class="g-form-field">
+            <label>Android Flow</label>
 
-                    <div class="g-form-field">
-                        <label>Scenario</label>
-                        <select class="g-select" name="android_scenario_type">
-                            <option value="good" @selected(old('android_scenario_type', 'good') === 'good')>good</option>
-                            <option value="medium" @selected(old('android_scenario_type') === 'medium')>medium</option>
-                            <option value="bad" @selected(old('android_scenario_type') === 'bad')>bad</option>
-                        </select>
-                    </div>
+            <select
+                class="g-select"
+                name="android_flow_type"
+            >
+                <option
+                    value="login"
+                    @selected(
+                        old(
+                            'android_flow_type',
+                            'login'
+                        ) === 'login'
+                    )
+                >
+                    login
+                </option>
+            </select>
+        </div>
 
-                    <div class="g-form-field">
-                        <label>Target App Package</label>
-                        <input class="g-input" name="target_app_package" value="{{ old('target_app_package', 'com.gagent.dummyandroid') }}">
-                    </div>
+        <div class="g-form-field">
+            <label>Target App Package</label>
 
-                    <div class="g-form-field">
-                        <label>Target App Activity</label>
-                        <input class="g-input" name="target_app_activity" value="{{ old('target_app_activity', 'com.gagent.dummyandroid.MainActivity') }}">
-                    </div>
+            <input
+                class="g-input"
+                name="target_app_package"
+                value="{{ old(
+                    'target_app_package',
+                    'com.example.rantau_mate'
+                ) }}"
+                required
+            >
+        </div>
 
-                    <div class="g-form-field">
-                        <label>Device Name</label>
-                        <input class="g-input" name="device_name" value="{{ old('device_name', 'emulator-5554') }}">
-                    </div>
+        <div class="g-form-field">
+            <label>Target App Activity</label>
 
-                    <div class="g-form-field">
-                        <label>APK Path</label>
-                        <input class="g-input" name="apk_path" value="{{ old('apk_path') }}" placeholder="Leave empty to use dummy APK">
-                    </div>
+            <input
+                class="g-input"
+                name="target_app_activity"
+                value="{{ old(
+                    'target_app_activity',
+                    'com.example.rantau_mate.MainActivity'
+                ) }}"
+                required
+            >
+        </div>
 
-                    <div class="g-form-field" style="grid-column: 1 / -1;">
-                        <label>Upload APK Optional</label>
-                        <input class="g-input" type="file" name="apk_file" accept=".apk">
-                    </div>
-                </div>
+        <div class="g-form-field">
+            <label>Device Name</label>
 
-                <p class="g-muted g-small" style="margin-top: 12px;">
-                    Android auto-run requires emulator and Appium server to be running before clicking Run.
-                </p>
-            </div>
+            <input
+                class="g-input"
+                name="device_name"
+                value="{{ old(
+                    'device_name',
+                    'emulator-5554'
+                ) }}"
+            >
+        </div>
+
+        <div class="g-form-field">
+            <label>APK Path</label>
+
+            <input
+                class="g-input"
+                name="apk_path"
+                value="{{ old('apk_path') }}"
+                placeholder="Optional when uploading an APK"
+            >
+        </div>
+
+        <div
+            class="g-form-field"
+            style="grid-column: 1 / -1;"
+        >
+            <label>Upload Real APK</label>
+
+            <input
+                class="g-input"
+                type="file"
+                name="apk_file"
+                accept=".apk"
+            >
+        </div>
+    </div>
+
+    <p
+        class="g-muted g-small"
+        style="margin-top: 12px;"
+    >
+        Laravel will automatically use the Appium
+        profile matching the entered package name.
+        Emulator, Appium and FastAPI must already
+        be running.
+    </p>
+</div>
 
             <div class="g-card">
                 <h3>Notes</h3>

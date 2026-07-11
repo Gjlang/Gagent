@@ -30,10 +30,25 @@ Route::post('/live-tests', [LiveTestController::class, 'store'])->name('live-tes
 Route::get('/live-tests/{testRun}', [LiveTestController::class, 'show'])->name('live-tests.show');
 Route::post('/live-tests/{testRun}/run', [LiveTestController::class, 'run'])->name('live-tests.run');
 
-Route::get('/android-tests/create', [AndroidTestController::class, 'create'])->name('android-tests.create');
-Route::post('/android-tests', [AndroidTestController::class, 'store'])->name('android-tests.store');
-Route::get('/android-tests/{testRun}', [AndroidTestController::class, 'show'])->name('android-tests.show');
-Route::post('/android-tests/{testRun}/predict', [AndroidTestController::class, 'predict'])->name('android-tests.predict');
+Route::get(
+    '/android-tests/create',
+    [AndroidTestController::class, 'create']
+)->name('android-tests.create');
+
+Route::post(
+    '/android-tests',
+    [AndroidTestController::class, 'store']
+)->name('android-tests.store');
+
+Route::get(
+    '/android-tests/{testRun}',
+    [AndroidTestController::class, 'show']
+)->name('android-tests.show');
+
+Route::post(
+    '/android-tests/{testRun}/run',
+    [AndroidTestController::class, 'run']
+)->name('android-tests.run');
 
 Route::get('/test-runs', [TestRunController::class, 'index'])->name('test-runs.index');
 Route::get('/test-runs/{testRun}', [TestRunController::class, 'show'])->name('test-runs.show');

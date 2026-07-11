@@ -17,6 +17,7 @@ class TestRun extends Model
         'viewport_type',
         'network_condition',
         'run_mode',
+        'test_mode',
         'max_duration_seconds',
         'page_url',
         'target_url',
