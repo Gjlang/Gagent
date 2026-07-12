@@ -106,14 +106,23 @@ private array $androidFeatureKeys = [
 
         return $this->post('/predict-baseline', $payload);
     }
+public function predictAndroid(array $features): array
+{
+    $payload = Arr::only(
+        $features,
+        $this->androidFeatureKeys
+    );
 
-    public function predictAndroid(array $features): array
-    {
-        $payload = Arr::only($features, $this->androidFeatureKeys);
+    Log::info('Android prediction payload', [
+        'endpoint' => '/predict-android',
+        'payload' => $payload,
+    ]);
 
-        return $this->post('/predict-android', $payload);
-    }
-
+    return $this->post(
+        '/predict-android',
+        $payload
+    );
+}
     public function batchPredictGAgent(array $items): array
     {
         $payload = [
@@ -185,16 +194,41 @@ private array $androidFeatureKeys = [
         }
     }
 
-    private function formatResponse(bool $successful, int $httpStatus, mixed $data, array $payload = []): array
-    {
-        return [
-            'status' => $successful ? 'success' : 'error',
-            'http_status' => $httpStatus,
-            'data' => $data,
-            'payload_sent' => $payload,
-            'message' => $successful ? 'Request completed successfully.' : 'FastAPI returned an error response.',
-        ];
+   private function formatResponse(
+    bool $successful,
+    int $httpStatus,
+    mixed $data,
+    array $payload = []
+): array {
+    $message = 'Request completed successfully.';
+
+    if (!$successful) {
+        $message = 'FastAPI returned an error response.';
+
+        if (is_array($data)) {
+            if (isset($data['detail'])) {
+                if (is_string($data['detail'])) {
+                    $message .= ' ' . $data['detail'];
+                } else {
+                    $message .= ' ' . json_encode(
+                        $data['detail'],
+                        JSON_UNESCAPED_SLASHES
+                    );
+                }
+            } elseif (isset($data['message'])) {
+                $message .= ' ' . $data['message'];
+            }
+        }
     }
+
+    return [
+        'status' => $successful ? 'success' : 'error',
+        'http_status' => $httpStatus,
+        'data' => $data,
+        'payload_sent' => $payload,
+        'message' => $message,
+    ];
+}
 
     private function formatError(string $message, Throwable $error, array $payload = []): array
     {

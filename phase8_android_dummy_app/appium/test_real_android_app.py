@@ -19,6 +19,13 @@ DUMMY_ACTIVITY = "com.gagent.dummyandroid.MainActivity"
 
 SAFE_TEXT = "test"
 
+FULL_APP_FLOWS = [
+    "basic_navigation",
+    "button_click",
+    "form_input",
+    "search_flow",
+]
+
 BLOCKED_WORDS = {
     "buy",
     "purchase",
@@ -601,6 +608,314 @@ class SafeRunner:
         return self.metrics
 
 
+def reset_application(
+    driver: webdriver.Remote,
+    package_name: str,
+) -> None:
+    """
+    Return the application to its launch screen before the next flow.
+
+    Failure to reset does not crash the full test because some apps
+    do not allow terminate/activate operations.
+    """
+
+    if not package_name:
+        return
+
+    try:
+        driver.terminate_app(package_name)
+        time.sleep(0.8)
+
+        driver.activate_app(package_name)
+        time.sleep(1.5)
+
+    except Exception:
+        try:
+            driver.back()
+            time.sleep(0.8)
+        except Exception:
+            pass
+
+
+def merge_full_app_metrics(
+    flow_metrics: list[AndroidMetrics],
+    total_completion_time: float,
+) -> AndroidMetrics:
+    """
+    Combine metrics collected from all generic flows into one model payload.
+    """
+
+    merged = AndroidMetrics(
+        flow_type="full_app_check",
+    )
+
+    if not flow_metrics:
+        merged.task_completed = 0
+        merged.task_failed = 1
+        merged.error_count = 1
+        merged.completion_time = round(
+            total_completion_time,
+            3,
+        )
+        merged.finish_time_ms = round(
+            total_completion_time * 1000,
+            2,
+        )
+        return merged
+
+    completed_count = sum(
+        metric.task_completed
+        for metric in flow_metrics
+    )
+
+    merged.task_completed = (
+        1 if completed_count > 0 else 0
+    )
+
+    merged.task_failed = (
+        0 if completed_count > 0 else 1
+    )
+
+    merged.completion_time = round(
+        total_completion_time,
+        3,
+    )
+
+    merged.finish_time_ms = round(
+        total_completion_time * 1000,
+        2,
+    )
+
+    merged.click_count = sum(
+        metric.click_count
+        for metric in flow_metrics
+    )
+
+    merged.scroll_count = sum(
+        metric.scroll_count
+        for metric in flow_metrics
+    )
+
+    merged.keyboard_count = sum(
+        metric.keyboard_count
+        for metric in flow_metrics
+    )
+
+    merged.retry_count = sum(
+        metric.retry_count
+        for metric in flow_metrics
+    )
+
+    merged.error_count = sum(
+        metric.error_count
+        for metric in flow_metrics
+    )
+
+    merged.failed_clicks = sum(
+        metric.failed_clicks
+        for metric in flow_metrics
+    )
+
+    merged.unnecessary_clicks = sum(
+        metric.unnecessary_clicks
+        for metric in flow_metrics
+    )
+
+    merged.path_deviation_score = round(
+        sum(
+            metric.path_deviation_score
+            for metric in flow_metrics
+        ) / len(flow_metrics),
+        3,
+    )
+
+    merged.app_launch_time_ms = round(
+        max(
+            metric.app_launch_time_ms
+            for metric in flow_metrics
+        ),
+        2,
+    )
+
+    merged.screen_load_time_ms = round(
+        sum(
+            metric.screen_load_time_ms
+            for metric in flow_metrics
+        ) / len(flow_metrics),
+        2,
+    )
+
+    merged.feedback_delay_ms = round(
+        sum(
+            metric.feedback_delay_ms
+            for metric in flow_metrics
+        ) / len(flow_metrics),
+        2,
+    )
+
+    merged.interaction_response_time_ms = round(
+        sum(
+            metric.interaction_response_time_ms
+            for metric in flow_metrics
+        ) / len(flow_metrics),
+        2,
+    )
+
+    merged.error_message_present = max(
+        metric.error_message_present
+        for metric in flow_metrics
+    )
+
+    clarity_values = [
+        metric.error_message_clarity
+        for metric in flow_metrics
+        if metric.error_message_clarity >= 0
+    ]
+
+    merged.error_message_clarity = (
+        max(clarity_values)
+        if clarity_values
+        else -1
+    )
+
+    merged.popup_detected = max(
+        metric.popup_detected
+        for metric in flow_metrics
+    )
+
+    merged.overlay_blocks_action = max(
+        metric.overlay_blocks_action
+        for metric in flow_metrics
+    )
+
+    merged.timeout_occurred = max(
+        metric.timeout_occurred
+        for metric in flow_metrics
+    )
+
+    merged.crash_detected = max(
+        metric.crash_detected
+        for metric in flow_metrics
+    )
+
+    merged.anr_detected = max(
+        metric.anr_detected
+        for metric in flow_metrics
+    )
+
+    return merged
+
+
+def run_full_app_check(
+    driver: webdriver.Remote,
+    package_name: str,
+    max_duration: int,
+    app_launch_time_ms: float,
+    screen_load_time_ms: float,
+) -> tuple[AndroidMetrics, list[dict[str, Any]]]:
+    """
+    Run all safe generic flows and return aggregated metrics.
+
+    The total max duration is shared between all flows.
+    """
+
+    full_started = time.perf_counter()
+    deadline = full_started + max_duration
+
+    collected_metrics: list[AndroidMetrics] = []
+    flow_results: list[dict[str, Any]] = []
+
+    for index, flow_name in enumerate(
+        FULL_APP_FLOWS
+    ):
+        remaining_seconds = int(
+            deadline - time.perf_counter()
+        )
+
+        if remaining_seconds <= 2:
+            flow_results.append({
+                "flow": flow_name,
+                "status": "skipped",
+                "message": (
+                    "Skipped because the full app test "
+                    "reached its maximum duration."
+                ),
+            })
+            break
+
+        if index > 0:
+            reset_application(
+                driver,
+                package_name,
+            )
+
+        per_flow_duration = max(
+            2,
+            remaining_seconds,
+        )
+
+        runner = SafeRunner(
+            driver=driver,
+            flow=flow_name,
+            max_duration=per_flow_duration,
+        )
+
+        if index == 0:
+            runner.metrics.app_launch_time_ms = round(
+                app_launch_time_ms,
+                2,
+            )
+        else:
+            runner.metrics.app_launch_time_ms = 0.0
+
+        runner.metrics.screen_load_time_ms = round(
+            screen_load_time_ms,
+            2,
+        )
+
+        metrics = runner.run()
+
+        collected_metrics.append(metrics)
+
+        flow_status = (
+            "completed"
+            if metrics.task_completed == 1
+            else "not_completed"
+        )
+
+        flow_results.append({
+            "flow": flow_name,
+            "status": flow_status,
+            "task_completed": metrics.task_completed,
+            "task_failed": metrics.task_failed,
+            "completion_time": metrics.completion_time,
+            "click_count": metrics.click_count,
+            "keyboard_count": metrics.keyboard_count,
+            "error_count": metrics.error_count,
+            "failed_clicks": metrics.failed_clicks,
+            "timeout_occurred": metrics.timeout_occurred,
+            "crash_detected": metrics.crash_detected,
+            "anr_detected": metrics.anr_detected,
+        })
+
+        if (
+            metrics.crash_detected == 1
+            or metrics.anr_detected == 1
+        ):
+            break
+
+    total_completion_time = (
+        time.perf_counter() - full_started
+    )
+
+    merged_metrics = merge_full_app_metrics(
+        collected_metrics,
+        total_completion_time,
+    )
+
+    return merged_metrics, flow_results
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description=(
@@ -627,6 +942,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--flow",
         required=True,
         choices=[
+            "full_app_check",
             "basic_navigation",
             "button_click",
             "form_input",
@@ -790,23 +1106,62 @@ def main() -> int:
             time.perf_counter() - screen_started
         ) * 1000
 
-        runner = SafeRunner(
-            driver=driver,
-            flow=args.flow,
-            max_duration=args.maxDuration,
-        )
+        package_name = args.package
 
-        runner.metrics.app_launch_time_ms = round(
-            launch_time_ms,
-            2,
-        )
+        if not package_name:
+            try:
+                package_name = driver.current_package
+            except Exception:
+                package_name = ""
 
-        runner.metrics.screen_load_time_ms = round(
-            screen_load_time_ms,
-            2,
-        )
+        flow_results: list[dict[str, Any]] = []
 
-        metrics = runner.run()
+        if args.flow == "full_app_check":
+            metrics, flow_results = run_full_app_check(
+                driver=driver,
+                package_name=package_name,
+                max_duration=args.maxDuration,
+                app_launch_time_ms=launch_time_ms,
+                screen_load_time_ms=screen_load_time_ms,
+            )
+
+        else:
+            runner = SafeRunner(
+                driver=driver,
+                flow=args.flow,
+                max_duration=args.maxDuration,
+            )
+
+            runner.metrics.app_launch_time_ms = round(
+                launch_time_ms,
+                2,
+            )
+
+            runner.metrics.screen_load_time_ms = round(
+                screen_load_time_ms,
+                2,
+            )
+
+            metrics = runner.run()
+
+            flow_results.append({
+                "flow": args.flow,
+                "status": (
+                    "completed"
+                    if metrics.task_completed == 1
+                    else "not_completed"
+                ),
+                "task_completed": metrics.task_completed,
+                "task_failed": metrics.task_failed,
+                "completion_time": metrics.completion_time,
+                "click_count": metrics.click_count,
+                "keyboard_count": metrics.keyboard_count,
+                "error_count": metrics.error_count,
+                "failed_clicks": metrics.failed_clicks,
+                "timeout_occurred": metrics.timeout_occurred,
+                "crash_detected": metrics.crash_detected,
+                "anr_detected": metrics.anr_detected,
+            })
 
         status = (
             "success"
@@ -814,18 +1169,34 @@ def main() -> int:
             else "controlled_failure"
         )
 
+        completed_flows = sum(
+            1
+            for result in flow_results
+            if result.get("status") == "completed"
+        )
+
         output_result({
             "status": status,
             "test_run_id": args.testRunId,
             "test_mode": args.mode,
+            "selected_flow": args.flow,
             "message": (
-                "Android test completed."
-                if status == "success"
+                (
+                    f"Full app check completed. "
+                    f"{completed_flows} of "
+                    f"{len(flow_results)} flows completed."
+                )
+                if args.flow == "full_app_check"
                 else (
-                    "The app opened, but the selected generic "
-                    "flow could not be completed safely."
+                    "Android test completed."
+                    if status == "success"
+                    else (
+                        "The app opened, but the selected generic "
+                        "flow could not be completed safely."
+                    )
                 )
             ),
+            "flow_results": flow_results,
             "metrics": asdict(metrics),
         })
 

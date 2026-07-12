@@ -37,29 +37,6 @@
         <div class="g-card">
             <h3>Android Test Configuration</h3>
 
-            <div class="g-form-field">
-                <label for="project_id">Project</label>
-
-                <select
-                    class="g-select"
-                    id="project_id"
-                    name="project_id"
-                    required
-                >
-                    <option value="">Select project</option>
-
-                    @foreach ($projects as $project)
-                        <option
-                            value="{{ $project->id }}"
-                            @selected(
-                                old('project_id') == $project->id
-                            )
-                        >
-                            {{ $project->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
 
             <div class="g-form-field">
                 <label for="test_mode">Test Mode</label>
@@ -111,19 +88,20 @@
                     name="flow_type"
                     required
                 >
-                    @foreach ([
-                        'basic_navigation' => 'Basic Navigation',
-                        'button_click' => 'Button Click',
-                        'form_input' => 'Form Input',
-                        'search_flow' => 'Search Flow',
-                    ] as $value => $label)
+                   @foreach ([
+                            'full_app_check' => 'Full App Check',
+                            'basic_navigation' => 'Basic Navigation',
+                            'button_click' => 'Button Click',
+                            'form_input' => 'Form Input',
+                            'search_flow' => 'Search Flow',
+                        ] as $value => $label)
                         <option
                             value="{{ $value }}"
                             @selected(
                                 old(
-                                    'flow_type',
-                                    'basic_navigation'
-                                ) === $value
+    'flow_type',
+    'full_app_check'
+) === $value
                             )
                         >
                             {{ $label }}
@@ -344,9 +322,9 @@ document.addEventListener('DOMContentLoaded', function () {
             isInstalled ? 'none' : 'block';
 
         apkUploadGroup.style.display =
-            isInstalled || isDummy
-                ? 'none'
-                : 'block';
+    isInstalled
+        ? 'none'
+        : 'block';
 
         packageGroup.style.display =
             isDummy ? 'none' : 'block';
@@ -354,7 +332,7 @@ document.addEventListener('DOMContentLoaded', function () {
         activityGroup.style.display =
             isDummy ? 'none' : 'block';
 
-        apkPath.required = isRealApk;
+        apkPath.required = false;
         packageInput.required = isInstalled;
     }
 

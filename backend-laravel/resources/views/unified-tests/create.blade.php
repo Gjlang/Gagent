@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Run UX Test')
-@section('kicker', 'Unified Website and Android Runner')
+@section('title', 'Run Website UX Test')
+@section('kicker', 'Playwright Website Testing')
 
 @section('content')
 <div class="g-page-header">
     <div>
-        <h2>Run UX Test</h2>
-        <p>Run Website or Android UX testing from one page. The system will auto-create the project, test run, prediction, and report.</p>
+        <h2>Run Website UX Test</h2>
+        <p>Run automated website UX testing using Playwright. The system will automatically create the project, test run, prediction, and report.</p>
     </div>
     <a class="g-btn" href="{{ route('test-runs.index') }}">View Test Runs</a>
 </div>
@@ -27,41 +27,16 @@
     id="ux-test-form"
     method="POST"
     action="{{ route('unified-tests.store') }}"
-    enctype="multipart/form-data"
 >
     @csrf
+    <input type="hidden" name="test_type" value="website">
 
     <div class="g-layout-2-1">
         <div class="g-stack">
            <div class="g-card">
-    <h3>Choose Test Type</h3>
+    <h3>Website Runner Configuration</h3>
 
     <div class="g-form-grid">
-        <div class="g-form-field">
-            <label>Test Type</label>
-
-            <select
-                class="g-select"
-                name="test_type"
-                id="test_type"
-                required
-            >
-                <option
-                    value="website"
-                    @selected(old('test_type', 'website') === 'website')
-                >
-                    Website — Playwright
-                </option>
-
-                <option
-                    value="android"
-                    @selected(old('test_type') === 'android')
-                >
-                    Android — Appium
-                </option>
-            </select>
-        </div>
-
         <div class="g-form-field">
             <label>Show Live Browser</label>
 
@@ -196,113 +171,6 @@
                 </div>
             </div>
 
-         <div
-    class="g-card"
-    id="android-section"
-    style="display: none;"
->
-    <h3>Real Android APK Configuration</h3>
-
-    <div class="g-form-grid">
-        <div class="g-form-field">
-            <label>Android Flow</label>
-
-            <select
-                class="g-select"
-                name="android_flow_type"
-            >
-                <option
-                    value="login"
-                    @selected(
-                        old(
-                            'android_flow_type',
-                            'login'
-                        ) === 'login'
-                    )
-                >
-                    login
-                </option>
-            </select>
-        </div>
-
-        <div class="g-form-field">
-            <label>Target App Package</label>
-
-            <input
-                class="g-input"
-                name="target_app_package"
-                value="{{ old(
-                    'target_app_package',
-                    'com.example.rantau_mate'
-                ) }}"
-                required
-            >
-        </div>
-
-        <div class="g-form-field">
-            <label>Target App Activity</label>
-
-            <input
-                class="g-input"
-                name="target_app_activity"
-                value="{{ old(
-                    'target_app_activity',
-                    'com.example.rantau_mate.MainActivity'
-                ) }}"
-                required
-            >
-        </div>
-
-        <div class="g-form-field">
-            <label>Device Name</label>
-
-            <input
-                class="g-input"
-                name="device_name"
-                value="{{ old(
-                    'device_name',
-                    'emulator-5554'
-                ) }}"
-            >
-        </div>
-
-        <div class="g-form-field">
-            <label>APK Path</label>
-
-            <input
-                class="g-input"
-                name="apk_path"
-                value="{{ old('apk_path') }}"
-                placeholder="Optional when uploading an APK"
-            >
-        </div>
-
-        <div
-            class="g-form-field"
-            style="grid-column: 1 / -1;"
-        >
-            <label>Upload Real APK</label>
-
-            <input
-                class="g-input"
-                type="file"
-                name="apk_file"
-                accept=".apk"
-            >
-        </div>
-    </div>
-
-    <p
-        class="g-muted g-small"
-        style="margin-top: 12px;"
-    >
-        Laravel will automatically use the Appium
-        profile matching the entered package name.
-        Emulator, Appium and FastAPI must already
-        be running.
-    </p>
-</div>
-
             <div class="g-card">
                 <h3>Notes</h3>
                 <textarea class="g-textarea" name="notes" rows="4" placeholder="Optional testing notes">{{ old('notes') }}</textarea>
@@ -313,21 +181,36 @@
     type="submit"
     id="run-ux-test-button"
 >
-    Run UX Test Now
+    Run Website UX Test
 </button>
                 </div>
             </div>
         </div>
 
         <aside class="g-panel">
-            <div class="g-soft-label">Unified Pipeline</div>
-            <h3 style="margin-top: 7px;">Auto Project → Test Run → AI → Report</h3>
+            <div class="g-soft-label">Website Testing Pipeline</div>
+            <h3 style="margin-top: 7px;">Website → Playwright → AI → Report</h3>
 
             <div class="g-kv" style="margin-top: 14px;">
-                <div class="g-kv-row"><span>Website Runner</span><span>Playwright</span></div>
-                <div class="g-kv-row"><span>Android Runner</span><span>Appium</span></div>
-                <div class="g-kv-row"><span>AI Service</span><span>FastAPI</span></div>
-                <div class="g-kv-row"><span>Output</span><span>Low / Medium / High</span></div>
+                <div class="g-kv-row">
+                    <span>Website Runner</span>
+                    <span>Playwright</span>
+                </div>
+
+                <div class="g-kv-row">
+                    <span>AI Service</span>
+                    <span>FastAPI</span>
+                </div>
+
+                <div class="g-kv-row">
+                    <span>Prediction</span>
+                    <span>Web ML Model</span>
+                </div>
+
+                <div class="g-kv-row">
+                    <span>Output</span>
+                    <span>Low / Medium / High</span>
+                </div>
             </div>
 
             <div class="g-device-stage" style="min-height: 260px; margin-top: 18px;">
@@ -340,7 +223,7 @@
             </div>
 
             <p class="g-muted g-small">
-                Old pages are still kept as backup. This page is the new simplified flow.
+                This page is dedicated to automated website UX testing.
             </p>
         </aside>
     </div>
@@ -375,31 +258,23 @@
 </div>
 
 <script>
-    const testType = document.getElementById('test_type');
-    const websiteSection = document.getElementById('website-section');
-    const androidSection = document.getElementById('android-section');
-
     const uxTestForm = document.getElementById('ux-test-form');
     const runButton = document.getElementById('run-ux-test-button');
 
-    const runningOverlay = document.getElementById('g-test-running-overlay');
-    const runningTitle = document.getElementById('g-test-running-title');
-    const runningMessage = document.getElementById('g-test-running-message');
+    const runningOverlay = document.getElementById(
+        'g-test-running-overlay'
+    );
 
-    function toggleSections() {
-        if (testType.value === 'android') {
-            websiteSection.style.display = 'none';
-            androidSection.style.display = 'block';
-        } else {
-            websiteSection.style.display = 'block';
-            androidSection.style.display = 'none';
-        }
-    }
+    const runningTitle = document.getElementById(
+        'g-test-running-title'
+    );
+
+    const runningMessage = document.getElementById(
+        'g-test-running-message'
+    );
 
     function startRunningAnimation() {
-        const isWebsite = testType.value === 'website';
-
-        const websiteMessages = [
+        const messages = [
             'Launching the Playwright browser...',
             'Opening the target website...',
             'Inspecting page structure and interactive elements...',
@@ -410,45 +285,28 @@
             'Generating the final UX friction report...'
         ];
 
-        const androidMessages = [
-            'Connecting to the Appium server...',
-            'Preparing the Android device...',
-            'Launching the target application...',
-            'Testing the selected Android flow...',
-            'Collecting interaction and performance metrics...',
-            'Capturing screenshot evidence...',
-            'Sending metrics to the AI prediction service...',
-            'Generating the final UX friction report...'
-        ];
-
-        const messages = isWebsite ? websiteMessages : androidMessages;
-
-        runningTitle.textContent = isWebsite
-            ? 'Website UX Test Running'
-            : 'Android UX Test Running';
-
+        runningTitle.textContent = 'Website UX Test Running';
         runningMessage.textContent = messages[0];
         runningOverlay.hidden = false;
 
         runButton.disabled = true;
-        runButton.textContent = isWebsite
-            ? 'Running Website Test...'
-            : 'Running Android Test...';
+        runButton.textContent = 'Running Website Test...';
 
         let messageIndex = 0;
 
         window.setInterval(() => {
-            messageIndex = (messageIndex + 1) % messages.length;
-            runningMessage.textContent = messages[messageIndex];
+            messageIndex = (
+                messageIndex + 1
+            ) % messages.length;
+
+            runningMessage.textContent = messages[
+                messageIndex
+            ];
         }, 2600);
     }
-
-    testType.addEventListener('change', toggleSections);
 
     uxTestForm.addEventListener('submit', function () {
         startRunningAnimation();
     });
-
-    toggleSections();
 </script>
 @endsection

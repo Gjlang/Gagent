@@ -75,11 +75,12 @@ class AppiumAndroidTestService
         ];
 
         $allowedFlows = [
-            'basic_navigation',
-            'button_click',
-            'form_input',
-            'search_flow',
-        ];
+    'full_app_check',
+    'basic_navigation',
+    'button_click',
+    'form_input',
+    'search_flow',
+];
 
         if (!in_array($testMode, $allowedModes, true)) {
             return $this->error(

@@ -18,13 +18,14 @@
 <body>
 <?php
     $navItems = [
-    ['label' => 'Dashboard', 'route' => 'dashboard', 'match' => 'dashboard', 'icon' => '▦'],
-    ['label' => 'Run UX Test', 'route' => 'unified-tests.create', 'match' => 'unified-tests.*', 'icon' => '▶'],
-    ['label' => 'Projects', 'route' => 'projects.index', 'match' => 'projects.*', 'icon' => '▣'],
-    ['label' => 'Test Runs', 'route' => 'test-runs.index', 'match' => 'test-runs.*', 'icon' => '◉'],
-    ['label' => 'Reports', 'route' => 'reports.index', 'match' => 'reports.*', 'icon' => '▤'],
-    ['label' => 'AI Analysis', 'route' => 'ai.test', 'match' => 'ai.*', 'icon' => '✦'],
-];
+        ['label' => 'Dashboard', 'route' => 'dashboard', 'match' => 'dashboard', 'icon' => '▦'],
+        ['label' => 'Run UX Test', 'route' => 'unified-tests.create', 'match' => 'unified-tests.*', 'icon' => '▶'],
+        ['label' => 'Android Testing', 'route' => 'android-tests.create', 'match' => 'android-tests.*', 'icon' => '◫'],
+        ['label' => 'Projects', 'route' => 'projects.index', 'match' => 'projects.*', 'icon' => '▣'],
+        ['label' => 'Test Runs', 'route' => 'test-runs.index', 'match' => 'test-runs.*', 'icon' => '◉'],
+        ['label' => 'Reports', 'route' => 'reports.index', 'match' => 'reports.*', 'icon' => '▤'],
+        ['label' => 'AI Analysis', 'route' => 'ai.test', 'match' => 'ai.*', 'icon' => '✦'],
+    ];
 ?>
 
 <div class="g-shell">

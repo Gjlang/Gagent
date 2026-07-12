@@ -35,30 +35,6 @@
         <div class="g-card">
             <h3>Android Test Configuration</h3>
 
-            <div class="g-form-field">
-                <label for="project_id">Project</label>
-
-                <select
-                    class="g-select"
-                    id="project_id"
-                    name="project_id"
-                    required
-                >
-                    <option value="">Select project</option>
-
-                    <?php $__currentLoopData = $projects; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $project): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <option
-                            value="<?php echo e($project->id); ?>"
-                            <?php if(
-                                old('project_id') == $project->id
-                            ): echo 'selected'; endif; ?>
-                        >
-                            <?php echo e($project->name); ?>
-
-                        </option>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                </select>
-            </div>
 
             <div class="g-form-field">
                 <label for="test_mode">Test Mode</label>
@@ -110,19 +86,20 @@
                     name="flow_type"
                     required
                 >
-                    <?php $__currentLoopData = [
-                        'basic_navigation' => 'Basic Navigation',
-                        'button_click' => 'Button Click',
-                        'form_input' => 'Form Input',
-                        'search_flow' => 'Search Flow',
-                    ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                   <?php $__currentLoopData = [
+                            'full_app_check' => 'Full App Check',
+                            'basic_navigation' => 'Basic Navigation',
+                            'button_click' => 'Button Click',
+                            'form_input' => 'Form Input',
+                            'search_flow' => 'Search Flow',
+                        ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <option
                             value="<?php echo e($value); ?>"
                             <?php if(
                                 old(
-                                    'flow_type',
-                                    'basic_navigation'
-                                ) === $value
+    'flow_type',
+    'full_app_check'
+) === $value
                             ): echo 'selected'; endif; ?>
                         >
                             <?php echo e($label); ?>
@@ -344,9 +321,9 @@ document.addEventListener('DOMContentLoaded', function () {
             isInstalled ? 'none' : 'block';
 
         apkUploadGroup.style.display =
-            isInstalled || isDummy
-                ? 'none'
-                : 'block';
+    isInstalled
+        ? 'none'
+        : 'block';
 
         packageGroup.style.display =
             isDummy ? 'none' : 'block';
@@ -354,7 +331,7 @@ document.addEventListener('DOMContentLoaded', function () {
         activityGroup.style.display =
             isDummy ? 'none' : 'block';
 
-        apkPath.required = isRealApk;
+        apkPath.required = false;
         packageInput.required = isInstalled;
     }
 

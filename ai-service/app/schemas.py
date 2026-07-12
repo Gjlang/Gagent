@@ -188,6 +188,7 @@ class AndroidPredictionInput(BaseModel):
 
         flow_mapping = {
             # New generic Appium flows
+            "full_app_check": "button_click",
             "basic_navigation": "button_click",
             "button_click": "button_click",
             "form_input": "form_submit",

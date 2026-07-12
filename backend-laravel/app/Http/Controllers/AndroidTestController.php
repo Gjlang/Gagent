@@ -22,41 +22,27 @@ class AndroidTestController extends Controller
 
     public function create()
     {
-        $projects = Project::query()
-            ->where('status', 'active')
-            ->orderBy('name')
-            ->get();
-
-        return view(
-            'android-tests.create',
-            compact('projects')
-        );
+        return view('android-tests.create');
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'project_id' => [
-                'required',
-                'exists:projects,id',
-            ],
-
             'test_mode' => [
                 'required',
                 'in:dummy_app,real_apk,installed_app',
             ],
 
             'flow_type' => [
-                'required',
-                'in:basic_navigation,button_click,form_input,search_flow',
-            ],
+    'required',
+    'in:full_app_check,basic_navigation,button_click,form_input,search_flow',
+],
 
             'apk_path' => [
-                'nullable',
-                'string',
-                'max:2048',
-                'required_if:test_mode,real_apk',
-            ],
+    'nullable',
+    'string',
+    'max:2048',
+],
 
             'apk_file' => [
                 'nullable',
@@ -96,6 +82,19 @@ class AndroidTestController extends Controller
                 'max:2000',
             ],
         ]);
+
+        $defaultProject = $this->getDefaultAndroidProject();
+        if (
+    $validated['test_mode'] === 'real_apk'
+    && !$request->hasFile('apk_file')
+    && empty(trim((string) ($validated['apk_path'] ?? '')))
+) {
+    return back()
+        ->withErrors([
+            'apk_file' => 'Please upload an APK file or provide an APK path.',
+        ])
+        ->withInput();
+}
 
         $apkPath = trim(
             (string) (
@@ -189,9 +188,7 @@ class AndroidTestController extends Controller
         }
 
         $testRun = TestRun::create([
-            'project_id' => (
-                $validated['project_id']
-            ),
+            'project_id' => $defaultProject->id,
 
             'run_code' => (
                 'ANDROID-'
@@ -867,4 +864,28 @@ class AndroidTestController extends Controller
             ),
         ];
     }
+
+    private function getDefaultAndroidProject(): Project
+    {
+        $project = Project::firstOrCreate(
+            [
+                'name' => 'Android App Testing',
+                'target_type' => 'android_application',
+            ],
+            [
+                'description' => 'Default project used automatically for Android Appium test runs.',
+                'target_url' => null,
+                'status' => 'active',
+            ]
+        );
+
+        if ($project->status !== 'active') {
+            $project->update([
+                'status' => 'active',
+            ]);
+        }
+
+        return $project;
+    }
+
 }
