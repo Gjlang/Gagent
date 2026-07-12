@@ -285,3 +285,60 @@ class BatchPredictionResponse(BaseModel):
     model_name: str
     total_predictions: int
     predictions: List[PredictionResponse]
+
+class ReportExplanationRequest(BaseModel):
+    """
+    Data already produced by the ML prediction pipeline.
+
+    The LLM receives this result but cannot modify it.
+    """
+
+    model_config = ConfigDict(
+        extra="forbid"
+    )
+
+    platform: str = Field(
+        ...,
+        min_length=1,
+    )
+
+    flow_type: str = Field(
+        ...,
+        min_length=1,
+    )
+
+    friction_level: str = Field(
+        ...,
+        pattern="^(Low|Medium|High)$",
+    )
+
+    confidence_score: Optional[float] = Field(
+        default=None,
+        ge=0,
+        le=1,
+    )
+
+    class_probabilities: Dict[str, float] = Field(
+        default_factory=dict,
+    )
+
+    metrics: Dict[str, Any] = Field(
+        default_factory=dict,
+    )
+
+    existing_recommendations: List[str] = Field(
+        default_factory=list,
+    )
+
+
+class ReportExplanationResponse(BaseModel):
+    """
+    Structured report explanation returned to Laravel.
+    """
+
+    summary: str
+    explanation: str
+    recommendations: List[str]
+    risk_reason: str
+    llm_used: bool
+    model_name: str

@@ -13,14 +13,28 @@ class Report extends Model
         'summary',
         'conclusion',
         'generated_at',
+
+        'llm_summary',
+        'llm_explanation',
+        'llm_recommendations',
+        'llm_risk_reason',
+        'llm_model_name',
+        'llm_used',
+        'llm_generated_at',
     ];
 
     protected $casts = [
         'generated_at' => 'datetime',
+
+        'llm_recommendations' => 'array',
+        'llm_used' => 'boolean',
+        'llm_generated_at' => 'datetime',
     ];
 
     public function testRun(): BelongsTo
     {
-        return $this->belongsTo(TestRun::class);
+        return $this->belongsTo(
+            TestRun::class
+        );
     }
 }

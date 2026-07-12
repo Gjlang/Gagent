@@ -2,6 +2,10 @@ from fastapi import APIRouter, HTTPException
 from app.prediction_service import predict_android
 from app.schemas import AndroidPredictionInput, AndroidPredictionResponse
 from app.model_loader import get_model_info, is_loaded, load_model_artifacts
+from app.llm_report_service import (
+    check_ollama_available,
+    generate_report_explanation,
+)
 from app.prediction_service import (
     batch_predict_baseline,
     batch_predict_gagent,
@@ -15,7 +19,10 @@ from app.schemas import (
     BatchPredictionResponse,
     GAgentPredictionInput,
     PredictionResponse,
+    ReportExplanationRequest,
+    ReportExplanationResponse,
 )
+
 
 
 router = APIRouter()
@@ -37,6 +44,9 @@ def health_check() -> dict:
         "status": "healthy" if model_loaded else "degraded",
         "model_loaded": model_loaded,
         "model_error": model_error,
+        "ollama_available": (
+            check_ollama_available()
+        ),
     }
 
 
@@ -46,6 +56,18 @@ def model_info() -> dict:
         return {
             "status": "success",
             **get_model_info(),
+            "llm": {
+                "provider": "ollama",
+                "available": (
+                    check_ollama_available()
+                ),
+                "default_model": (
+                    "llama3.2:1b"
+                ),
+                "role": (
+                    "report explanation only"
+                ),
+            },
         }
     except Exception as error:
         return {
@@ -134,3 +156,22 @@ def predict_android_endpoint(payload: AndroidPredictionInput):
             status_code=500,
             detail=f"Android prediction failed: {error}",
         ) from error
+
+
+@router.post(
+    "/generate-report-explanation",
+    response_model=ReportExplanationResponse,
+)
+def generate_report_explanation_endpoint(
+    payload: ReportExplanationRequest,
+) -> dict:
+    """
+    Explain an existing ML prediction.
+
+    This endpoint does not run prediction and does not
+    change the supplied Low, Medium, or High result.
+    """
+
+    return generate_report_explanation(
+        payload.model_dump()
+    )

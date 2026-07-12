@@ -123,6 +123,69 @@ public function predictAndroid(array $features): array
         $payload
     );
 }
+
+public function generateReportExplanation(
+    array $payload
+): array {
+    $safePayload = [
+        'platform' => (string) (
+            $payload['platform']
+            ?? 'web'
+        ),
+
+        'flow_type' => (string) (
+            $payload['flow_type']
+            ?? 'unknown'
+        ),
+
+        'friction_level' => (string) (
+            $payload['friction_level']
+            ?? 'Low'
+        ),
+
+        'confidence_score' => isset(
+            $payload['confidence_score']
+        )
+            ? (float) $payload[
+                'confidence_score'
+            ]
+            : null,
+
+        'class_probabilities' => is_array(
+            $payload[
+                'class_probabilities'
+            ] ?? null
+        )
+            ? $payload[
+                'class_probabilities'
+            ]
+            : [],
+
+        'metrics' => is_array(
+            $payload['metrics'] ?? null
+        )
+            ? $payload['metrics']
+            : [],
+
+        'existing_recommendations' => is_array(
+            $payload[
+                'existing_recommendations'
+            ] ?? null
+        )
+            ? array_values(
+                $payload[
+                    'existing_recommendations'
+                ]
+            )
+            : [],
+    ];
+
+    return $this->post(
+        '/generate-report-explanation',
+        $safePayload,
+        90
+    );
+}
     public function batchPredictGAgent(array $items): array
     {
         $payload = [

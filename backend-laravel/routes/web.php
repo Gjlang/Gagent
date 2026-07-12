@@ -59,4 +59,14 @@ Route::get('/reports', [ReportController::class, 'index'])->name('reports.index'
 Route::get('/reports/{report}', [ReportController::class, 'show'])->name('reports.show');
 Route::post('/reports/generate/{testRun}', [ReportController::class, 'generate'])->name('reports.generate');
 
+Route::post(
+    '/reports/{report}/generate-ai-explanation',
+    [
+        ReportController::class,
+        'generateAIExplanation',
+    ]
+)->name(
+    'reports.generate-ai-explanation'
+);
+
 Route::get('/ai-service-test', AIServiceTestController::class)->name('ai.test');
