@@ -1,0 +1,304 @@
+{
+  "status": "success",
+  "message": "Full audit completed: 4 passed, 0 failed, 0 skipped.",
+  "test_run_id": "59",
+  "target_url": "https://www.lazada.com.my/#?",
+  "flow_type": "full_audit",
+  "audit_mode": "full_audit",
+  "viewport_type": "desktop",
+  "network_condition": "normal",
+  "detected_features": {
+    "landing_navigation": true,
+    "search": true,
+    "cta_click": false,
+    "menu_toggle": false,
+    "header_navigation": false,
+    "category_navigation": true,
+    "product_navigation": true,
+    "login": false,
+    "form_review": false
+  },
+  "audit_summary": {
+    "tested_count": 4,
+    "passed_count": 4,
+    "failed_count": 0,
+    "skipped_count": 0
+  },
+  "flow_results": [
+    {
+      "audit_flow": "landing_navigation",
+      "flow_type": "landing_navigation",
+      "label": "Page loading and navigation",
+      "detected": true,
+      "status": "passed",
+      "reason": "Flow completed successfully.",
+      "metrics": {
+        "flow_type": "landing_navigation",
+        "viewport_type": "desktop",
+        "task_completed": 1,
+        "task_failed": 0,
+        "completion_time": 4.83,
+        "click_count": 0,
+        "scroll_count": 6,
+        "keyboard_count": 0,
+        "retry_count": 0,
+        "error_count": 0,
+        "failed_clicks": 0,
+        "unnecessary_clicks": 0,
+        "path_deviation_score": 0,
+        "page_load_time_ms": 1439,
+        "dom_content_loaded_ms": 562,
+        "time_to_first_byte_ms": 0,
+        "feedback_delay_ms": 0,
+        "interaction_to_next_paint_ms": 0,
+        "cumulative_layout_shift": 0.0638,
+        "error_message_present": 0,
+        "error_message_clarity": -1,
+        "popup_detected": 0,
+        "cookie_banner_detected": 0,
+        "overlay_blocks_cta": 0
+      },
+      "screenshots": [
+        {
+          "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_59_landing_navigation_1783934843707.png",
+          "label": "Full Audit — Page loading and navigation",
+          "flow_key": "landing_navigation",
+          "annotations": []
+        }
+      ]
+    },
+    {
+      "audit_flow": "search",
+      "flow_type": "search",
+      "label": "Search",
+      "detected": true,
+      "status": "passed",
+      "reason": "Flow completed successfully.",
+      "metrics": {
+        "flow_type": "search",
+        "viewport_type": "desktop",
+        "task_completed": 1,
+        "task_failed": 0,
+        "completion_time": 10.72,
+        "click_count": 0,
+        "scroll_count": 0,
+        "keyboard_count": 0,
+        "retry_count": 0,
+        "error_count": 0,
+        "failed_clicks": 0,
+        "unnecessary_clicks": 0,
+        "path_deviation_score": 0,
+        "page_load_time_ms": 0,
+        "dom_content_loaded_ms": 1588,
+        "time_to_first_byte_ms": 85,
+        "feedback_delay_ms": 3264,
+        "interaction_to_next_paint_ms": 0,
+        "cumulative_layout_shift": 0.105,
+        "error_message_present": 0,
+        "error_message_clarity": -1,
+        "popup_detected": 0,
+        "cookie_banner_detected": 0,
+        "overlay_blocks_cta": 0
+      },
+      "screenshots": [
+        {
+          "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_59_search_1783934847602.png",
+          "label": "Full Audit — Search",
+          "flow_key": "search",
+          "annotations": [
+            {
+              "label": "Search input tested",
+              "severity": "Medium",
+              "x": 284.484375,
+              "y": 116,
+              "width": 688,
+              "height": 45
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "audit_flow": "category_navigation",
+      "flow_type": "landing_navigation",
+      "label": "Category navigation link",
+      "detected": true,
+      "status": "passed",
+      "reason": "Flow completed successfully.",
+      "metrics": {
+        "flow_type": "landing_navigation",
+        "viewport_type": "desktop",
+        "task_completed": 1,
+        "task_failed": 0,
+        "completion_time": 10.63,
+        "click_count": 1,
+        "scroll_count": 0,
+        "keyboard_count": 0,
+        "retry_count": 0,
+        "error_count": 0,
+        "failed_clicks": 0,
+        "unnecessary_clicks": 0,
+        "path_deviation_score": 0,
+        "page_load_time_ms": 2341,
+        "dom_content_loaded_ms": 1699,
+        "time_to_first_byte_ms": 71,
+        "feedback_delay_ms": 3049,
+        "interaction_to_next_paint_ms": 104,
+        "cumulative_layout_shift": 0.105,
+        "error_message_present": 0,
+        "error_message_clarity": -1,
+        "popup_detected": 0,
+        "cookie_banner_detected": 0,
+        "overlay_blocks_cta": 0
+      },
+      "screenshots": [
+        {
+          "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_59_category_navigation_1783934858547.png",
+          "label": "Full Audit — Category navigation link",
+          "flow_key": "category_navigation",
+          "annotations": [
+            {
+              "label": "Category navigation link tested: telefon bimbit",
+              "severity": "Medium",
+              "x": 74,
+              "y": 1676,
+              "width": 148.5,
+              "height": 148.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "audit_flow": "product_navigation",
+      "flow_type": "landing_navigation",
+      "label": "Product or content card",
+      "detected": true,
+      "status": "passed",
+      "reason": "Flow completed successfully.",
+      "metrics": {
+        "flow_type": "landing_navigation",
+        "viewport_type": "desktop",
+        "task_completed": 1,
+        "task_failed": 0,
+        "completion_time": 10.3,
+        "click_count": 1,
+        "scroll_count": 0,
+        "keyboard_count": 0,
+        "retry_count": 0,
+        "error_count": 0,
+        "failed_clicks": 0,
+        "unnecessary_clicks": 0,
+        "path_deviation_score": 0,
+        "page_load_time_ms": 2323,
+        "dom_content_loaded_ms": 1182,
+        "time_to_first_byte_ms": 135,
+        "feedback_delay_ms": 2484,
+        "interaction_to_next_paint_ms": 40,
+        "cumulative_layout_shift": 0.0597,
+        "error_message_present": 0,
+        "error_message_clarity": -1,
+        "popup_detected": 0,
+        "cookie_banner_detected": 0,
+        "overlay_blocks_cta": 0
+      },
+      "screenshots": [
+        {
+          "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_59_product_navigation_1783934869266.png",
+          "label": "Full Audit — Product or content card",
+          "flow_key": "product_navigation",
+          "annotations": [
+            {
+              "label": "Product or content card tested: sweetdream official sweetdream official",
+              "severity": "Medium",
+              "x": 74,
+              "y": 1344,
+              "width": 188,
+              "height": 270
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_59_landing_navigation_1783934843707.png",
+      "label": "Full Audit — Page loading and navigation",
+      "flow_key": "landing_navigation",
+      "annotations": []
+    },
+    {
+      "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_59_search_1783934847602.png",
+      "label": "Full Audit — Search",
+      "flow_key": "search",
+      "annotations": [
+        {
+          "label": "Search input tested",
+          "severity": "Medium",
+          "x": 284.484375,
+          "y": 116,
+          "width": 688,
+          "height": 45
+        }
+      ]
+    },
+    {
+      "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_59_category_navigation_1783934858547.png",
+      "label": "Full Audit — Category navigation link",
+      "flow_key": "category_navigation",
+      "annotations": [
+        {
+          "label": "Category navigation link tested: telefon bimbit",
+          "severity": "Medium",
+          "x": 74,
+          "y": 1676,
+          "width": 148.5,
+          "height": 148.5
+        }
+      ]
+    },
+    {
+      "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_59_product_navigation_1783934869266.png",
+      "label": "Full Audit — Product or content card",
+      "flow_key": "product_navigation",
+      "annotations": [
+        {
+          "label": "Product or content card tested: sweetdream official sweetdream official",
+          "severity": "Medium",
+          "x": 74,
+          "y": 1344,
+          "width": 188,
+          "height": 270
+        }
+      ]
+    }
+  ],
+  "metrics": {
+    "flow_type": "landing_navigation",
+    "viewport_type": "desktop",
+    "task_completed": 1,
+    "task_failed": 0,
+    "completion_time": 4.83,
+    "click_count": 0,
+    "scroll_count": 6,
+    "keyboard_count": 0,
+    "retry_count": 0,
+    "error_count": 0,
+    "failed_clicks": 0,
+    "unnecessary_clicks": 0,
+    "path_deviation_score": 0,
+    "page_load_time_ms": 1439,
+    "dom_content_loaded_ms": 562,
+    "time_to_first_byte_ms": 0,
+    "feedback_delay_ms": 0,
+    "interaction_to_next_paint_ms": 0,
+    "cumulative_layout_shift": 0.0638,
+    "error_message_present": 0,
+    "error_message_clarity": -1,
+    "popup_detected": 0,
+    "cookie_banner_detected": 0,
+    "overlay_blocks_cta": 0
+  },
+  "raw_metrics_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\full_audit_59_1783934876565.json"
+}

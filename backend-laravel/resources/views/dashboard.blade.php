@@ -18,6 +18,29 @@
     $latestRuns = $recentTestRuns ?? collect();
     $latestReports = $recentReports ?? collect();
     $maxFlow = max(1, count($flowDistribution ?? []) ? max(array_values($flowDistribution)) : 1);
+    $sortedFlowDistribution = collect($flowDistribution ?? [])
+    ->sortDesc();
+
+    $totalFlows = $sortedFlowDistribution->sum();
+
+    $mostUsedFlow = $sortedFlowDistribution->keys()->first();
+
+    // Build trend points from the SAME $latestRuns already passed to the view.
+    // No new queries — just reordered/mapped for the chart.
+    $trendRuns = $latestRuns->reverse()->values();
+    $trendPoints = $trendRuns->map(function ($run) {
+        $result = $run->finalFrictionResult;
+        return [
+            'label'    => $run->run_code ?? 'N/A',
+            'date'     => optional($run->created_at)->format('M d') ?? 'N/A',
+            'score'    => $result?->confidence_score !== null ? round($result->confidence_score * 100, 1) : null,
+            'friction' => $result?->friction_level ?? 'Not predicted',
+        ];
+    })->filter(fn ($point) => $point['score'] !== null)->values();
+
+    $currentScore  = $trendPoints->last()['score'] ?? null;
+    $previousScore = $trendPoints->count() > 1 ? $trendPoints[$trendPoints->count() - 2]['score'] : null;
+    $scoreDiff     = ($currentScore !== null && $previousScore !== null) ? round($currentScore - $previousScore, 1) : null;
 @endphp
 
 <div class="g-page-header">
@@ -57,7 +80,7 @@
 <div class="g-layout-2-1" style="margin-top: 16px;">
     <div class="g-stack">
         <div class="g-card">
-            <div class="g-split-row">
+            <div class="g-trend-top">
                 <div>
                     <div class="g-soft-label">UX Score Trends</div>
                     <h3 style="margin-top: 5px;">Aggregate performance across recent project versions</h3>
@@ -65,11 +88,25 @@
                 <span class="g-badge badge-final">Live Metrics</span>
             </div>
 
-            <div class="g-trend-line" style="margin-top: 12px;">
-                <svg viewBox="0 0 800 210" preserveAspectRatio="none" aria-label="UX score trend visual">
-                    <path d="M0 158 C90 132, 135 154, 205 122 C280 82, 315 84, 365 130 C420 182, 475 165, 520 108 C585 30, 665 22, 735 70 C760 88, 780 108, 800 120" fill="none" stroke="#0b84ff" stroke-width="8" stroke-linecap="round"/>
-                    <path d="M0 176 C90 150, 145 172, 220 142 C300 110, 330 112, 382 154 C434 192, 482 178, 540 130 C605 74, 675 58, 740 98 C770 116, 790 136, 800 148" fill="none" stroke="#94a3b8" stroke-width="5" stroke-dasharray="10 10" stroke-linecap="round" opacity=".65"/>
-                </svg>
+            <div class="g-trend-summary">
+                <div class="g-trend-score-block">
+                    <span class="g-trend-score-value">{{ $currentScore !== null ? $currentScore : 'N/A' }}<span class="g-trend-score-max">{{ $currentScore !== null ? '/100' : '' }}</span></span>
+                    @if ($scoreDiff !== null)
+                        <span class="g-trend-diff {{ $scoreDiff >= 0 ? 'is-up' : 'is-down' }}">
+                            {{ $scoreDiff >= 0 ? '▲' : '▼' }} {{ abs($scoreDiff) }} pts vs previous run
+                        </span>
+                    @endif
+                </div>
+                <div class="g-trend-legend">
+                    <span class="g-trend-legend-item"><i class="g-trend-swatch g-trend-swatch-current"></i>Current UX Score</span>
+                    <span class="g-trend-legend-item"><i class="g-trend-swatch g-trend-swatch-previous"></i>Previous UX Score</span>
+                </div>
+            </div>
+
+            <div class="g-trend-line" id="ux-trend-chart" data-points='@json($trendPoints)'>
+                @if ($trendPoints->isEmpty())
+                    <div class="g-empty"><strong>No score history yet.</strong>Run more tests to populate the trend chart.</div>
+                @endif
             </div>
         </div>
 
@@ -134,29 +171,80 @@
             </div>
         </div>
 
-        <div class="g-insight-card">
-            <div class="g-soft-label">AI Co-Pilot Insights</div>
-            <h3 style="margin-top: 7px;">Urgent Discovery</h3>
-            <p class="g-muted">{{ $high > 0 ? 'High-friction sessions exist. Review failed clicks, retries, and feedback delay before the next demo.' : 'No high-friction final results detected yet. Continue collecting live and Android test evidence.' }}</p>
-            <a class="g-btn g-btn-primary" href="{{ route('reports.index') }}">View Reports</a>
+
+        <div class="g-card g-flow-card">
+    <div class="g-flow-header">
+        <div>
+            <div class="g-soft-label">Flow Distribution</div>
+            <p class="g-flow-description">
+                Distribution of test flows across recent UX test runs.
+            </p>
         </div>
 
-        <div class="g-card">
-            <div class="g-soft-label">Flow Distribution</div>
-            @if (empty($flowDistribution))
-                <div class="g-empty"><strong>No flow data.</strong>UX metrics will appear after tests are saved.</div>
-            @else
-                <div style="display: grid; gap: 12px; margin-top: 14px;">
-                    @foreach ($flowDistribution as $flow => $count)
-                        @php $width = round(($count / $maxFlow) * 100); @endphp
-                        <div>
-                            <div class="g-split-row g-small"><strong>{{ $flow }}</strong><span>{{ $count }}</span></div>
-                            <div class="g-progress"><span style="width: {{ $width }}%;"></span></div>
-                        </div>
-                    @endforeach
-                </div>
-            @endif
+        @if ($totalFlows > 0)
+            <div class="g-flow-total">
+                <strong>{{ number_format($totalFlows) }}</strong>
+                <span>Total Flows</span>
+            </div>
+        @endif
+    </div>
+
+    @if ($sortedFlowDistribution->isEmpty())
+        <div class="g-empty">
+            <strong>No flow data.</strong>
+            UX metrics will appear after tests are saved.
         </div>
+    @else
+        <div class="g-flow-list">
+            @foreach ($sortedFlowDistribution as $flow => $count)
+                @php
+                    $width = round(($count / $maxFlow) * 100);
+                    $percentage = $totalFlows > 0
+                        ? round(($count / $totalFlows) * 100, 1)
+                        : 0;
+                    $isMostUsed = $flow === $mostUsedFlow;
+                    $readableFlow = ucwords(str_replace('_', ' ', $flow));
+                @endphp
+
+                <div
+                    class="g-flow-item {{ $isMostUsed ? 'is-most-used' : '' }}"
+                    title="{{ $readableFlow }}: {{ $count }} runs, {{ $percentage }}% of all flows"
+                >
+                    <div class="g-flow-row">
+                        <div class="g-flow-name">
+                            <strong>{{ $readableFlow }}</strong>
+
+                            @if ($isMostUsed)
+                                <span class="g-flow-badge">Most Used</span>
+                            @endif
+                        </div>
+
+                        <div class="g-flow-stats">
+                            <strong>{{ number_format($count) }}</strong>
+                            <span>{{ $percentage }}%</span>
+                        </div>
+                    </div>
+
+                    <div
+                        class="g-progress g-flow-progress"
+                        role="progressbar"
+                        aria-label="{{ $readableFlow }}"
+                        aria-valuenow="{{ $percentage }}"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                    >
+                        <span style="width: {{ $width }}%;"></span>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+        <div class="g-flow-insight">
+            <span>Most frequently tested flow</span>
+            <strong>{{ ucwords(str_replace('_', ' ', $mostUsedFlow)) }}</strong>
+        </div>
+    @endif
+</div>
     </div>
 </div>
 
@@ -193,3 +281,69 @@
     @endif
 </div>
 @endsection
+
+@push('scripts')
+<script>
+(function () {
+    const container = document.getElementById('ux-trend-chart');
+    if (!container) return;
+    const points = JSON.parse(container.dataset.points || '[]');
+    if (!points.length) return;
+
+    const width = 800, height = 210, padding = { top: 16, right: 16, bottom: 28, left: 34 };
+    const innerW = width - padding.left - padding.right;
+    const innerH = height - padding.top - padding.bottom;
+    const xStep = points.length > 1 ? innerW / (points.length - 1) : 0;
+    const yFor = (score) => padding.top + innerH - (score / 100) * innerH;
+    const xFor = (i) => padding.left + i * xStep;
+
+    const currentPath = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${xFor(i)} ${yFor(p.score)}`).join(' ');
+
+    const prevSegments = [];
+    let seg = [];
+    points.forEach((p, i) => {
+        if (i === 0) { if (seg.length) prevSegments.push(seg); seg = []; return; }
+        const prevScore = points[i - 1].score;
+        seg.push(`${seg.length === 0 ? 'M' : 'L'} ${xFor(i)} ${yFor(prevScore)}`);
+    });
+    if (seg.length) prevSegments.push(seg);
+    const prevPath = prevSegments.map((s) => s.join(' ')).join(' ');
+
+    const gridLines = [0, 25, 50, 75, 100].map((v) => {
+        const y = yFor(v);
+        return `<line x1="${padding.left}" y1="${y}" x2="${width - padding.right}" y2="${y}" class="g-trend-grid" />
+                <text x="${padding.left - 8}" y="${y + 4}" class="g-trend-axis-y" text-anchor="end">${v}</text>`;
+    }).join('');
+
+    const xLabels = points.map((p, i) => `<text x="${xFor(i)}" y="${height - 6}" class="g-trend-axis-x" text-anchor="middle">${p.date}</text>`).join('');
+    const dots = points.map((p, i) => `<circle cx="${xFor(i)}" cy="${yFor(p.score)}" r="5" class="g-trend-dot" data-index="${i}" />`).join('');
+
+    container.innerHTML = `
+        <svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="xMidYMid meet" aria-label="UX score trend visual">
+            ${gridLines}
+            <path d="${prevPath}" fill="none" stroke="#6c6d7a" stroke-width="3" stroke-dasharray="8 8" stroke-linecap="round" opacity=".7" />
+            <path d="${currentPath}" fill="none" stroke="#a78bfa" stroke-width="4" stroke-linecap="round" />
+            ${dots}
+            ${xLabels}
+        </svg>
+        <div class="g-trend-tooltip" id="ux-trend-tooltip" hidden></div>
+    `;
+
+    const tooltip = container.querySelector('#ux-trend-tooltip');
+    container.querySelectorAll('.g-trend-dot').forEach((dot) => {
+        dot.addEventListener('mouseenter', () => {
+            const i = Number(dot.dataset.index);
+            const p = points[i];
+            const prevScore = i > 0 ? points[i - 1].score : null;
+            tooltip.innerHTML = `<strong>${p.date}</strong><br>Current: ${p.score}/100<br>Previous: ${prevScore !== null ? prevScore + '/100' : 'N/A'}<br>Friction: ${p.friction}`;
+            tooltip.hidden = false;
+            const rect = container.getBoundingClientRect();
+            const dotRect = dot.getBoundingClientRect();
+            tooltip.style.left = (dotRect.left - rect.left) + 'px';
+            tooltip.style.top = (dotRect.top - rect.top) + 'px';
+        });
+        dot.addEventListener('mouseleave', () => { tooltip.hidden = true; });
+    });
+})();
+</script>
+@endpush

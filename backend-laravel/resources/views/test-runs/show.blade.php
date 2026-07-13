@@ -239,50 +239,6 @@
                     <pre class="g-console">{{ json_encode($mainProbabilities, JSON_PRETTY_PRINT) }}</pre>
                 @endif
             </div>
-
-            <div class="g-card">
-                <h3>Baseline Comparison</h3>
-
-                @if (!$baseline)
-                    <div class="g-empty">
-                        <strong>No baseline prediction yet.</strong>
-                        Baseline is optional and used only for comparison.
-                    </div>
-                @else
-                    <div class="g-kv">
-                        <div class="g-kv-row">
-                            <span>Model</span>
-                            <span>{{ $baseline->model_name ?? 'N/A' }}</span>
-                        </div>
-                        <div class="g-kv-row">
-                            <span>Type</span>
-                            <span>{{ $baseline->model_type ?? 'N/A' }}</span>
-                        </div>
-                        <div class="g-kv-row">
-                            <span>Friction</span>
-                            <span>
-                                <span class="g-badge {{ match ($baseline->friction_level ?? '') {
-                                    'Low' => 'badge-low',
-                                    'Medium' => 'badge-medium',
-                                    'High' => 'badge-high',
-                                    default => 'badge-neutral',
-                                } }}">
-                                    {{ $baseline->friction_level ?? 'N/A' }}
-                                </span>
-                            </span>
-                        </div>
-                        <div class="g-kv-row">
-                            <span>Confidence</span>
-                            <span>{{ $baselineConfidence }}</span>
-                        </div>
-                    </div>
-
-                    @if ($baselineProbabilities)
-                        <h4 style="margin-top: 16px;">Class Probabilities</h4>
-                        <pre class="g-console">{{ json_encode($baselineProbabilities, JSON_PRETTY_PRINT) }}</pre>
-                    @endif
-                @endif
-            </div>
         </div>
 
         <div class="g-card">

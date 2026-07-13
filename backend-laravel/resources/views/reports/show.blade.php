@@ -225,49 +225,6 @@
                     class="g-kv"
                     style="margin-top: 16px;"
                 >
-                    <div class="g-kv-row">
-                        <span>
-                            Generation Mode
-                        </span>
-
-                        <span>
-                            {{
-                                $report->llm_used
-                                    ? 'Ollama LLM'
-                                    : 'Rule-Based Fallback'
-                            }}
-                        </span>
-                    </div>
-
-                    <div class="g-kv-row">
-                        <span>
-                            Model
-                        </span>
-
-                        <span>
-                            {{
-                                $report->llm_model_name
-                                ?? 'N/A'
-                            }}
-                        </span>
-                    </div>
-
-                    <div class="g-kv-row">
-                        <span>
-                            Generated
-                        </span>
-
-                        <span>
-                            {{
-                                $report
-                                    ->llm_generated_at
-                                    ?->format(
-                                        'Y-m-d H:i'
-                                    )
-                                ?? 'N/A'
-                            }}
-                        </span>
-                    </div>
                 </div>
             </div>
         </div>

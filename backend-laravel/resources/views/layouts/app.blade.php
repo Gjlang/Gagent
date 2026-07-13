@@ -18,7 +18,7 @@
 @php
     $navItems = [
         ['label' => 'Dashboard', 'route' => 'dashboard', 'match' => 'dashboard', 'icon' => '▦'],
-        ['label' => 'Run UX Test', 'route' => 'unified-tests.create', 'match' => 'unified-tests.*', 'icon' => '▶'],
+        ['label' => 'Website Testing', 'route' => 'unified-tests.create', 'match' => 'unified-tests.*', 'icon' => '▶'],
         ['label' => 'Android Testing', 'route' => 'android-tests.create', 'match' => 'android-tests.*', 'icon' => '◫'],
         ['label' => 'Projects', 'route' => 'projects.index', 'match' => 'projects.*', 'icon' => '▣'],
         ['label' => 'Test Runs', 'route' => 'test-runs.index', 'match' => 'test-runs.*', 'icon' => '◉'],
