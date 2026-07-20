@@ -2,13 +2,86 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SelectedReportsExport;
 use App\Models\Report;
 use App\Models\TestRun;
 use App\Services\GAgentAIService;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
 {
+    private function loadReportRelationships(
+        Report|Collection $reports
+    ): Report|Collection {
+        $relationships = [
+            'testRun.project',
+            'testRun.uxMetric',
+            'testRun.frictionResults',
+            'testRun.finalFrictionResult',
+            'testRun.mainGAgentResult',
+            'testRun.baselineResult',
+            'testRun.androidResult',
+            'testRun.screenshots',
+            'testRun.interactionLogs',
+        ];
+
+        if ($reports instanceof Report) {
+            $reports->load($relationships);
+
+            return $reports;
+        }
+
+        $reports->load($relationships);
+
+        return $reports;
+    }
+
+    private function getSelectedReports(
+        Request $request
+    ): Collection {
+        $validated = $request->validate([
+            'report_ids' => [
+                'required',
+                'array',
+                'min:1',
+            ],
+
+            'report_ids.*' => [
+                'required',
+                'integer',
+                'distinct',
+                'exists:reports,id',
+            ],
+        ]);
+
+        $selectedIds = collect(
+            $validated['report_ids']
+        )
+            ->map(fn ($id) => (int) $id)
+            ->values();
+
+        $reports = Report::query()
+            ->whereIn('id', $selectedIds)
+            ->get()
+            ->sortBy(function (Report $report) use (
+                $selectedIds
+            ): int {
+                return $selectedIds->search(
+                    $report->id
+                );
+            })
+            ->values();
+
+        $this->loadReportRelationships($reports);
+
+        return $reports;
+    }
+
     public function index()
     {
         $reports = Report::with([
@@ -24,19 +97,98 @@ class ReportController extends Controller
     }
 
     public function show(Report $report)
-    {
-        $report->load([
-            'testRun.project',
-            'testRun.uxMetric',
-            'testRun.frictionResults',
-            'testRun.finalFrictionResult',
-            'testRun.mainGAgentResult',
-            'testRun.baselineResult',
-            'testRun.screenshots',
-            'testRun.interactionLogs',
-        ]);
+{
+    $this->loadReportRelationships($report);
 
-        return view('reports.show', compact('report'));
+    return view('reports.show', compact('report'));
+}
+
+public function downloadPdf(Report $report)
+{
+    $this->loadReportRelationships($report);
+
+    if (!$report->testRun) {
+        return redirect()
+            ->route('reports.index')
+            ->with(
+                'error',
+                'The report cannot be downloaded because its test run was not found.'
+            );
+    }
+
+    $runCode = $report->testRun->run_code
+        ?? 'report-' . $report->id;
+
+    $filename = Str::slug(
+        'gagent-' . $runCode . '-ux-report'
+    ) . '.pdf';
+
+    $pdf = Pdf::loadView(
+        'reports.pdf.report',
+        [
+            'reports' => collect([$report]),
+            'isBulkExport' => false,
+        ]
+    )->setPaper('a4', 'portrait');
+
+    return $pdf->download($filename);
+}
+
+    public function downloadSelectedPdf(
+        Request $request
+    ) {
+        $reports = $this->getSelectedReports(
+            $request
+        );
+
+        if ($reports->isEmpty()) {
+            return redirect()
+                ->route('reports.index')
+                ->with(
+                    'error',
+                    'Please select at least one report.'
+                );
+        }
+
+        $filename = 'gagent-selected-reports-'
+            . now()->format('Ymd-His')
+            . '.pdf';
+
+        $pdf = Pdf::loadView(
+            'reports.pdf.report',
+            [
+                'reports' => $reports,
+                'isBulkExport' => true,
+            ]
+        )->setPaper('a4', 'portrait');
+
+        return $pdf->download($filename);
+    }
+
+    public function downloadSelectedExcel(
+        Request $request
+    ) {
+        $reports = $this->getSelectedReports(
+            $request
+        );
+
+        if ($reports->isEmpty()) {
+            return redirect()
+                ->route('reports.index')
+                ->with(
+                    'error',
+                    'Please select at least one report.'
+                );
+        }
+
+        $filename = 'gagent-selected-reports-'
+            . now()->format('Ymd-His')
+            . '.xlsx';
+
+        return Excel::download(
+            new SelectedReportsExport($reports),
+            $filename
+        );
     }
 
     public function generate(TestRun $testRun)

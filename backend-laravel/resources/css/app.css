@@ -1,29 +1,46 @@
 :root {
-    --g-bg: #0b0b10;
-    --g-surface: #131318;
-    --g-surface-soft: #191921;
-    --g-sidebar: #08080c;
-    --g-sidebar-2: #131320;
-    --g-border: rgba(255, 255, 255, 0.08);
-    --g-border-strong: rgba(255, 255, 255, 0.16);
-    --g-text: #f5f5f7;
-    --g-muted: #9899a6;
-    --g-muted-2: #6c6d7a;
-    --g-blue: #8b5cf6;
-    --g-blue-dark: #7c3aed;
-    --g-lime: #d7f56b;
-    --g-red: #f87171;
-    --g-red-bg: rgba(248, 113, 113, 0.14);
-    --g-orange: #fb923c;
-    --g-orange-bg: rgba(251, 146, 60, 0.14);
-    --g-green: #34d399;
-    --g-green-bg: rgba(52, 211, 153, 0.14);
-    --g-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-    --g-shadow-soft: 0 10px 28px rgba(0, 0, 0, 0.32);
-    --g-radius: 20px;
+    /* Warm cream base + white surfaces (was near-black) */
+    --g-bg: #f7f1e6;
+    --g-surface: #fffdf9;
+    --g-surface-soft: #f4ecdd;
+
+    /* Dark navy sidebar (was near-black) */
+    --g-sidebar: #12172b;
+    --g-sidebar-2: #1a2140;
+
+    --g-border: rgba(31, 28, 20, 0.09);
+    --g-border-strong: rgba(31, 28, 20, 0.18);
+    --g-text: #2b2620;
+    --g-muted: #6f6a5f;
+    --g-muted-2: #a39d8e;
+
+    /* Pale blue replaces purple as the primary accent */
+    --g-blue: #7fa8c9;
+    --g-blue-dark: #5c86a8;
+
+    /* Deep mint replaces lime as the secondary accent */
+    --g-lime: #2f8f6f;
+
+    /* Friction-status colours, softened to pastel */
+    --g-red: #e2685f;
+    --g-red-bg: rgba(226, 104, 95, 0.14);
+    --g-orange: #e2984f;
+    --g-orange-bg: rgba(226, 152, 79, 0.16);
+    --g-green: #4fa383;
+    --g-green-bg: rgba(79, 163, 131, 0.16);
+
+    /* Extra pastel card tones for Phase 2 (dashboard cards) */
+    --g-card-peach: #f6ddc9;
+    --g-card-blue: #d9e6ef;
+    --g-card-mint: #d9ece2;
+    --g-card-beige: #efe4cf;
+
+    --g-shadow: 0 20px 45px rgba(43, 38, 32, 0.12);
+    --g-shadow-soft: 0 8px 22px rgba(43, 38, 32, 0.08);
+    --g-radius: 24px;
     --g-font:
-        Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-        "Segoe UI", sans-serif;
+        "Poppins", Inter, ui-sans-serif, system-ui, -apple-system,
+        BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 * {
@@ -39,18 +56,7 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
     font-family: var(--g-font);
-    background:
-        radial-gradient(
-            circle at top left,
-            rgba(139, 92, 246, 0.14),
-            transparent 32rem
-        ),
-        radial-gradient(
-            circle at bottom right,
-            rgba(215, 245, 107, 0.05),
-            transparent 28rem
-        ),
-        var(--g-bg);
+    background: var(--g-bg);
     color: var(--g-text);
 }
 
@@ -73,15 +79,15 @@ textarea {
 .g-sidebar {
     position: fixed;
     inset: 0 auto 0 0;
-    width: 248px;
+    width: 232px;
     background: linear-gradient(180deg, var(--g-sidebar), var(--g-sidebar-2));
-    color: #d7d8e2;
-    padding: 22px 16px;
+    color: #c7cbe0;
+    padding: 22px 14px;
     display: flex;
     flex-direction: column;
     z-index: 20;
-    border-right: 1px solid var(--g-border);
-    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.35);
+    border-right: 1px solid rgba(0, 0, 0, 0.12);
+    box-shadow: 10px 0 30px rgba(43, 38, 32, 0.12);
 }
 
 .g-brand {
@@ -94,24 +100,24 @@ textarea {
 .g-brand-mark {
     width: 34px;
     height: 34px;
-    border-radius: 11px;
+    border-radius: 12px;
     display: grid;
     place-items: center;
-    background: linear-gradient(135deg, #8b5cf6, #d7f56b);
-    color: #0b0b10;
+    background: var(--g-card-peach);
+    color: #12172b;
     font-weight: 900;
-    box-shadow: 0 10px 24px rgba(139, 92, 246, 0.35);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25);
 }
 
 .g-brand-title {
     font-size: 15px;
     font-weight: 800;
-    color: var(--g-text);
+    color: #f5f3ee;
 }
 
 .g-brand-subtitle {
     font-size: 10px;
-    color: var(--g-muted-2);
+    color: #8b90ab;
     margin-top: 4px;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -129,34 +135,42 @@ textarea {
     display: flex;
     align-items: center;
     gap: 10px;
-    color: #9a9bab;
+    color: #a7abc4;
     font-size: 13px;
     font-weight: 650;
     transition: 0.18s ease;
 }
 
 .g-nav-link:hover {
-    background: rgba(255, 255, 255, 0.06);
-    color: white;
+    background: rgba(255, 255, 255, 0.08);
+    color: #f5f3ee;
 }
 
 .g-nav-link.is-active {
-    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-    color: white;
-    box-shadow: 0 12px 28px rgba(139, 92, 246, 0.32);
+    background: var(--g-card-peach);
+    color: #12172b;
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.2);
 }
 
 .g-nav-icon {
     width: 19px;
     text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.g-nav-icon svg {
+    width: 17px;
+    height: 17px;
 }
 
 .g-sidebar-footer {
     margin-top: auto;
     padding: 14px 8px 0;
-    color: var(--g-muted-2);
+    color: #8b90ab;
     font-size: 11px;
-    border-top: 1px solid var(--g-border);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .g-status-dot {
@@ -166,13 +180,13 @@ textarea {
     border-radius: 999px;
     background: var(--g-green);
     margin-right: 7px;
-    box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.16);
+    box-shadow: 0 0 0 4px rgba(79, 163, 131, 0.18);
 }
 
 .g-main {
     width: 100%;
     min-width: 0;
-    margin-left: 248px;
+    margin-left: 232px;
     display: flex;
     flex-direction: column;
 }
@@ -181,7 +195,7 @@ textarea {
     position: sticky;
     top: 0;
     height: 72px;
-    background: rgba(11, 11, 16, 0.78);
+    background: rgba(247, 241, 230, 0.82);
     backdrop-filter: blur(18px);
     border-bottom: 1px solid var(--g-border);
     display: flex;
@@ -260,8 +274,8 @@ textarea {
     border-radius: 999px;
     display: grid;
     place-items: center;
-    background: linear-gradient(135deg, #8b5cf6, #6d28d9);
-    color: white;
+    background: var(--g-sidebar);
+    color: #f6ddc9;
     font-size: 12px;
     font-weight: 850;
     border: 2px solid var(--g-surface);
@@ -352,12 +366,9 @@ textarea {
 .g-report-card,
 .g-insight-card,
 .g-metric-card {
-    background: linear-gradient(
-        180deg,
-        var(--g-surface),
-        rgba(19, 19, 24, 0.9)
-    );
+    background: var(--g-surface);
     border: 1px solid var(--g-border);
+    border-top: 3px solid var(--g-blue);
     border-radius: var(--g-radius);
     box-shadow: var(--g-shadow-soft);
 }
@@ -399,11 +410,7 @@ textarea {
     width: 74px;
     height: 74px;
     border-radius: 999px;
-    background: radial-gradient(
-        circle,
-        rgba(139, 92, 246, 0.28),
-        transparent 70%
-    );
+    background: rgba(127, 168, 201, 0.16);
 }
 
 .g-metric-label {
@@ -459,9 +466,9 @@ textarea {
     min-height: 38px;
     padding: 9px 16px;
     border-radius: 999px;
-    border: 1px solid var(--g-border);
-    background: var(--g-surface-soft);
-    color: var(--g-text);
+    border: 1px solid rgba(127, 168, 201, 0.35);
+    background: var(--g-surface);
+    color: var(--g-blue-dark);
     font-size: 13px;
     font-weight: 800;
     cursor: pointer;
@@ -475,19 +482,19 @@ textarea {
 }
 
 .g-btn-primary {
-    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    background: var(--g-blue-dark);
     border-color: transparent;
     color: white;
 }
 
 .g-btn-primary:hover {
-    background: linear-gradient(135deg, #9666f8, #7c3aed);
+    background: var(--g-blue);
     border-color: transparent;
 }
 
 .g-btn-dark {
-    background: #08080c;
-    border-color: var(--g-border);
+    background: #12172b;
+    border-color: transparent;
     color: white;
 }
 
@@ -540,8 +547,8 @@ textarea {
 
 .g-status-running,
 .badge-final {
-    color: #c4b5fd;
-    background: rgba(139, 92, 246, 0.16);
+    color: #4a6f8f;
+    background: rgba(127, 168, 201, 0.18);
 }
 
 .g-status-failed,
@@ -555,7 +562,7 @@ textarea {
 .g-status-paused,
 .badge-neutral {
     color: var(--g-muted);
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(43, 38, 32, 0.06);
 }
 
 .g-status-active {
@@ -566,7 +573,7 @@ textarea {
 .g-status-idle,
 .g-status-unknown {
     color: var(--g-muted);
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(43, 38, 32, 0.06);
 }
 
 .badge-medium,
@@ -640,6 +647,16 @@ textarea {
     letter-spacing: 0.06em;
 }
 
+.g-form-field label::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-right: 6px;
+    border-radius: 999px;
+    background: var(--g-blue);
+}
+
 .g-input,
 .g-select,
 .g-textarea,
@@ -647,8 +664,8 @@ input,
 select,
 textarea {
     width: 100%;
-    border: 1px solid var(--g-border-strong);
-    background: var(--g-surface-soft);
+    border: 1px solid rgba(127, 168, 201, 0.35);
+    background: var(--g-surface);
     color: var(--g-text);
     border-radius: 12px;
     padding: 11px 12px;
@@ -662,7 +679,7 @@ input:focus,
 select:focus,
 textarea:focus {
     border-color: var(--g-blue);
-    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.18);
+    box-shadow: 0 0 0 4px rgba(127, 168, 201, 0.22);
 }
 
 .g-textarea,
@@ -672,9 +689,9 @@ textarea {
 
 .g-alert-success,
 .alert-success {
-    background: rgba(52, 211, 153, 0.1);
-    border: 1px solid rgba(52, 211, 153, 0.3);
-    color: var(--g-green);
+    background: rgba(79, 163, 131, 0.12);
+    border: 1px solid rgba(79, 163, 131, 0.32);
+    color: #2f6e54;
     padding: 13px 15px;
     border-radius: 14px;
     margin-bottom: 16px;
@@ -682,9 +699,9 @@ textarea {
 
 .g-alert-error,
 .alert-error {
-    background: rgba(248, 113, 113, 0.1);
-    border: 1px solid rgba(248, 113, 113, 0.3);
-    color: var(--g-red);
+    background: rgba(226, 104, 95, 0.12);
+    border: 1px solid rgba(226, 104, 95, 0.32);
+    color: #a8382f;
     padding: 13px 15px;
     border-radius: 14px;
     margin-bottom: 16px;
@@ -708,7 +725,7 @@ textarea {
 .g-progress {
     height: 8px;
     width: 100%;
-    background: rgba(255, 255, 255, 0.07);
+    background: rgba(43, 38, 32, 0.08);
     border-radius: 999px;
     overflow: hidden;
 }
@@ -718,7 +735,7 @@ textarea {
     height: 100%;
     min-width: 3px;
     border-radius: inherit;
-    background: linear-gradient(90deg, #8b5cf6, #d7f56b);
+    background: var(--g-blue);
 }
 
 .g-progress.danger > span {
@@ -1151,8 +1168,8 @@ pre {
 
 .g-kv-row span:last-child {
     text-align: right;
-    font-weight: 700;
-    color: var(--g-text);
+    font-weight: 800;
+    color: var(--g-blue-dark);
 }
 
 .g-pager {

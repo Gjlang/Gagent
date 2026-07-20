@@ -55,9 +55,35 @@ Route::get('/test-runs/{testRun}', [TestRunController::class, 'show'])->name('te
 Route::post('/test-runs/{testRun}/predict-gagent', [TestRunController::class, 'runPrediction'])->name('test-runs.predict-gagent');
 Route::post('/test-runs/{testRun}/predict-baseline', [TestRunController::class, 'runBaselinePrediction'])->name('test-runs.predict-baseline');
 
-Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
-Route::get('/reports/{report}', [ReportController::class, 'show'])->name('reports.show');
-Route::post('/reports/generate/{testRun}', [ReportController::class, 'generate'])->name('reports.generate');
+Route::get(
+    '/reports',
+    [ReportController::class, 'index']
+)->name('reports.index');
+
+Route::post(
+    '/reports/download-selected/pdf',
+    [ReportController::class, 'downloadSelectedPdf']
+)->name('reports.download-selected.pdf');
+
+Route::post(
+    '/reports/download-selected/excel',
+    [ReportController::class, 'downloadSelectedExcel']
+)->name('reports.download-selected.excel');
+
+Route::get(
+    '/reports/{report}/download/pdf',
+    [ReportController::class, 'downloadPdf']
+)->name('reports.download.pdf');
+
+Route::get(
+    '/reports/{report}',
+    [ReportController::class, 'show']
+)->name('reports.show');
+
+Route::post(
+    '/reports/generate/{testRun}',
+    [ReportController::class, 'generate']
+)->name('reports.generate');
 
 Route::post(
     '/reports/{report}/generate-ai-explanation',

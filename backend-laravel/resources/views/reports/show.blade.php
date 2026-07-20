@@ -89,12 +89,29 @@
     </div>
 
     <div class="g-actions">
-        <a class="g-btn" href="{{ route('reports.index') }}">Back to Reports</a>
+    <a
+        class="g-btn"
+        href="{{ route('reports.index') }}"
+    >
+        Back to Reports
+    </a>
 
-        @if ($run)
-            <a class="g-btn g-btn-primary" href="{{ route('test-runs.show', $run) }}">View Test Run</a>
-        @endif
-    </div>
+    <a
+        class="g-btn"
+        href="{{ route('reports.download.pdf', $report) }}"
+    >
+        Download PDF
+    </a>
+
+    @if ($run)
+        <a
+            class="g-btn g-btn-primary"
+            href="{{ route('test-runs.show', $run) }}"
+        >
+            View Test Run
+        </a>
+    @endif
+</div>
 </div>
 
 <div
