@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\Screenshot;
 use Throwable;
+use Illuminate\Support\Facades\Auth;
 use App\Models\InteractionLog;
 
 class UnifiedTestController extends Controller
@@ -573,20 +574,25 @@ $apkPath = filled(
         }
     }
 
-    private function findOrCreateProject(string $targetType, ?string $targetUrl, string $name, string $description): Project
-    {
-        return Project::firstOrCreate(
-            [
-                'target_type' => $targetType,
-                'target_url' => $targetUrl,
-            ],
-            [
-                'name' => $name,
-                'description' => $description,
-                'status' => 'active',
-            ]
-        );
-    }
+   private function findOrCreateProject(
+    string $targetType,
+    ?string $targetUrl,
+    string $name,
+    string $description
+): Project {
+    return Project::firstOrCreate(
+        [
+            'user_id' => (int) Auth::id(),
+            'target_type' => $targetType,
+            'target_url' => $targetUrl,
+        ],
+        [
+            'name' => $name,
+            'description' => $description,
+            'status' => 'active',
+        ]
+    );
+}
 
 
     private function buildWebsitePayload(array $metrics): array

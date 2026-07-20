@@ -41,60 +41,101 @@ class ReportController extends Controller
         return $reports;
     }
 
-    private function getSelectedReports(
-        Request $request
-    ): Collection {
-        $validated = $request->validate([
-            'report_ids' => [
-                'required',
-                'array',
-                'min:1',
-            ],
+   private function getSelectedReports(
+    Request $request
+): Collection {
+    $validated = $request->validate([
+        'report_ids' => [
+            'required',
+            'array',
+            'min:1',
+        ],
 
-            'report_ids.*' => [
-                'required',
-                'integer',
-                'distinct',
-                'exists:reports,id',
-            ],
-        ]);
+        'report_ids.*' => [
+            'required',
+            'integer',
+            'distinct',
+        ],
+    ]);
 
-        $selectedIds = collect(
-            $validated['report_ids']
+    $selectedIds = collect(
+        $validated['report_ids']
+    )
+        ->map(
+            fn ($id) => (int) $id
         )
-            ->map(fn ($id) => (int) $id)
-            ->values();
+        ->unique()
+        ->values();
 
-        $reports = Report::query()
-            ->whereIn('id', $selectedIds)
-            ->get()
-            ->sortBy(function (Report $report) use (
-                $selectedIds
-            ): int {
-                return $selectedIds->search(
+    $reports = Report::query()
+        ->whereIn(
+            'id',
+            $selectedIds
+        )
+        ->whereHas(
+            'testRun.project',
+            function ($query) use ($request) {
+                $query->where(
+                    'user_id',
+                    $request->user()->id
+                );
+            }
+        )
+        ->get()
+        ->sortBy(
+            function (
+                Report $report
+            ) use ($selectedIds): int {
+                $position = $selectedIds->search(
                     $report->id
                 );
-            })
-            ->values();
 
-        $this->loadReportRelationships($reports);
+                return $position === false
+                    ? PHP_INT_MAX
+                    : $position;
+            }
+        )
+        ->values();
 
-        return $reports;
+    if (
+        $reports->count()
+        !== $selectedIds->count()
+    ) {
+        abort(404);
     }
 
-    public function index()
-    {
-        $reports = Report::with([
+    $this->loadReportRelationships(
+        $reports
+    );
+
+    return $reports;
+}
+
+   public function index(
+    Request $request
+) {
+    $reports = Report::query()
+        ->whereHas(
+            'testRun.project',
+            function ($query) use ($request) {
+                $query->where(
+                    'user_id',
+                    $request->user()->id
+                );
+            }
+        )
+        ->with([
             'testRun.project',
             'testRun.finalFrictionResult',
-            'testRun.mainGAgentResult',
-            'testRun.baselineResult',
         ])
-            ->latest()
-            ->paginate(10);
+        ->latest()
+        ->paginate(10);
 
-        return view('reports.index', compact('reports'));
-    }
+    return view(
+        'reports.index',
+        compact('reports')
+    );
+}
 
     public function show(Report $report)
 {

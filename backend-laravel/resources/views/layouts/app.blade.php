@@ -15,9 +15,128 @@
     @else
         <style>
             {!! file_get_contents(resource_path('css/app.css')) !!}
+            .g-user-menu-wrapper {
+    position: relative;
+}
+
+.g-user-menu-trigger {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+.g-user-menu-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    z-index: 1000;
+    width: 240px;
+    overflow: hidden;
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
+}
+
+.g-user-menu-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px;
+}
+
+.g-user-menu-header strong {
+    color: #111827;
+    font-size: 14px;
+}
+
+.g-user-menu-header span {
+    overflow: hidden;
+    color: #6b7280;
+    font-size: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.g-user-menu-divider {
+    height: 1px;
+    background: #e5e7eb;
+}
+
+.g-user-menu-item {
+    display: block;
+    width: 100%;
+    padding: 12px 16px;
+    border: 0;
+    background: transparent;
+    color: #334155;
+    font: inherit;
+    font-size: 14px;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.g-user-menu-item:hover {
+    background: #f8fafc;
+}
+
+.g-user-menu-logout {
+    color: #b91c1c;
+}
+
+.g-user-menu-logout:hover {
+    background: #fef2f2;
+}
         </style>
     @endif
 </head>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const trigger = document.getElementById(
+        'user-menu-trigger'
+    );
+
+    const dropdown = document.getElementById(
+        'user-menu-dropdown'
+    );
+
+    if (!trigger || !dropdown) {
+        return;
+    }
+
+    trigger.addEventListener('click', function (event) {
+        event.stopPropagation();
+
+        const isOpen = !dropdown.hasAttribute('hidden');
+
+        if (isOpen) {
+            dropdown.setAttribute('hidden', '');
+            trigger.setAttribute('aria-expanded', 'false');
+        } else {
+            dropdown.removeAttribute('hidden');
+            trigger.setAttribute('aria-expanded', 'true');
+        }
+    });
+
+    dropdown.addEventListener('click', function (event) {
+        event.stopPropagation();
+    });
+
+    document.addEventListener('click', function () {
+        dropdown.setAttribute('hidden', '');
+        trigger.setAttribute('aria-expanded', 'false');
+    });
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            dropdown.setAttribute('hidden', '');
+            trigger.setAttribute('aria-expanded', 'false');
+        }
+    });
+});
+</script>
 <body>
 @php
     // Icon key -> inline SVG path data. Kept separate from $navItems so the
@@ -74,19 +193,82 @@
                 <h1 class="g-page-title">@yield('title', 'Dashboard')</h1>
             </div>
 
-            <div class="g-topbar-actions" style="margin-left: auto;">
-                <div class="g-icon-btn" title="System status">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M13 2L4 14h7l-1 8 9-12h-7z"/>
-                    </svg>
-                </div>
-                <div class="g-icon-btn" title="Notifications">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/>
-                    </svg>
-                </div>
-                <div class="g-avatar" title="Demo user">AI</div>
+            <div class="g-topbar-actions">
+    <div
+        class="g-icon-btn"
+        title="System status"
+    >
+        ⚡
+    </div>
+
+    <div
+        class="g-icon-btn"
+        title="Notifications"
+    >
+        🔔
+    </div>
+
+    <div class="g-user-menu-wrapper">
+        <button
+            type="button"
+            class="g-user-menu-trigger"
+            id="user-menu-trigger"
+            aria-expanded="false"
+            aria-controls="user-menu-dropdown"
+        >
+            <div class="g-avatar">
+                {{
+                    strtoupper(
+                        substr(
+                            auth()->user()->name,
+                            0,
+                            2
+                        )
+                    )
+                }}
             </div>
+        </button>
+
+        <div
+            class="g-user-menu-dropdown"
+            id="user-menu-dropdown"
+            hidden
+        >
+            <div class="g-user-menu-header">
+                <strong>
+                    {{ auth()->user()->name }}
+                </strong>
+
+                <span>
+                    {{ auth()->user()->email }}
+                </span>
+            </div>
+
+            <div class="g-user-menu-divider"></div>
+
+            <a
+                href="{{ route('profile.show') }}"
+                class="g-user-menu-item"
+            >
+                My Profile
+            </a>
+
+            <form
+                method="POST"
+                action="{{ route('logout') }}"
+            >
+                @csrf
+
+                <button
+                    type="submit"
+                    class="g-user-menu-item g-user-menu-logout"
+                >
+                    Logout
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
         </header>
 
         <section class="g-content">

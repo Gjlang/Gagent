@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Throwable;
 
@@ -865,27 +866,31 @@ class AndroidTestController extends Controller
         ];
     }
 
-    private function getDefaultAndroidProject(): Project
-    {
-        $project = Project::firstOrCreate(
-            [
-                'name' => 'Android App Testing',
-                'target_type' => 'android_application',
-            ],
-            [
-                'description' => 'Default project used automatically for Android Appium test runs.',
-                'target_url' => null,
-                'status' => 'active',
-            ]
-        );
+   private function getDefaultAndroidProject(): Project
+{
+    $project = Project::firstOrCreate(
+        [
+            'user_id' => (int) Auth::id(),
+            'name' => 'Android App Testing',
+            'target_type' => 'android_application',
+        ],
+        [
+            'description' => (
+                'Default project used automatically '
+                . 'for Android Appium test runs.'
+            ),
+            'target_url' => null,
+            'status' => 'active',
+        ]
+    );
 
-        if ($project->status !== 'active') {
-            $project->update([
-                'status' => 'active',
-            ]);
-        }
-
-        return $project;
+    if ($project->status !== 'active') {
+        $project->update([
+            'status' => 'active',
+        ]);
     }
+
+    return $project;
+}
 
 }

@@ -10,20 +10,35 @@ use Throwable;
 
 class TestRunController extends Controller
 {
-    public function index()
-    {
-        $testRuns = TestRun::with([
+    public function index(
+    \Illuminate\Http\Request $request
+) {
+    $testRuns = TestRun::query()
+        ->whereHas(
+            'project',
+            function ($query) use ($request) {
+                $query->where(
+                    'user_id',
+                    $request->user()->id
+                );
+            }
+        )
+        ->with([
             'project',
             'uxMetric',
             'finalFrictionResult',
             'mainGAgentResult',
             'baselineResult',
+            'report',
         ])
-            ->latest()
-            ->paginate(10);
+        ->latest()
+        ->paginate(10);
 
-        return view('test-runs.index', compact('testRuns'));
-    }
+    return view(
+        'test-runs.index',
+        compact('testRuns')
+    );
+}
 
     public function show(TestRun $testRun)
     {

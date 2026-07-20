@@ -13,23 +13,42 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Throwable;
 
 class LiveTestController extends Controller
 {
-    public function create()
-    {
-        $projects = Project::where('status', 'active')
-            ->orderBy('name')
-            ->get();
+   public function create()
+{
+    $projects = Project::query()
+        ->ownedBy((int) Auth::id())
+        ->where('status', 'active')
+        ->latest()
+        ->get();
 
-        return view('live-tests.create', compact('projects'));
-    }
+    return view(
+        'live-tests.create',
+        compact('projects')
+    );
+}
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'project_id' => ['required', 'exists:projects,id'],
+            'project_id' => [
+                'required',
+                'integer',
+                Rule::exists(
+    'projects',
+    'id'
+)->where(
+    fn ($query) => $query->where(
+        'user_id',
+        (int) Auth::id()
+    )
+),
+            ],
             'target_url' => ['required', 'url', 'max:2048'],
             'flow_type' => ['required', 'in:landing_navigation,cta_click,basic_search'],
             'viewport_type' => ['required', 'in:desktop,tablet,mobile'],

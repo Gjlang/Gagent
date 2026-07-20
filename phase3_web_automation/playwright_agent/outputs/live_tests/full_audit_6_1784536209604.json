@@ -1,0 +1,314 @@
+{
+  "status": "success",
+  "message": "Full audit completed: 2 passed, 2 failed, 1 skipped.",
+  "test_run_id": "6",
+  "target_url": "https://www.apu.edu.my/",
+  "flow_type": "full_audit",
+  "audit_mode": "full_audit",
+  "viewport_type": "desktop",
+  "network_condition": "normal",
+  "detected_features": {
+    "landing_navigation": true,
+    "search": false,
+    "cta_click": true,
+    "menu_toggle": false,
+    "header_navigation": true,
+    "category_navigation": false,
+    "product_navigation": true,
+    "login": false,
+    "form_review": true
+  },
+  "audit_summary": {
+    "tested_count": 4,
+    "passed_count": 2,
+    "failed_count": 2,
+    "skipped_count": 1
+  },
+  "flow_results": [
+    {
+      "audit_flow": "landing_navigation",
+      "flow_type": "landing_navigation",
+      "label": "Page loading and navigation",
+      "detected": true,
+      "status": "passed",
+      "reason": "Flow completed successfully.",
+      "metrics": {
+        "flow_type": "landing_navigation",
+        "viewport_type": "desktop",
+        "task_completed": 1,
+        "task_failed": 0,
+        "completion_time": 7.88,
+        "click_count": 0,
+        "scroll_count": 6,
+        "keyboard_count": 0,
+        "retry_count": 0,
+        "error_count": 0,
+        "failed_clicks": 0,
+        "unnecessary_clicks": 0,
+        "path_deviation_score": 0,
+        "page_load_time_ms": 2153,
+        "dom_content_loaded_ms": 412,
+        "time_to_first_byte_ms": 50,
+        "feedback_delay_ms": 0,
+        "interaction_to_next_paint_ms": 0,
+        "cumulative_layout_shift": 0.0494,
+        "error_message_present": 0,
+        "error_message_clarity": -1,
+        "popup_detected": 0,
+        "cookie_banner_detected": 0,
+        "overlay_blocks_cta": 0
+      },
+      "screenshots": [
+        {
+          "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_6_landing_navigation_1784536159748.png",
+          "label": "Full Audit — Page loading and navigation",
+          "flow_key": "landing_navigation",
+          "annotations": []
+        }
+      ]
+    },
+    {
+      "audit_flow": "cta_click",
+      "flow_type": "cta_click",
+      "label": "Safe CTA",
+      "detected": true,
+      "status": "failed",
+      "reason": "locator.click: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('button, a[role=\"button\"], input[type=\"button\"], input[type=\"submit\"], a, [aria-label]').nth(151)\u001b[22m\n\u001b[2m    - locator resolved to <a href=\"/study\" target=\"_self\" class=\"btn btn-text\">…</a>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <div id=\"banner\" class=\"banner__container MAIN_CONTAINER\">…</div> from <div class=\"main\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <li data-target=\"study\" class=\"dropdown-menu\">…</li> from <div class=\"navbar-wrapper\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div id=\"banner\" class=\"banner__container MAIN_CONTAINER\">…</div> from <div class=\"main\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div id=\"banner\" class=\"banner__container MAIN_CONTAINER\">…</div> from <div class=\"main\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <li data-target=\"study\" class=\"dropdown-menu\">…</li> from <div class=\"navbar-wrapper\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div id=\"banner\" class=\"banner__container MAIN_CONTAINER\">…</div> from <div class=\"main\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div id=\"banner\" class=\"banner__container MAIN_CONTAINER\">…</div> from <div class=\"main\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n",
+      "metrics": {
+        "flow_type": "cta_click",
+        "viewport_type": "desktop",
+        "task_completed": 0,
+        "task_failed": 1,
+        "completion_time": 15.8,
+        "click_count": 0,
+        "scroll_count": 20,
+        "keyboard_count": 0,
+        "retry_count": 0,
+        "error_count": 1,
+        "failed_clicks": 1,
+        "unnecessary_clicks": 0,
+        "path_deviation_score": 0,
+        "page_load_time_ms": 1934,
+        "dom_content_loaded_ms": 437,
+        "time_to_first_byte_ms": 42,
+        "feedback_delay_ms": 0,
+        "interaction_to_next_paint_ms": 72,
+        "cumulative_layout_shift": 0.4895,
+        "error_message_present": 0,
+        "error_message_clarity": -1,
+        "popup_detected": 0,
+        "cookie_banner_detected": 0,
+        "overlay_blocks_cta": 0
+      },
+      "screenshots": [
+        {
+          "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_6_cta_click_1784536167424.png",
+          "label": "Full Audit — Safe CTA",
+          "flow_key": "cta_click",
+          "annotations": [
+            {
+              "label": "Safe CTA tested: learn more",
+              "severity": "Medium",
+              "x": 925.484375,
+              "y": 140,
+              "width": 109.6875,
+              "height": 48
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "audit_flow": "header_navigation",
+      "flow_type": "landing_navigation",
+      "label": "Header navigation link",
+      "detected": true,
+      "status": "passed",
+      "reason": "Flow completed successfully.",
+      "metrics": {
+        "flow_type": "landing_navigation",
+        "viewport_type": "desktop",
+        "task_completed": 1,
+        "task_failed": 0,
+        "completion_time": 12.17,
+        "click_count": 1,
+        "scroll_count": 0,
+        "keyboard_count": 0,
+        "retry_count": 0,
+        "error_count": 0,
+        "failed_clicks": 0,
+        "unnecessary_clicks": 0,
+        "path_deviation_score": 0,
+        "page_load_time_ms": 0,
+        "dom_content_loaded_ms": 182,
+        "time_to_first_byte_ms": 40,
+        "feedback_delay_ms": 1852,
+        "interaction_to_next_paint_ms": 32,
+        "cumulative_layout_shift": 0.0207,
+        "error_message_present": 0,
+        "error_message_clarity": -1,
+        "popup_detected": 0,
+        "cookie_banner_detected": 0,
+        "overlay_blocks_cta": 0
+      },
+      "screenshots": [
+        {
+          "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_6_header_navigation_1784536183266.png",
+          "label": "Full Audit — Header navigation link",
+          "flow_key": "header_navigation",
+          "annotations": [
+            {
+              "label": "Header navigation link tested: apu logo",
+              "severity": "Medium",
+              "x": 67.5,
+              "y": 60,
+              "width": 97,
+              "height": 88
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "audit_flow": "product_navigation",
+      "flow_type": "landing_navigation",
+      "label": "Product or content card",
+      "detected": true,
+      "status": "failed",
+      "reason": "locator.click: Timeout 7000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('article a[href], [class*=\"product\" i] a[href], [class*=\"item\" i] a[href], [class*=\"card\" i] a[href]').nth(1)\u001b[22m\n\u001b[2m    - locator resolved to <a tabindex=\"-1\" href=\"/awards-recognitions\">…</a>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - element is outside of the viewport\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - element is outside of the viewport\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    11 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - element is outside of the viewport\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n",
+      "metrics": {
+        "flow_type": "landing_navigation",
+        "viewport_type": "desktop",
+        "task_completed": 0,
+        "task_failed": 1,
+        "completion_time": 17.41,
+        "click_count": 0,
+        "scroll_count": 12,
+        "keyboard_count": 0,
+        "retry_count": 0,
+        "error_count": 1,
+        "failed_clicks": 0,
+        "unnecessary_clicks": 0,
+        "path_deviation_score": 0,
+        "page_load_time_ms": 2069,
+        "dom_content_loaded_ms": 383,
+        "time_to_first_byte_ms": 44,
+        "feedback_delay_ms": 0,
+        "interaction_to_next_paint_ms": 88,
+        "cumulative_layout_shift": 0.1375,
+        "error_message_present": 0,
+        "error_message_clarity": -1,
+        "popup_detected": 0,
+        "cookie_banner_detected": 0,
+        "overlay_blocks_cta": 0
+      },
+      "screenshots": [
+        {
+          "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_6_product_navigation_1784536195226.png",
+          "label": "Full Audit — Product or content card",
+          "flow_key": "product_navigation",
+          "annotations": [
+            {
+              "label": "Product or content card tested: malaysia's award winning university",
+              "severity": "Medium",
+              "x": -688.5,
+              "y": 1863.1875,
+              "width": 244,
+              "height": 134
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "audit_flow": "form_review",
+      "flow_type": "form_review",
+      "label": "Generic form",
+      "detected": true,
+      "status": "skipped",
+      "reason": "A form was detected, but it was not submitted because it may send real data or trigger a destructive action.",
+      "metrics": null,
+      "screenshots": []
+    }
+  ],
+  "screenshots": [
+    {
+      "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_6_landing_navigation_1784536159748.png",
+      "label": "Full Audit — Page loading and navigation",
+      "flow_key": "landing_navigation",
+      "annotations": []
+    },
+    {
+      "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_6_cta_click_1784536167424.png",
+      "label": "Full Audit — Safe CTA",
+      "flow_key": "cta_click",
+      "annotations": [
+        {
+          "label": "Safe CTA tested: learn more",
+          "severity": "Medium",
+          "x": 925.484375,
+          "y": 140,
+          "width": 109.6875,
+          "height": 48
+        }
+      ]
+    },
+    {
+      "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_6_header_navigation_1784536183266.png",
+      "label": "Full Audit — Header navigation link",
+      "flow_key": "header_navigation",
+      "annotations": [
+        {
+          "label": "Header navigation link tested: apu logo",
+          "severity": "Medium",
+          "x": 67.5,
+          "y": 60,
+          "width": 97,
+          "height": 88
+        }
+      ]
+    },
+    {
+      "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_6_product_navigation_1784536195226.png",
+      "label": "Full Audit — Product or content card",
+      "flow_key": "product_navigation",
+      "annotations": [
+        {
+          "label": "Product or content card tested: malaysia's award winning university",
+          "severity": "Medium",
+          "x": -688.5,
+          "y": 1863.1875,
+          "width": 244,
+          "height": 134
+        }
+      ]
+    }
+  ],
+  "metrics": {
+    "flow_type": "cta_click",
+    "viewport_type": "desktop",
+    "task_completed": 0,
+    "task_failed": 1,
+    "completion_time": 15.8,
+    "click_count": 0,
+    "scroll_count": 20,
+    "keyboard_count": 0,
+    "retry_count": 0,
+    "error_count": 1,
+    "failed_clicks": 1,
+    "unnecessary_clicks": 0,
+    "path_deviation_score": 0,
+    "page_load_time_ms": 1934,
+    "dom_content_loaded_ms": 437,
+    "time_to_first_byte_ms": 42,
+    "feedback_delay_ms": 0,
+    "interaction_to_next_paint_ms": 72,
+    "cumulative_layout_shift": 0.4895,
+    "error_message_present": 0,
+    "error_message_clarity": -1,
+    "popup_detected": 0,
+    "cookie_banner_detected": 0,
+    "overlay_blocks_cta": 0
+  },
+  "raw_metrics_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\full_audit_6_1784536209604.json"
+}
