@@ -1,11 +1,9 @@
-@extends('layouts.app')
-
-@section('title', 'Run Website UX Test')
-@section('kicker', 'Playwright Website Testing')
+<?php $__env->startSection('title', 'Run Website UX Test'); ?>
+<?php $__env->startSection('kicker', 'Playwright Website Testing'); ?>
 
 
-@section('content')
-@php
+<?php $__env->startSection('content'); ?>
+<?php
     $comparisonMode = $comparisonMode ?? false;
     $comparisonProject = $comparisonProject ?? null;
     $beforeRun = $beforeRun ?? null;
@@ -13,51 +11,50 @@
     $comparisonUrl = $beforeRun?->target_url
         ?: $beforeRun?->page_url
         ?: $comparisonProject?->target_url;
-@endphp
+?>
 <div class="g-page-header">
     <div>
         <h2>
-            {{
-                $comparisonMode
+            <?php echo e($comparisonMode
                     ? 'Retest Website for Comparison'
-                    : 'Run Website UX Test'
-            }}
+                    : 'Run Website UX Test'); ?>
+
         </h2>
 
         <p>
-            @if ($comparisonMode)
+            <?php if($comparisonMode): ?>
                 Run a new test for the same website.
                 The result will automatically be compared
-                with {{ $beforeRun->run_code }}.
-            @else
+                with <?php echo e($beforeRun->run_code); ?>.
+            <?php else: ?>
                 Run automated website UX testing using
                 Playwright. The system will automatically
                 create the project, test run, prediction,
                 and report.
-            @endif
+            <?php endif; ?>
         </p>
     </div>
 
     <a
         class="g-btn"
-        href="{{ route('test-runs.index') }}"
+        href="<?php echo e(route('test-runs.index')); ?>"
     >
         View Test Runs
     </a>
 </div>
 
-@if ($errors->any())
+<?php if($errors->any()): ?>
     <div class="g-alert-error">
         <strong>Validation error:</strong>
         <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
+            <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <li><?php echo e($error); ?></li>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </ul>
     </div>
-@endif
+<?php endif; ?>
 
-@if ($comparisonMode)
+<?php if($comparisonMode): ?>
     <div
         class="g-card"
         style="
@@ -73,7 +70,8 @@
 
                 <h3 style="margin-top: 6px;">
                     Before Test:
-                    {{ $beforeRun->run_code }}
+                    <?php echo e($beforeRun->run_code); ?>
+
                 </h3>
 
                 <p class="g-muted">
@@ -87,34 +85,37 @@
                 <div class="g-kv-row">
                     <span>Project</span>
                     <span>
-                        {{ $comparisonProject->name }}
+                        <?php echo e($comparisonProject->name); ?>
+
                     </span>
                 </div>
 
                 <div class="g-kv-row">
                     <span>Before Run</span>
                     <span>
-                        {{ $beforeRun->run_code }}
+                        <?php echo e($beforeRun->run_code); ?>
+
                     </span>
                 </div>
 
                 <div class="g-kv-row">
                     <span>Website</span>
                     <span>
-                        {{ $comparisonUrl }}
+                        <?php echo e($comparisonUrl); ?>
+
                     </span>
                 </div>
             </div>
         </div>
     </div>
-@endif
+<?php endif; ?>
 
 <form
     id="ux-test-form"
     method="POST"
-    action="{{ route('unified-tests.store') }}"
+    action="<?php echo e(route('unified-tests.store')); ?>"
 >
-    @csrf
+    <?php echo csrf_field(); ?>
 
     <input
         type="hidden"
@@ -122,19 +123,19 @@
         value="website"
     >
 
-    @if ($comparisonMode)
+    <?php if($comparisonMode): ?>
         <input
             type="hidden"
             name="comparison_project_id"
-            value="{{ $comparisonProject->id }}"
+            value="<?php echo e($comparisonProject->id); ?>"
         >
 
         <input
             type="hidden"
             name="compare_from"
-            value="{{ $beforeRun->id }}"
+            value="<?php echo e($beforeRun->id); ?>"
         >
-    @endif
+    <?php endif; ?>
 
     <div class="g-layout-2-1">
         <div class="g-stack">
@@ -152,14 +153,14 @@
             >
                 <option
                     value="1"
-                    @selected(old('show_browser', '1') === '1')
+                    <?php if(old('show_browser', '1') === '1'): echo 'selected'; endif; ?>
                 >
                     Yes — show browser testing
                 </option>
 
                 <option
                     value="0"
-                    @selected(old('show_browser') === '0')
+                    <?php if(old('show_browser') === '0'): echo 'selected'; endif; ?>
                 >
                     No — run browser in background
                 </option>
@@ -173,7 +174,7 @@
                 class="g-input"
                 type="number"
                 name="slow_mo_ms"
-                value="{{ old('slow_mo_ms', 350) }}"
+                value="<?php echo e(old('slow_mo_ms', 350)); ?>"
                 min="0"
                 max="1000"
                 step="50"
@@ -196,24 +197,22 @@
                             class="g-input"
                             type="url"
                             name="target_url"
-                            value="{{
-                                old(
+                            value="<?php echo e(old(
                                     'target_url',
                                     $comparisonMode
                                         ? $comparisonUrl
                                         : 'http://127.0.0.1:3000/landing-good'
-                                )
-                            }}"
-                            @readonly($comparisonMode)
+                                )); ?>"
+                            <?php if($comparisonMode): echo 'readonly'; endif; ?>
                             required
                         >
 
-                        @if ($comparisonMode)
+                        <?php if($comparisonMode): ?>
                             <span class="g-muted g-small">
                                 The URL is locked because this test will be
                                 compared with the selected previous test.
                             </span>
-                        @endif
+                        <?php endif; ?>
                     </div>
 
                     <div class="g-form-field">
@@ -226,35 +225,35 @@
     >
         <option
             value="full_audit"
-            @selected(old('web_flow_type', 'full_audit') === 'full_audit')
+            <?php if(old('web_flow_type', 'full_audit') === 'full_audit'): echo 'selected'; endif; ?>
         >
             Full Website Audit — test all detected safe features
         </option>
 
         <option
             value="auto"
-            @selected(old('web_flow_type') === 'auto')
+            <?php if(old('web_flow_type') === 'auto'): echo 'selected'; endif; ?>
         >
             Quick Auto Test — test one detected flow
         </option>
 
         <option
             value="landing_navigation"
-            @selected(old('web_flow_type') === 'landing_navigation')
+            <?php if(old('web_flow_type') === 'landing_navigation'): echo 'selected'; endif; ?>
         >
             Page Loading and Navigation Only
         </option>
 
         <option
             value="basic_search"
-            @selected(old('web_flow_type') === 'basic_search')
+            <?php if(old('web_flow_type') === 'basic_search'): echo 'selected'; endif; ?>
         >
             Search Only
         </option>
 
         <option
             value="cta_click"
-            @selected(old('web_flow_type') === 'cta_click')
+            <?php if(old('web_flow_type') === 'cta_click'): echo 'selected'; endif; ?>
         >
             CTA Only
         </option>
@@ -264,17 +263,17 @@
                     <div class="g-form-field">
                         <label>Viewport Type</label>
                         <select class="g-select" name="viewport_type">
-                            <option value="desktop" @selected(old('viewport_type', 'desktop') === 'desktop')>desktop</option>
-                            <option value="tablet" @selected(old('viewport_type') === 'tablet')>tablet</option>
-                            <option value="mobile" @selected(old('viewport_type') === 'mobile')>mobile</option>
+                            <option value="desktop" <?php if(old('viewport_type', 'desktop') === 'desktop'): echo 'selected'; endif; ?>>desktop</option>
+                            <option value="tablet" <?php if(old('viewport_type') === 'tablet'): echo 'selected'; endif; ?>>tablet</option>
+                            <option value="mobile" <?php if(old('viewport_type') === 'mobile'): echo 'selected'; endif; ?>>mobile</option>
                         </select>
                     </div>
 
                     <div class="g-form-field">
                         <label>Network Condition</label>
                         <select class="g-select" name="network_condition">
-                            <option value="normal" @selected(old('network_condition', 'normal') === 'normal')>normal</option>
-                            <option value="slow" @selected(old('network_condition') === 'slow')>slow</option>
+                            <option value="normal" <?php if(old('network_condition', 'normal') === 'normal'): echo 'selected'; endif; ?>>normal</option>
+                            <option value="slow" <?php if(old('network_condition') === 'slow'): echo 'selected'; endif; ?>>slow</option>
                         </select>
                     </div>
 
@@ -285,7 +284,7 @@
                             class="g-input"
                             type="number"
                             name="max_duration_seconds"
-                            value="{{ old('max_duration_seconds', 180) }}"
+                            value="<?php echo e(old('max_duration_seconds', 180)); ?>"
                             min="30"
                             max="300"
                         >
@@ -299,7 +298,7 @@
 
             <div class="g-card">
                 <h3>Notes</h3>
-                <textarea class="g-textarea" name="notes" rows="4" placeholder="Optional testing notes">{{ old('notes') }}</textarea>
+                <textarea class="g-textarea" name="notes" rows="4" placeholder="Optional testing notes"><?php echo e(old('notes')); ?></textarea>
 
                 <div class="g-actions" style="margin-top: 18px;">
                     <button
@@ -307,11 +306,10 @@
     type="submit"
     id="run-ux-test-button"
 >
-    {{
-        $comparisonMode
+    <?php echo e($comparisonMode
             ? 'Run New Test and Compare'
-            : 'Run Website UX Test'
-    }}
+            : 'Run Website UX Test'); ?>
+
 </button>
                 </div>
             </div>
@@ -439,4 +437,6 @@
         startRunningAnimation();
     });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\FYP\GAgent\GAgent\backend-laravel\resources\views/unified-tests/create.blade.php ENDPATH**/ ?>

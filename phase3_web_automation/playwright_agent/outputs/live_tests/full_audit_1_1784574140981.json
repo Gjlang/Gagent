@@ -1,0 +1,238 @@
+{
+  "status": "success",
+  "message": "Full audit completed: 3 passed, 0 failed, 0 skipped.",
+  "test_run_id": "1",
+  "target_url": "https://www.wikipedia.org/",
+  "flow_type": "full_audit",
+  "audit_mode": "full_audit",
+  "viewport_type": "desktop",
+  "network_condition": "normal",
+  "detected_features": {
+    "landing_navigation": true,
+    "search": true,
+    "cta_click": false,
+    "menu_toggle": true,
+    "header_navigation": false,
+    "category_navigation": false,
+    "product_navigation": false,
+    "login": false,
+    "form_review": false
+  },
+  "audit_summary": {
+    "tested_count": 3,
+    "passed_count": 3,
+    "failed_count": 0,
+    "skipped_count": 0
+  },
+  "flow_results": [
+    {
+      "audit_flow": "landing_navigation",
+      "flow_type": "landing_navigation",
+      "label": "Page loading and navigation",
+      "detected": true,
+      "status": "passed",
+      "reason": "Flow completed successfully.",
+      "metrics": {
+        "flow_type": "landing_navigation",
+        "viewport_type": "desktop",
+        "task_completed": 1,
+        "task_failed": 0,
+        "completion_time": 3.01,
+        "click_count": 0,
+        "scroll_count": 1,
+        "keyboard_count": 0,
+        "retry_count": 0,
+        "error_count": 0,
+        "failed_clicks": 0,
+        "unnecessary_clicks": 0,
+        "path_deviation_score": 0,
+        "page_load_time_ms": 226,
+        "dom_content_loaded_ms": 223,
+        "time_to_first_byte_ms": 10,
+        "feedback_delay_ms": 0,
+        "interaction_to_next_paint_ms": 0,
+        "cumulative_layout_shift": 0.0001,
+        "error_message_present": 0,
+        "error_message_clarity": -1,
+        "popup_detected": 0,
+        "cookie_banner_detected": 0,
+        "overlay_blocks_cta": 0
+      },
+      "screenshots": [
+        {
+          "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_1_landing_navigation_1784574124381.png",
+          "label": "Full Audit — Page loading and navigation",
+          "flow_key": "landing_navigation",
+          "annotations": []
+        }
+      ]
+    },
+    {
+      "audit_flow": "search",
+      "flow_type": "search",
+      "label": "Search",
+      "detected": true,
+      "status": "passed",
+      "reason": "Flow completed successfully.",
+      "metrics": {
+        "flow_type": "search",
+        "viewport_type": "desktop",
+        "task_completed": 1,
+        "task_failed": 0,
+        "completion_time": 8.36,
+        "click_count": 0,
+        "scroll_count": 0,
+        "keyboard_count": 0,
+        "retry_count": 0,
+        "error_count": 0,
+        "failed_clicks": 0,
+        "unnecessary_clicks": 0,
+        "path_deviation_score": 0,
+        "page_load_time_ms": 626,
+        "dom_content_loaded_ms": 591,
+        "time_to_first_byte_ms": 13,
+        "feedback_delay_ms": 2494,
+        "interaction_to_next_paint_ms": 0,
+        "cumulative_layout_shift": 0.0586,
+        "error_message_present": 0,
+        "error_message_clarity": -1,
+        "popup_detected": 0,
+        "cookie_banner_detected": 0,
+        "overlay_blocks_cta": 0
+      },
+      "screenshots": [
+        {
+          "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_1_search_1784574126772.png",
+          "label": "Full Audit — Search",
+          "flow_key": "search",
+          "annotations": [
+            {
+              "label": "Search input tested",
+              "severity": "Medium",
+              "x": 450.40625,
+              "y": 471.84375,
+              "width": 394.1875,
+              "height": 44
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "audit_flow": "menu_toggle",
+      "flow_type": "cta_click",
+      "label": "Menu or category control",
+      "detected": true,
+      "status": "passed",
+      "reason": "Flow completed successfully.",
+      "metrics": {
+        "flow_type": "cta_click",
+        "viewport_type": "desktop",
+        "task_completed": 1,
+        "task_failed": 0,
+        "completion_time": 8.06,
+        "click_count": 1,
+        "scroll_count": 0,
+        "keyboard_count": 1,
+        "retry_count": 0,
+        "error_count": 0,
+        "failed_clicks": 0,
+        "unnecessary_clicks": 0,
+        "path_deviation_score": 0,
+        "page_load_time_ms": 228,
+        "dom_content_loaded_ms": 226,
+        "time_to_first_byte_ms": 9,
+        "feedback_delay_ms": 1797,
+        "interaction_to_next_paint_ms": 24,
+        "cumulative_layout_shift": 0.0032,
+        "error_message_present": 0,
+        "error_message_clarity": -1,
+        "popup_detected": 0,
+        "cookie_banner_detected": 0,
+        "overlay_blocks_cta": 0
+      },
+      "screenshots": [
+        {
+          "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_1_menu_toggle_1784574135546.png",
+          "label": "Full Audit — Menu or category control",
+          "flow_key": "menu_toggle",
+          "annotations": [
+            {
+              "label": "Menu tested: menu control",
+              "severity": "Medium",
+              "x": 525.40625,
+              "y": 547.34375,
+              "width": 300.171875,
+              "height": 36
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_1_landing_navigation_1784574124381.png",
+      "label": "Full Audit — Page loading and navigation",
+      "flow_key": "landing_navigation",
+      "annotations": []
+    },
+    {
+      "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_1_search_1784574126772.png",
+      "label": "Full Audit — Search",
+      "flow_key": "search",
+      "annotations": [
+        {
+          "label": "Search input tested",
+          "severity": "Medium",
+          "x": 450.40625,
+          "y": 471.84375,
+          "width": 394.1875,
+          "height": 44
+        }
+      ]
+    },
+    {
+      "file_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\screenshots\\full_audit_1_menu_toggle_1784574135546.png",
+      "label": "Full Audit — Menu or category control",
+      "flow_key": "menu_toggle",
+      "annotations": [
+        {
+          "label": "Menu tested: menu control",
+          "severity": "Medium",
+          "x": 525.40625,
+          "y": 547.34375,
+          "width": 300.171875,
+          "height": 36
+        }
+      ]
+    }
+  ],
+  "metrics": {
+    "flow_type": "landing_navigation",
+    "viewport_type": "desktop",
+    "task_completed": 1,
+    "task_failed": 0,
+    "completion_time": 3.01,
+    "click_count": 0,
+    "scroll_count": 1,
+    "keyboard_count": 0,
+    "retry_count": 0,
+    "error_count": 0,
+    "failed_clicks": 0,
+    "unnecessary_clicks": 0,
+    "path_deviation_score": 0,
+    "page_load_time_ms": 226,
+    "dom_content_loaded_ms": 223,
+    "time_to_first_byte_ms": 10,
+    "feedback_delay_ms": 0,
+    "interaction_to_next_paint_ms": 0,
+    "cumulative_layout_shift": 0.0001,
+    "error_message_present": 0,
+    "error_message_clarity": -1,
+    "popup_detected": 0,
+    "cookie_banner_detected": 0,
+    "overlay_blocks_cta": 0
+  },
+  "raw_metrics_path": "D:\\FYP\\GAgent\\GAgent\\phase3_web_automation\\playwright_agent\\outputs\\live_tests\\full_audit_1_1784574140981.json"
+}

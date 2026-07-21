@@ -23,10 +23,30 @@
         <h2>{{ $project->name ?? 'Project Detail' }}</h2>
         <p>{{ $project->description ?? 'No description provided.' }}</p>
     </div>
-    <div class="g-actions">
-        <a class="g-btn" href="{{ route('projects.index') }}">Back to Projects</a>
-        <a class="g-btn g-btn-primary" href="{{ route('live-tests.create') }}">New Live Test</a>
-    </div>
+   <div class="g-actions">
+    <a
+        class="g-btn"
+        href="{{ route('projects.index') }}"
+    >
+        Back to Projects
+    </a>
+
+    @if ($runs->count() >= 2)
+        <a
+            class="g-btn"
+            href="{{ route('projects.comparison', $project) }}"
+        >
+            Compare Test Runs
+        </a>
+    @endif
+
+    <a
+        class="g-btn g-btn-primary"
+        {{-- href="{{ route('live-tests.create') }}" --}}
+    >
+        New Live Test
+    </a>
+</div>
 </div>
 
 <div class="g-grid g-grid-4">

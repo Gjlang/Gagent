@@ -2,19 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>GAgent - @yield('title', 'Dashboard')</title>
+    <title>GAgent - <?php echo $__env->yieldContent('title', 'Dashboard'); ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @else
+    <?php if(file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot'))): ?>
+        <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css', 'resources/js/app.js']); ?>
+    <?php else: ?>
         <style>
-            {!! file_get_contents(resource_path('css/app.css')) !!}
+            <?php echo file_get_contents(resource_path('css/app.css')); ?>
+
             .g-user-menu-wrapper {
     position: relative;
 }
@@ -90,7 +91,7 @@
     background: #fef2f2;
 }
         </style>
-    @endif
+    <?php endif; ?>
 </head>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -138,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 <body>
-@php
+<?php
     // Icon key -> inline SVG path data. Kept separate from $navItems so the
     // existing route/label/match config below is untouched.
     $navIcons = [
@@ -207,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function () {
         'icon' => 'comparisons',
     ],
 ];
-@endphp
+?>
 
 <div class="g-shell">
     <aside class="g-sidebar">
@@ -220,26 +221,27 @@ document.addEventListener('DOMContentLoaded', function () {
         </div>
 
         <nav class="g-nav" aria-label="Main navigation">
-            @foreach ($navItems as $item)
-                @if (\Illuminate\Support\Facades\Route::has($item['route']))
-                    <a class="g-nav-link {{ request()->routeIs($item['match']) ? 'is-active' : '' }}" href="{{ route($item['route']) }}">
+            <?php $__currentLoopData = $navItems; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php if(\Illuminate\Support\Facades\Route::has($item['route'])): ?>
+                    <a class="g-nav-link <?php echo e(request()->routeIs($item['match']) ? 'is-active' : ''); ?>" href="<?php echo e(route($item['route'])); ?>">
                         <span class="g-nav-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                {!! $navIcons[$item['icon']] ?? '' !!}
+                                <?php echo $navIcons[$item['icon']] ?? ''; ?>
+
                             </svg>
                         </span>
-                        <span>{{ $item['label'] }}</span>
+                        <span><?php echo e($item['label']); ?></span>
                     </a>
-                @endif
-            @endforeach
+                <?php endif; ?>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </nav>
     </aside>
 
     <main class="g-main">
         <header class="g-topbar">
             <div>
-                <div class="g-page-kicker">@yield('kicker', 'GAgent System')</div>
-                <h1 class="g-page-title">@yield('title', 'Dashboard')</h1>
+                <div class="g-page-kicker"><?php echo $__env->yieldContent('kicker', 'GAgent System'); ?></div>
+                <h1 class="g-page-title"><?php echo $__env->yieldContent('title', 'Dashboard'); ?></h1>
             </div>
 
             <div class="g-topbar-actions">
@@ -266,15 +268,14 @@ document.addEventListener('DOMContentLoaded', function () {
             aria-controls="user-menu-dropdown"
         >
             <div class="g-avatar">
-                {{
-                    strtoupper(
+                <?php echo e(strtoupper(
                         substr(
                             auth()->user()->name,
                             0,
                             2
                         )
-                    )
-                }}
+                    )); ?>
+
             </div>
         </button>
 
@@ -285,18 +286,20 @@ document.addEventListener('DOMContentLoaded', function () {
         >
             <div class="g-user-menu-header">
                 <strong>
-                    {{ auth()->user()->name }}
+                    <?php echo e(auth()->user()->name); ?>
+
                 </strong>
 
                 <span>
-                    {{ auth()->user()->email }}
+                    <?php echo e(auth()->user()->email); ?>
+
                 </span>
             </div>
 
             <div class="g-user-menu-divider"></div>
 
             <a
-                href="{{ route('profile.show') }}"
+                href="<?php echo e(route('profile.show')); ?>"
                 class="g-user-menu-item"
             >
                 My Profile
@@ -304,9 +307,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
             <form
                 method="POST"
-                action="{{ route('logout') }}"
+                action="<?php echo e(route('logout')); ?>"
             >
-                @csrf
+                <?php echo csrf_field(); ?>
 
                 <button
                     type="submit"
@@ -321,15 +324,15 @@ document.addEventListener('DOMContentLoaded', function () {
         </header>
 
         <section class="g-content">
-            @if (session('success'))
-                <div class="g-alert-success">{{ session('success') }}</div>
-            @endif
+            <?php if(session('success')): ?>
+                <div class="g-alert-success"><?php echo e(session('success')); ?></div>
+            <?php endif; ?>
 
-            @if (session('error'))
-                <div class="g-alert-error">{{ session('error') }}</div>
-            @endif
+            <?php if(session('error')): ?>
+                <div class="g-alert-error"><?php echo e(session('error')); ?></div>
+            <?php endif; ?>
 
-            @yield('content')
+            <?php echo $__env->yieldContent('content'); ?>
         </section>
 
         <footer class="g-footer">
@@ -339,6 +342,7 @@ document.addEventListener('DOMContentLoaded', function () {
     </main>
 </div>
 
-@stack('scripts')
+<?php echo $__env->yieldPushContent('scripts'); ?>
 </body>
 </html>
+<?php /**PATH D:\FYP\GAgent\GAgent\backend-laravel\resources\views/layouts/app.blade.php ENDPATH**/ ?>

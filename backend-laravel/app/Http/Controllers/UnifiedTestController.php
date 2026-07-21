@@ -17,15 +17,49 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\Screenshot;
 use Throwable;
+use App\Models\TestRunComparison;
 use Illuminate\Support\Facades\Auth;
 use App\Models\InteractionLog;
 
 class UnifiedTestController extends Controller
 {
-    public function create()
-    {
-        return view('unified-tests.create');
+   public function create(Request $request)
+{
+    $comparisonMode = false;
+    $comparisonProject = null;
+    $beforeRun = null;
+
+    $projectId = $request->integer(
+        'comparison_project'
+    );
+
+    $beforeRunId = $request->integer(
+        'compare_from'
+    );
+
+    if ($projectId && $beforeRunId) {
+        $comparisonProject = Project::query()
+            ->ownedBy((int) Auth::id())
+            ->findOrFail($projectId);
+
+        $beforeRun = $comparisonProject
+            ->testRuns()
+            ->whereKey($beforeRunId)
+            ->where('platform', 'web')
+            ->firstOrFail();
+
+        $comparisonMode = true;
     }
+
+    return view(
+        'unified-tests.create',
+        [
+            'comparisonMode' => $comparisonMode,
+            'comparisonProject' => $comparisonProject,
+            'beforeRun' => $beforeRun,
+        ]
+    );
+}
 
     public function store(
         Request $request,
@@ -49,7 +83,7 @@ class UnifiedTestController extends Controller
         PlaywrightLiveTestService $playwrightService,
         GAgentAIService $aiService
     ) {
-       $validated = $request->validate([
+     $validated = $request->validate([
     'target_url' => [
         'required',
         'url',
@@ -95,17 +129,67 @@ class UnifiedTestController extends Controller
         'string',
         'max:2000',
     ],
+
+    'comparison_project_id' => [
+        'nullable',
+        'integer',
+        'required_with:compare_from',
+    ],
+
+    'compare_from' => [
+        'nullable',
+        'integer',
+        'required_with:comparison_project_id',
+    ],
 ]);
+
 
         $webFlowType = $validated['web_flow_type'] ?? 'auto';
 
-        $project = $this->findOrCreateProject(
-            targetType: 'web_application',
-            targetUrl: $validated['target_url'],
-            name: 'Website Test - ' . parse_url($validated['target_url'], PHP_URL_HOST),
-            description: 'Auto-created project from unified website UX test.'
+        $comparisonMode = filled(
+    $validated['comparison_project_id'] ?? null
+) && filled(
+    $validated['compare_from'] ?? null
+);
+
+$beforeRun = null;
+
+if ($comparisonMode) {
+    $project = Project::query()
+        ->ownedBy((int) Auth::id())
+        ->findOrFail(
+            (int) $validated['comparison_project_id']
         );
 
+    $beforeRun = $project
+        ->testRuns()
+        ->whereKey(
+            (int) $validated['compare_from']
+        )
+        ->where('platform', 'web')
+        ->firstOrFail();
+
+    /*
+     * Force the new test to use the same website URL.
+     * This prevents a manipulated request from comparing
+     * two unrelated websites.
+     */
+    $validated['target_url'] = (
+        $beforeRun->target_url
+        ?: $beforeRun->page_url
+        ?: $project->target_url
+    );
+} else {
+    $project = $this->findOrCreateProject(
+        targetType: 'web_application',
+        targetUrl: $validated['target_url'],
+        name: 'Website Test - ' . parse_url(
+            $validated['target_url'],
+            PHP_URL_HOST
+        ),
+        description: 'Auto-created project from unified website UX test.'
+    );
+}
         $startedAt = Carbon::now();
 
         $testRun = TestRun::create([
@@ -124,7 +208,17 @@ class UnifiedTestController extends Controller
             'automation_driver' => 'playwright',
             'status' => 'running',
             'started_at' => $startedAt,
-            'notes' => $validated['notes'] ?? 'Created from unified Run UX Test page.',
+            'notes' => $comparisonMode
+    ? (
+        $validated['notes']
+        ?? 'Comparison retest from test run ID '
+            . $beforeRun->id
+            . '.'
+    )
+    : (
+        $validated['notes']
+        ?? 'Created from unified Run UX Test page.'
+    ),
         ]);
 
         try {
@@ -341,9 +435,35 @@ class UnifiedTestController extends Controller
                 });
             }
 
+     if ($comparisonMode && $beforeRun) {
+        $savedComparison = TestRunComparison::updateOrCreate(
+            [
+                'before_test_run_id' => $beforeRun->id,
+                'after_test_run_id' => $testRun->id,
+            ],
+            [
+                'project_id' => $project->id,
+                'user_id' => (int) Auth::id(),
+            ]
+        );
+
             return redirect()
-                ->route('reports.show', $report)
-                ->with('success', 'Website test completed. Project, test run, prediction, and report were created automatically.');
+                ->route(
+                    'comparisons.show',
+                    $savedComparison
+                )
+                ->with(
+                    'success',
+                    'The new website test was completed and the comparison was saved.'
+                );
+        }
+
+return redirect()
+    ->route('reports.show', $report)
+    ->with(
+        'success',
+        'Website test completed. Project, test run, prediction, and report were created automatically.'
+    );
         } catch (Throwable $error) {
             $testRun->update([
                 'status' => 'failed',
@@ -557,10 +677,12 @@ $apkPath = filled(
                     'report_path' => route('reports.show', $report),
                 ]);
             });
-
-            return redirect()
-                ->route('reports.show', $report)
-                ->with('success', 'Android test completed. Project, test run, prediction, and report were created automatically.');
+return redirect()
+    ->route('reports.show', $report)
+    ->with(
+        'success',
+        'Android test completed. Project, test run, prediction, and report were created automatically.'
+    );
         } catch (Throwable $error) {
             $testRun->update([
                 'status' => 'failed',

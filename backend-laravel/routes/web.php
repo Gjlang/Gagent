@@ -6,12 +6,14 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LiveTestController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectComparisonController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TestRunController;
 use App\Http\Controllers\UnifiedTestController;
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TestRunComparisonController;
 
 Route::middleware('guest')->group(function () {
     Route::get(
@@ -82,6 +84,15 @@ Route::middleware('auth')->group(function () {
             'index',
         ]
     )->name('projects.index');
+    Route::get(
+    '/projects/{project}/comparison',
+    [
+        ProjectComparisonController::class,
+        'index',
+    ]
+)
+    ->middleware('owned')
+    ->name('projects.comparison');
 
     Route::get(
         '/projects/create',
@@ -242,6 +253,29 @@ Route::middleware('auth')->group(function () {
             'index',
         ]
     )->name('reports.index');
+    Route::get(
+    '/comparisons',
+    [
+        TestRunComparisonController::class,
+        'index',
+    ]
+)->name('comparisons.index');
+
+Route::get(
+    '/comparisons/{comparison}',
+    [
+        TestRunComparisonController::class,
+        'show',
+    ]
+)->name('comparisons.show');
+
+Route::post(
+    '/comparisons/{comparison}/generate-explanation',
+    [
+        TestRunComparisonController::class,
+        'generateExplanation',
+    ]
+)->name('comparisons.generate-explanation');
 
     /*
      * Keep these two routes if you completed

@@ -1,10 +1,8 @@
-@extends('layouts.app')
+<?php $__env->startSection('title', 'Dashboard'); ?>
+<?php $__env->startSection('kicker', 'GAgent AI UX Testing'); ?>
 
-@section('title', 'Dashboard')
-@section('kicker', 'GAgent AI UX Testing')
-
-@section('content')
-@php
+<?php $__env->startSection('content'); ?>
+<?php
     $severityCounts = $severityCounts ?? ['Low' => 0, 'Medium' => 0, 'High' => 0];
     $low = (int) ($severityCounts['Low'] ?? 0);
     $medium = (int) ($severityCounts['Medium'] ?? 0);
@@ -41,7 +39,7 @@
     $currentScore  = $trendPoints->last()['score'] ?? null;
     $previousScore = $trendPoints->count() > 1 ? $trendPoints[$trendPoints->count() - 2]['score'] : null;
     $scoreDiff     = ($currentScore !== null && $previousScore !== null) ? round($currentScore - $previousScore, 1) : null;
-@endphp
+?>
 
 <div class="g-page-header">
     <div>
@@ -53,22 +51,22 @@
 <div class="g-grid g-grid-4">
     <div class="g-metric-card">
         <div class="g-metric-label">Total Projects</div>
-        <div class="g-metric-value">{{ number_format($totalProjects ?? 0) }}</div>
+        <div class="g-metric-value"><?php echo e(number_format($totalProjects ?? 0)); ?></div>
         <div class="g-metric-sub">Active UX test suites</div>
     </div>
     <div class="g-metric-card">
         <div class="g-metric-label">UX Tests Run</div>
-        <div class="g-metric-value">{{ number_format($totalTestRuns ?? 0) }}</div>
+        <div class="g-metric-value"><?php echo e(number_format($totalTestRuns ?? 0)); ?></div>
         <div class="g-metric-sub">Web, dummy, and Android runs</div>
     </div>
     <div class="g-metric-card">
         <div class="g-metric-label">High Friction</div>
-        <div class="g-metric-value" style="color: var(--g-red);">{{ number_format($high) }}</div>
+        <div class="g-metric-value" style="color: var(--g-red);"><?php echo e(number_format($high)); ?></div>
         <div class="g-metric-sub">Action required</div>
     </div>
     <div class="g-metric-card">
         <div class="g-metric-label">Avg UX Score</div>
-        <div class="g-metric-value">{{ $averageConfidence !== null ? $avgUxScore : 'N/A' }}<span style="font-size: 15px;">{{ $averageConfidence !== null ? ' /100' : '' }}</span></div>
+        <div class="g-metric-value"><?php echo e($averageConfidence !== null ? $avgUxScore : 'N/A'); ?><span style="font-size: 15px;"><?php echo e($averageConfidence !== null ? ' /100' : ''); ?></span></div>
         <div class="g-metric-sub">Based on final confidence</div>
     </div>
 </div>
@@ -86,12 +84,12 @@
 
             <div class="g-trend-summary">
                 <div class="g-trend-score-block">
-                    <span class="g-trend-score-value">{{ $currentScore !== null ? $currentScore : 'N/A' }}<span class="g-trend-score-max">{{ $currentScore !== null ? '/100' : '' }}</span></span>
-                    @if ($scoreDiff !== null)
-                        <span class="g-trend-diff {{ $scoreDiff >= 0 ? 'is-up' : 'is-down' }}">
-                            {{ $scoreDiff >= 0 ? '▲' : '▼' }} {{ abs($scoreDiff) }} pts vs previous run
+                    <span class="g-trend-score-value"><?php echo e($currentScore !== null ? $currentScore : 'N/A'); ?><span class="g-trend-score-max"><?php echo e($currentScore !== null ? '/100' : ''); ?></span></span>
+                    <?php if($scoreDiff !== null): ?>
+                        <span class="g-trend-diff <?php echo e($scoreDiff >= 0 ? 'is-up' : 'is-down'); ?>">
+                            <?php echo e($scoreDiff >= 0 ? '▲' : '▼'); ?> <?php echo e(abs($scoreDiff)); ?> pts vs previous run
                         </span>
-                    @endif
+                    <?php endif; ?>
                 </div>
                 <div class="g-trend-legend">
                     <span class="g-trend-legend-item"><i class="g-trend-swatch g-trend-swatch-current"></i>Current UX Score</span>
@@ -99,21 +97,21 @@
                 </div>
             </div>
 
-            <div class="g-trend-line" id="ux-trend-chart" data-points='@json($trendPoints)'>
-                @if ($trendPoints->isEmpty())
+            <div class="g-trend-line" id="ux-trend-chart" data-points='<?php echo json_encode($trendPoints, 15, 512) ?>'>
+                <?php if($trendPoints->isEmpty()): ?>
                     <div class="g-empty"><strong>No score history yet.</strong>Run more tests to populate the trend chart.</div>
-                @endif
+                <?php endif; ?>
             </div>
         </div>
 
         <div class="g-card">
             <div class="g-split-row">
                 <h3>Recent Test Runs</h3>
-                <a class="g-btn g-btn-ghost" href="{{ route('test-runs.index') }}">View All</a>
+                <a class="g-btn g-btn-ghost" href="<?php echo e(route('test-runs.index')); ?>">View All</a>
             </div>
-            @if ($latestRuns->isEmpty())
+            <?php if($latestRuns->isEmpty()): ?>
                 <div class="g-empty"><strong>No test runs yet.</strong>Run a live website or Android test to populate this stream.</div>
-            @else
+            <?php else: ?>
                 <div class="g-table-wrap">
                     <table class="g-table">
                         <thead>
@@ -127,8 +125,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($latestRuns as $run)
-                                @php
+                            <?php $__currentLoopData = $latestRuns; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $run): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php
                                     $result = $run->finalFrictionResult;
                                     $level = $result?->friction_level ?? 'Not predicted';
                                     $badgeClass = match ($level) {
@@ -137,33 +135,33 @@
                                         'High' => 'badge-high',
                                         default => 'badge-neutral',
                                     };
-                                @endphp
+                                ?>
                                 <tr>
-                                    <td><strong>{{ $run->run_code ?? 'N/A' }}</strong><div class="g-table-meta">{{ optional($run->created_at)->diffForHumans() ?? 'N/A' }}</div></td>
-                                    <td>{{ $run->project?->name ?? 'N/A' }}</td>
-                                    <td>{{ $run->flow_type ?? 'N/A' }}</td>
-                                    <td><span class="g-badge {{ $badgeClass }}">{{ $level }}</span></td>
-                                    <td>{{ $result?->confidence_score !== null ? number_format($result->confidence_score * 100, 1) . '%' : 'N/A' }}</td>
-                                    <td><a class="g-btn g-btn-ghost" href="{{ route('test-runs.show', $run) }}">Open</a></td>
+                                    <td><strong><?php echo e($run->run_code ?? 'N/A'); ?></strong><div class="g-table-meta"><?php echo e(optional($run->created_at)->diffForHumans() ?? 'N/A'); ?></div></td>
+                                    <td><?php echo e($run->project?->name ?? 'N/A'); ?></td>
+                                    <td><?php echo e($run->flow_type ?? 'N/A'); ?></td>
+                                    <td><span class="g-badge <?php echo e($badgeClass); ?>"><?php echo e($level); ?></span></td>
+                                    <td><?php echo e($result?->confidence_score !== null ? number_format($result->confidence_score * 100, 1) . '%' : 'N/A'); ?></td>
+                                    <td><a class="g-btn g-btn-ghost" href="<?php echo e(route('test-runs.show', $run)); ?>">Open</a></td>
                                 </tr>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
                     </table>
                 </div>
-            @endif
+            <?php endif; ?>
         </div>
     </div>
 
     <div class="g-stack">
         <div class="g-card">
             <div class="g-soft-label">Severity Breakdown</div>
-            <div class="g-donut" style="background: conic-gradient(var(--g-green) 0 {{ $lowPct }}%, var(--g-orange) {{ $lowPct }}% {{ $mediumStop }}%, var(--g-red) {{ $mediumStop }}% 100%);">
-                <div class="g-donut-center">{{ $severityTotal === 1 && ($low + $medium + $high) === 0 ? 0 : $low + $medium + $high }}<span>Total</span></div>
+            <div class="g-donut" style="background: conic-gradient(var(--g-green) 0 <?php echo e($lowPct); ?>%, var(--g-orange) <?php echo e($lowPct); ?>% <?php echo e($mediumStop); ?>%, var(--g-red) <?php echo e($mediumStop); ?>% 100%);">
+                <div class="g-donut-center"><?php echo e($severityTotal === 1 && ($low + $medium + $high) === 0 ? 0 : $low + $medium + $high); ?><span>Total</span></div>
             </div>
             <div class="g-legend">
-                <div class="g-legend-row"><span><i class="g-legend-dot" style="background: var(--g-red);"></i>Critical Friction</span><strong>{{ $high }}</strong></div>
-                <div class="g-legend-row"><span><i class="g-legend-dot" style="background: var(--g-orange);"></i>Moderate Issues</span><strong>{{ $medium }}</strong></div>
-                <div class="g-legend-row"><span><i class="g-legend-dot" style="background: var(--g-green);"></i>Low Friction</span><strong>{{ $low }}</strong></div>
+                <div class="g-legend-row"><span><i class="g-legend-dot" style="background: var(--g-red);"></i>Critical Friction</span><strong><?php echo e($high); ?></strong></div>
+                <div class="g-legend-row"><span><i class="g-legend-dot" style="background: var(--g-orange);"></i>Moderate Issues</span><strong><?php echo e($medium); ?></strong></div>
+                <div class="g-legend-row"><span><i class="g-legend-dot" style="background: var(--g-green);"></i>Low Friction</span><strong><?php echo e($low); ?></strong></div>
             </div>
         </div>
 
@@ -177,69 +175,69 @@
             </p>
         </div>
 
-        @if ($totalFlows > 0)
+        <?php if($totalFlows > 0): ?>
             <div class="g-flow-total">
-                <strong>{{ number_format($totalFlows) }}</strong>
+                <strong><?php echo e(number_format($totalFlows)); ?></strong>
                 <span>Total Flows</span>
             </div>
-        @endif
+        <?php endif; ?>
     </div>
 
-    @if ($sortedFlowDistribution->isEmpty())
+    <?php if($sortedFlowDistribution->isEmpty()): ?>
         <div class="g-empty">
             <strong>No flow data.</strong>
             UX metrics will appear after tests are saved.
         </div>
-    @else
+    <?php else: ?>
         <div class="g-flow-list">
-            @foreach ($sortedFlowDistribution as $flow => $count)
-                @php
+            <?php $__currentLoopData = $sortedFlowDistribution; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $flow => $count): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php
                     $width = round(($count / $maxFlow) * 100);
                     $percentage = $totalFlows > 0
                         ? round(($count / $totalFlows) * 100, 1)
                         : 0;
                     $isMostUsed = $flow === $mostUsedFlow;
                     $readableFlow = ucwords(str_replace('_', ' ', $flow));
-                @endphp
+                ?>
 
                 <div
-                    class="g-flow-item {{ $isMostUsed ? 'is-most-used' : '' }}"
-                    title="{{ $readableFlow }}: {{ $count }} runs, {{ $percentage }}% of all flows"
+                    class="g-flow-item <?php echo e($isMostUsed ? 'is-most-used' : ''); ?>"
+                    title="<?php echo e($readableFlow); ?>: <?php echo e($count); ?> runs, <?php echo e($percentage); ?>% of all flows"
                 >
                     <div class="g-flow-row">
                         <div class="g-flow-name">
-                            <strong>{{ $readableFlow }}</strong>
+                            <strong><?php echo e($readableFlow); ?></strong>
 
-                            @if ($isMostUsed)
+                            <?php if($isMostUsed): ?>
                                 <span class="g-flow-badge">Most Used</span>
-                            @endif
+                            <?php endif; ?>
                         </div>
 
                         <div class="g-flow-stats">
-                            <strong>{{ number_format($count) }}</strong>
-                            <span>{{ $percentage }}%</span>
+                            <strong><?php echo e(number_format($count)); ?></strong>
+                            <span><?php echo e($percentage); ?>%</span>
                         </div>
                     </div>
 
                     <div
                         class="g-progress g-flow-progress"
                         role="progressbar"
-                        aria-label="{{ $readableFlow }}"
-                        aria-valuenow="{{ $percentage }}"
+                        aria-label="<?php echo e($readableFlow); ?>"
+                        aria-valuenow="<?php echo e($percentage); ?>"
                         aria-valuemin="0"
                         aria-valuemax="100"
                     >
-                        <span style="width: {{ $width }}%;"></span>
+                        <span style="width: <?php echo e($width); ?>%;"></span>
                     </div>
                 </div>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
 
         <div class="g-flow-insight">
             <span>Most frequently tested flow</span>
-            <strong>{{ ucwords(str_replace('_', ' ', $mostUsedFlow)) }}</strong>
+            <strong><?php echo e(ucwords(str_replace('_', ' ', $mostUsedFlow))); ?></strong>
         </div>
-    @endif
+    <?php endif; ?>
 </div>
     </div>
 </div>
@@ -247,11 +245,11 @@
 <div class="g-card" style="margin-top: 16px;">
     <div class="g-split-row">
         <h3>Recent Reports</h3>
-        <a class="g-btn g-btn-ghost" href="{{ route('reports.index') }}">All Reports</a>
+        <a class="g-btn g-btn-ghost" href="<?php echo e(route('reports.index')); ?>">All Reports</a>
     </div>
-    @if ($latestReports->isEmpty())
+    <?php if($latestReports->isEmpty()): ?>
         <div class="g-empty"><strong>No reports yet.</strong>Run a prediction and generate a report to see report output here.</div>
-    @else
+    <?php else: ?>
         <div class="g-table-wrap">
             <table class="g-table">
                 <thead>
@@ -263,22 +261,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($latestReports as $report)
+                    <?php $__currentLoopData = $latestReports; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $report): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <tr>
-                            <td><strong>{{ $report->title ?? 'Untitled Report' }}</strong></td>
-                            <td>{{ $report->testRun?->project?->name ?? 'N/A' }}</td>
-                            <td>{{ optional($report->generated_at)->format('Y-m-d H:i') ?? 'N/A' }}</td>
-                            <td><a class="g-btn g-btn-primary" href="{{ route('reports.show', $report) }}">View Report</a></td>
+                            <td><strong><?php echo e($report->title ?? 'Untitled Report'); ?></strong></td>
+                            <td><?php echo e($report->testRun?->project?->name ?? 'N/A'); ?></td>
+                            <td><?php echo e(optional($report->generated_at)->format('Y-m-d H:i') ?? 'N/A'); ?></td>
+                            <td><a class="g-btn g-btn-primary" href="<?php echo e(route('reports.show', $report)); ?>">View Report</a></td>
                         </tr>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </tbody>
             </table>
         </div>
-    @endif
+    <?php endif; ?>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@push('scripts')
+<?php $__env->startPush('scripts'); ?>
 <script>
 (function () {
     const container = document.getElementById('ux-trend-chart');
@@ -342,4 +340,6 @@
     });
 })();
 </script>
-@endpush
+<?php $__env->stopPush(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\FYP\GAgent\GAgent\backend-laravel\resources\views/dashboard.blade.php ENDPATH**/ ?>

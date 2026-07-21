@@ -12,7 +12,7 @@
         <p>Review all saved UX test executions, prediction status, platform, confidence, and generated report actions.</p>
     </div>
     <div class="g-actions">
-        <a class="g-btn g-btn-primary" href="{{ route('live-tests.create') }}">Run Live Test</a>
+        {{-- <a class="g-btn g-btn-primary" href="{{ route('live-tests.create') }}">Run Live Test</a> --}}
         <a class="g-btn" href="{{ route('android-tests.create') }}">Run Android Test</a>
     </div>
 </div>
